@@ -32,9 +32,13 @@ public class Transaction {
     private TransactionType transactionType;
 
     @ManyToOne
+    @JoinColumn(name = "budget_id")
     private Budget budget;
 
     @ManyToMany
+    @JoinTable(name = "transaction_has_hashtag",
+    joinColumns = @JoinColumn(name = "transaction_id"),
+    inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
     private Set<Hashtag> hashtags;
 
     @ManyToOne

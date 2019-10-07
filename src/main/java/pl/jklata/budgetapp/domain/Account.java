@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 @Data
@@ -15,6 +17,7 @@ public class Account {
 
     private String name;
 
+    private Currency currency;
     private BigDecimal initialBalance;
 
     @ManyToOne
@@ -24,5 +27,5 @@ public class Account {
     private AccountType accountType;
 
     @OneToMany(mappedBy = "account")
-    private List<Transaction> transactions;
+    private List<Transaction> transactions = new ArrayList<>();
 }
