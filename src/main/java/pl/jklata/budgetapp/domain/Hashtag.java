@@ -2,10 +2,9 @@ package pl.jklata.budgetapp.domain;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
+
 
 @Data
 @Entity
@@ -13,10 +12,11 @@ public class Hashtag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    String name;
+    private String name;
 
-
+    @ManyToMany
+    private List<Transaction> transactions;
 
 }

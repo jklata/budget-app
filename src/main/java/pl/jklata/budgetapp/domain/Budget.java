@@ -12,13 +12,13 @@ public class Budget {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    String name;
+    private String name;
 
-    BigDecimal budgetValue;
+    private BigDecimal budgetValue;
 
     @OneToMany(mappedBy = "budget")
-    List<Transaction> transactions;
+    private List<Transaction> transactions;
 
 }

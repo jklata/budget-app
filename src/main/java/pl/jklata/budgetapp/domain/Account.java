@@ -11,18 +11,18 @@ import java.util.List;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    String name;
+    private String name;
 
-    BigDecimal initialBalance;
+    private BigDecimal initialBalance;
 
     @ManyToOne
-    User user;
+    private User user;
 
     @Enumerated(value = EnumType.STRING)
-    AccountType accountType;
+    private AccountType accountType;
 
     @OneToMany(mappedBy = "account")
-    List<Transaction> transactions;
+    private List<Transaction> transactions;
 }

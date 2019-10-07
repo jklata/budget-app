@@ -13,31 +13,32 @@ public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(name = "transaction_date")
-    LocalDate transactionDate;
+    private LocalDate transactionDate;
     @Column(name = "insert_date")
-    LocalDate insertDate;
-    @Column(name = "amount")
-    BigDecimal amount;
-    @Column(name = "payee")
-    String payee;
+    private LocalDate insertDate;
+
+    private BigDecimal amount;
+
+    private String payee;
 
     @OneToOne
-    TransactionCategory transactionCategory;
+    private TransactionCategory transactionCategory;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "transaction_type")
-    TransactionType transactionType;
+    private TransactionType transactionType;
 
     @ManyToOne
-    Budget budget;
+    private Budget budget;
 
     @ManyToMany
-    Set<Hashtag> hashtags;
+    private Set<Hashtag> hashtags;
 
     @ManyToOne
-    Account account;
+    @JoinColumn(name = "account_id")
+    private Account account;
 }
 

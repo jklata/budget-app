@@ -3,6 +3,7 @@ package pl.jklata.budgetapp.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.List;
 
 @Data
@@ -11,12 +12,18 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    String firstName;
-    String lastName;
+    private String login;
+    private String password;
+
+    @Email
+    private String email;
+
+    private String firstName;
+    private String lastName;
 
     @OneToMany(mappedBy = "user")
-    List<Account> accounts;
+    private List<Account> accounts;
 
 }
