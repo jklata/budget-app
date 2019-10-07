@@ -1,5 +1,6 @@
 package pl.jklata.budgetapp.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
+@Slf4j
 @Component
 public class DataInitializer implements ApplicationListener<ContextRefreshedEvent> {
 
