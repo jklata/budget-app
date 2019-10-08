@@ -39,8 +39,7 @@
     </nav>
 </div>
 
-
-<div th:fragment="navigation">
+<div th:fragment="navigation (homeCurr, transactionsCurr, walletsCurr, budgetsCurr, categoriesCurr, reportsCurr)">
     <div class="container-fluid">
         <div class="row">
             <nav class="col-md-2 d-none d-md-block bg-light sidebar">
@@ -49,36 +48,36 @@
                         <li class="nav-item">
                             <a class="nav-link active" th:href="@{/}">
                                 <span data-feather="home"></span>
-                                Strona główna <span class="sr-only">(current)</span>
+                                Strona główna <span class="sr-only"><th:block th:text="${homeCurr}"></th:block></span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/transactions}">
-                                <span data-feather="list"></span>
+                                <span data-feather="list"><th:block th:text="${transactionsCurr}"></th:block></span>
                                 Transakcje
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/wallets}">
-                                <span data-feather="grid"></span>
+                                <span data-feather="grid"><th:block th:text="${walletsCurr}"></th:block></span>
                                 Portfele
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/budgets}">
-                                <span data-feather="layers"></span>
+                                <span data-feather="layers"><div th:text="${budgetsCurr}"></div></span>
                                 Budżety
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/categories}">
-                                <span data-feather="tag"></span>
+                                <span data-feather="tag"><th:block th:text="${categoriesCurr}"></th:block></span>
                                 Kategorie
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/reports}">
-                                <span data-feather="bar-chart-2"></span>
+                                <span data-feather="bar-chart-2"><th:block th:text="${reportsCurr}"></th:block></span>
                                 Raporty
                             </a>
                         </li>
