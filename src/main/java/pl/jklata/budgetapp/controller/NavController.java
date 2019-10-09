@@ -1,20 +1,25 @@
 package pl.jklata.budgetapp.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.jklata.budgetapp.domain.Transaction;
 import pl.jklata.budgetapp.repository.TransactionRepository;
-
-import java.util.List;
+import pl.jklata.budgetapp.service.TransactionService;
 
 @Controller
 public class NavController {
 
     private TransactionRepository transactionRepository;
+    private TransactionService transactionService;
 
-    public NavController(TransactionRepository transactionRepository) {
+    @Autowired
+    public NavController(TransactionRepository transactionRepository, TransactionService transactionService) {
         this.transactionRepository = transactionRepository;
+        this.transactionService = transactionService;
     }
 
     @RequestMapping({"", "/", "/index"})
@@ -50,8 +55,27 @@ public class NavController {
         return "reports";
     }
 
+
+
+
     @RequestMapping({"/addTransaction"})
-    public String getAddTransaction() {
+    public String getAddTransaction(Model model) {
+
+        model.addAttribute("transaction", new Transaction());
         return "add-transaction";
     }
+
+    @PostMapping
+    @RequestMapping({"/addTransactionToList"})
+    public String addTransactionToList(@ModelAttribute Transaction transaction){
+        transactionService.save(transaction);
+//        final Model transactions =
+//                model.addAttribute("transactions", transactionRepository.findAll());
+        return "redirect:/addTransaction";
+    }
+
+
+//    public String saveOrUpdateTransaction(@ModelAttribute Transaction transaction){
+//        Transaction savedTransaction = transactionService.save(transaction);
+//    }
 }

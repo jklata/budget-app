@@ -1,6 +1,8 @@
 package pl.jklata.budgetapp.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -8,6 +10,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Data
+@EqualsAndHashCode(exclude = {"hashtags"})
 @Entity
 public class Transaction {
 
@@ -16,13 +19,16 @@ public class Transaction {
     private Long id;
 
     @Column(name = "transaction_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate transactionDate;
+
     @Column(name = "insert_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate insertDate;
 
     private BigDecimal amount;
 
-    private String payee;
+    private String title;
 
     @OneToOne
     private TransactionCategory transactionCategory;

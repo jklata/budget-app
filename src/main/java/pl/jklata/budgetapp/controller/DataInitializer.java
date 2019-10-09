@@ -6,6 +6,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import pl.jklata.budgetapp.domain.*;
 import pl.jklata.budgetapp.repository.*;
+import pl.jklata.budgetapp.service.TransactionService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ import java.util.*;
 @Component
 public class DataInitializer implements ApplicationListener<ContextRefreshedEvent> {
 
+    private final TransactionService transactionService;
     private final UserRepository userRepository;
     private final AccountRepository accountRepository;
     private final BudgetRepository budgetRepository;
@@ -22,7 +24,8 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
     private final HashtagRepository hashtagRepository;
     private final TransactionCategoryRepository transactionCategoryRepository;
 
-    public DataInitializer(UserRepository userRepository, AccountRepository accountRepository, BudgetRepository budgetRepository, TransactionRepository transactionRepository, HashtagRepository hashtagRepository, TransactionCategoryRepository transactionCategoryRepository) {
+    public DataInitializer(TransactionService transactionService, UserRepository userRepository, AccountRepository accountRepository, BudgetRepository budgetRepository, TransactionRepository transactionRepository, HashtagRepository hashtagRepository, TransactionCategoryRepository transactionCategoryRepository) {
+        this.transactionService = transactionService;
         this.userRepository = userRepository;
         this.accountRepository = accountRepository;
         this.budgetRepository = budgetRepository;
@@ -82,19 +85,22 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         budgetRepository.save(budget1);
 
         Random r = new Random();
-        for (int i = 0; i <15 ; i++) {
+        for (int i = 0; i <10 ; i++) {
 
             Transaction transaction = new Transaction();
-            transaction.setTransactionDate(LocalDate.of(r.nextInt(2019-2000)+2000,r.nextInt(12-1)+1,r.nextInt(30-1)+1));
+            transaction.setTransactionDate(LocalDate.of(r.nextInt(2019-2000)+2000,r.nextInt(12-1)+1,r.nextInt(25-1)+1));
             transaction.setInsertDate(LocalDate.now());
             transaction.setAmount(new BigDecimal(r.nextInt(3000-100)+100));
-            transaction.setPayee("Odbiorca " + r.nextInt((i+1)+1));
+            transaction.setTitle("Odbiorca " + r.nextInt((i+1)+1));
             transaction.setTransactionCategory(transactionCategories.get(r.nextInt(4-1)));
-            transaction.setTransactionType(TransactionType.EXPENSE);
+            int rand = r.nextInt((1)+1);
+            if (rand==1){
+                transaction.setTransactionType(TransactionType.EXPENSE);
+            }else {transaction.setTransactionType(TransactionType.INCOME);}
             transaction.setAccount(account1);
             transaction.setBudget(budget1);
             transaction.setHashtags(new HashSet<>(Arrays.asList(ht2)));
-            transactionRepository.save(transaction);
+            transactionService.save(transaction);
         }
     }
 }
