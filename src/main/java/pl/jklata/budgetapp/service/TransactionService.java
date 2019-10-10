@@ -20,15 +20,27 @@ public class TransactionService {
     }
 
 
-    public void save(Transaction transaction){
-        if (transaction.getTransactionType()== TransactionType.EXPENSE){
-            transaction.setAmount(new BigDecimal(transaction.getAmount().floatValue()*-1));
+    public Transaction save(Transaction transaction) {
+        if (transaction.getTransactionType() == TransactionType.EXPENSE) {
+            transaction.setAmount(new BigDecimal(transaction.getAmount().floatValue() * -1));
         }
-        transactionRepository.save(transaction);
+        return transactionRepository.save(transaction);
     }
 
 
-    public Iterable<Transaction> findAll(){
+    public Iterable<Transaction> findAll() {
         return transactionRepository.findAll();
     }
+
+    public Transaction findById(Long id) {
+        return transactionRepository.findById(id).get();
+
+    }
+
+    public void deleteById (Long id){
+        transactionRepository.deleteById(id);
+    }
+
+
+
 }

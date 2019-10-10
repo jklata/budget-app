@@ -7,6 +7,7 @@ import pl.jklata.budgetapp.domain.Account;
 
 @Component
 public class AccountToAccountCommand implements Converter<Account, AccountCommand> {
+
     @Override
     public AccountCommand convert(Account source) {
         if(source == null){

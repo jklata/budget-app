@@ -10,7 +10,7 @@
 
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h1 class="h2">Transakcje</h1>
+        <h1 class="h2">Szczegóły</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group mr-2">
                 <button class="btn btn-sm btn-outline-secondary">Share</button>
@@ -36,36 +36,18 @@
                 <th>Tytuł/Odbiorca</th>
                 <th>Kategoria</th>
                 <th>Typ transakcji</th>
-                <th></th>
-                <th></th>
-                <th></th>
             </tr>
             </thead>
 
 
             <tbody>
-            <tr th:each="transaction : ${transactions}">
+            <tr th:object="${transaction}">
                 <td><span th:text="${transaction?.getId()?.toString()}"> ID </span></td>
                 <td><span th:text="${transaction?.getTransactionDate()?.toString()}"> Data </span></td>
                 <td><span th:text="${transaction?.getAmount()?.toString()}"> Kwota </span></td>
                 <td><span th:text="${transaction?.getTitle()?.toString()}"> Tytuł/Odbiorca </span></td>
                 <td><span th:text="${transaction?.getTransactionCategory()?.getName()?.toString()}"> Kategoria </span></td>
                 <td><span th:text="${transaction?.getTransactionType()?.toString()}"> Typ </span></td>
-                <td>
-                    <a class="button" data-toogle="tooltip" data-placement="top" title="Szczegóły" th:href="${transaction.id} + @{/show}">
-                        <span data-feather="eye">show</span>
-                    </a>
-                </td>
-                <td>
-                    <a class="button" data-toogle="tooltip" data-placement="top" title="Edytuj" th:href="${transaction.id} + @{/update}">
-                        <span data-feather="edit-2">update</span>
-                    </a>
-                </td>
-                <td>
-                    <a class="button" data-toogle="tooltip" data-placement="top" title="Usuń" th:href="${transaction.id} + @{/delete}">
-                        <span data-feather="trash-2">delete</span>
-                    </a>
-                </td>
             </tr>
             </tbody>
         </table>
@@ -77,5 +59,3 @@
 <div th:replace="fragments :: footer"></div>
 </body>
 </html>
-
-

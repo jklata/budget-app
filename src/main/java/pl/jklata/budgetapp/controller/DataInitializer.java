@@ -1,20 +1,19 @@
 package pl.jklata.budgetapp.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import pl.jklata.budgetapp.domain.*;
 import pl.jklata.budgetapp.repository.*;
 import pl.jklata.budgetapp.service.TransactionService;
 
+import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
 @Slf4j
 @Component
-public class DataInitializer implements ApplicationListener<ContextRefreshedEvent> {
+public class DataInitializer {
 
     private final TransactionService transactionService;
     private final UserRepository userRepository;
@@ -34,8 +33,8 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         this.transactionCategoryRepository = transactionCategoryRepository;
     }
 
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
+    @PostConstruct
+    void init() {
         User user1 = new User();
         user1.setLogin("login");
         user1.setPassword("1234");
@@ -85,18 +84,20 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         budgetRepository.save(budget1);
 
         Random r = new Random();
-        for (int i = 0; i <10 ; i++) {
+        for (int i = 0; i < 10; i++) {
 
             Transaction transaction = new Transaction();
-            transaction.setTransactionDate(LocalDate.of(r.nextInt(2019-2000)+2000,r.nextInt(12-1)+1,r.nextInt(25-1)+1));
+            transaction.setTransactionDate(LocalDate.of(r.nextInt(2019 - 2000) + 2000, r.nextInt(12 - 1) + 1, r.nextInt(25 - 1) + 1));
             transaction.setInsertDate(LocalDate.now());
-            transaction.setAmount(new BigDecimal(r.nextInt(3000-100)+100));
-            transaction.setTitle("Odbiorca " + r.nextInt((i+1)+1));
-            transaction.setTransactionCategory(transactionCategories.get(r.nextInt(4-1)));
-            int rand = r.nextInt((1)+1);
-            if (rand==1){
+            transaction.setAmount(new BigDecimal(r.nextInt(3000 - 100) + 100));
+            transaction.setTitle("Odbiorca " + ((r.nextInt(i + 1)) + 1));
+            transaction.setTransactionCategory(transactionCategories.get(r.nextInt(4 - 1)));
+            int rand = r.nextInt((1) + 1);
+            if (rand == 1) {
                 transaction.setTransactionType(TransactionType.EXPENSE);
-            }else {transaction.setTransactionType(TransactionType.INCOME);}
+            } else {
+                transaction.setTransactionType(TransactionType.INCOME);
+            }
             transaction.setAccount(account1);
             transaction.setBudget(budget1);
             transaction.setHashtags(new HashSet<>(Arrays.asList(ht2)));
