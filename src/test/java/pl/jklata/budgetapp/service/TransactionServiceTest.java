@@ -39,4 +39,11 @@ public class TransactionServiceTest {
         assertEquals(transactions.size(), 1);
         verify(transactionRepository, times(1)).findAll();
     }
+
+    @Test
+    public void testDeleteById() throws Exception{
+        Long idToDelete = 2L;
+        transactionService.deleteById(idToDelete);
+        verify(transactionRepository, times(1)).deleteById(anyLong());
+    }
 }

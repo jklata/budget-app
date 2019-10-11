@@ -15,9 +15,16 @@
 
     </div>
 
-    <!-- <canvas class="my-4" id="myChart" width="900" height="380"></canvas> -->
     <form th:action="@{/addTransactionToList/}" th:object="${transaction}" method="post">
-        <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:field="*{id}"/>
+
+<!--         TODO dodać wyświetlanie ID nowej transakcji lub aktualnie modyfikowanej-->
+<!--        <div class="form-group row">-->
+<!--            <label for="tytul" class="col-sm-2 col-form-label">ID transakcji</label>-->
+<!--            <div class="col-sm-5">-->
+<!--                <p th:text="*{id}">ID</p>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="form-group row">
             <label for="tytul" class="col-sm-2 col-form-label">Tytuł transakcji</label>
             <div class="col-sm-5">
@@ -73,25 +80,20 @@
         <div class="form-group row">
             <label for="tytul" class="col-sm-2 col-form-label">Kwota</label>
             <div class="col-sm-5">
-                <input type="number" th:field="*{amount}" class="form-control" id="tytul"  required>
+                <input type="number" th:field="*{amount}" class="form-control" id="tytul" required>
             </div>
         </div>
-
-
-
-
 
 
         <div class="form-group row">
             <label for="tytul" class="col-sm-2 col-form-label">Kategoria</label>
             <div class="col-sm-5">
                 <select id="inputState" class="form-control" th:field="*{transactionCategory}">
-<!--                <option selected th:each="transactionCategory : ${transactionCategories}" th:text="${transactionCategory.getName().toString()}" th:value="*{transactionCategory}"></option>-->
-<!--                    <option selected th:each="transactionCategory : ${transactionCategories}" th:text="${transactionCategory}" th:value="${transactionCategory}" ></option>-->
+                    <!--                <option selected th:each="transactionCategory : ${transactionCategories}" th:text="${transactionCategory.getName().toString()}" th:value="*{transactionCategory}"></option>-->
+                    <!--                    <option selected th:each="transactionCategory : ${transactionCategories}" th:text="${transactionCategory}" th:value="${transactionCategory}" ></option>-->
                 </select>
             </div>
         </div>
-
 
 
         <div class="form-group row">
