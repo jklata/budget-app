@@ -34,7 +34,6 @@ public class TransactionService {
 
     public Transaction findById(Long id) {
         return transactionRepository.findById(id).get();
-
     }
 
     public void deleteById (Long id){
