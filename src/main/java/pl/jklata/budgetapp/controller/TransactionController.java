@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.jklata.budgetapp.domain.Transaction;
 import pl.jklata.budgetapp.repository.TransactionCategoryRepository;
+import pl.jklata.budgetapp.service.TransactionCategoryService;
 import pl.jklata.budgetapp.service.TransactionService;
 
 @Slf4j
@@ -14,12 +15,12 @@ import pl.jklata.budgetapp.service.TransactionService;
 public class TransactionController {
 
 
-    private TransactionCategoryRepository transactionCategoryRepository;
+    private TransactionCategoryService transactionCategoryService;
     private TransactionService transactionService;
 
     @Autowired
-    public TransactionController(TransactionCategoryRepository transactionCategoryRepository, TransactionService transactionService) {
-        this.transactionCategoryRepository = transactionCategoryRepository;
+    public TransactionController(TransactionCategoryService transactionCategoryService, TransactionService transactionService) {
+        this.transactionCategoryService = transactionCategoryService;
         this.transactionService = transactionService;
     }
 
@@ -44,7 +45,7 @@ public class TransactionController {
 
         model.addAttribute("transaction", new Transaction());
         log.debug("Utworzono nowy obiekt transakcji");
-        model.addAttribute("transactionCategories", transactionCategoryRepository.findAll());
+        model.addAttribute("transactionCategories", transactionCategoryService.findAll());
         return "add-transaction";
     }
 

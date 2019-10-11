@@ -7,6 +7,7 @@ import pl.jklata.budgetapp.domain.TransactionType;
 import pl.jklata.budgetapp.repository.TransactionRepository;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 
 @Service
@@ -24,6 +25,7 @@ public class TransactionService {
         if (transaction.getTransactionType() == TransactionType.EXPENSE) {
             transaction.setAmount(new BigDecimal(transaction.getAmount().floatValue() * -1));
         }
+        transaction.setInsertDate(LocalDate.now());
         return transactionRepository.save(transaction);
     }
 
@@ -33,13 +35,13 @@ public class TransactionService {
     }
 
     public Transaction findById(Long id) {
+
         return transactionRepository.findById(id).get();
     }
 
-    public void deleteById (Long id){
+    public void deleteById(Long id) {
         transactionRepository.deleteById(id);
     }
-
 
 
 }

@@ -62,7 +62,7 @@
                     </a>
                 </td>
                 <td>
-                    <a class="button" data-toogle="tooltip" data-placement="top" title="Usuń" th:href="${transaction.id} + @{/delete}">
+                    <a class="button" data-toogle="tooltip" data-placement="top" onclick="if(!(confirm('Czy na pewno chcesz usunać tę transakcję?'))) return false" title="Usuń" th:href="${transaction.id} + @{/delete}">
                         <span data-feather="trash-2">delete</span>
                     </a>
                 </td>

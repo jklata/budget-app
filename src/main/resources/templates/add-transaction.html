@@ -18,13 +18,13 @@
     <form th:action="@{/addTransactionToList/}" th:object="${transaction}" method="post">
         <input type="hidden" th:field="*{id}"/>
 
-<!--         TODO dodać wyświetlanie ID nowej transakcji lub aktualnie modyfikowanej-->
-<!--        <div class="form-group row">-->
-<!--            <label for="tytul" class="col-sm-2 col-form-label">ID transakcji</label>-->
-<!--            <div class="col-sm-5">-->
-<!--                <p th:text="*{id}">ID</p>-->
-<!--            </div>-->
-<!--        </div>-->
+        <!--         TODO dodać wyświetlanie ID nowej transakcji lub aktualnie modyfikowanej-->
+        <!--        <div class="form-group row">-->
+        <!--            <label for="tytul" class="col-sm-2 col-form-label">ID transakcji</label>-->
+        <!--            <div class="col-sm-5">-->
+        <!--                <p th:text="*{id}">ID</p>-->
+        <!--            </div>-->
+        <!--        </div>-->
         <div class="form-group row">
             <label for="tytul" class="col-sm-2 col-form-label">Tytuł transakcji</label>
             <div class="col-sm-5">
@@ -88,9 +88,13 @@
         <div class="form-group row">
             <label for="tytul" class="col-sm-2 col-form-label">Kategoria</label>
             <div class="col-sm-5">
-                <select id="inputState" class="form-control" th:field="*{transactionCategory}">
-                    <!--                <option selected th:each="transactionCategory : ${transactionCategories}" th:text="${transactionCategory.getName().toString()}" th:value="*{transactionCategory}"></option>-->
-                    <!--                    <option selected th:each="transactionCategory : ${transactionCategories}" th:text="${transactionCategory}" th:value="${transactionCategory}" ></option>-->
+                <select id="inputState" class="form-control">
+<!--                    <option  th:each="transactionCategoryEach : ${transactionCategories}"-->
+<!--                            th:value="${transactionCategoryEach.id}"-->
+<!--                            th:selected="${transactionCategoryEach.id.equals(transaction.transactionCategory.id)}"-->
+<!--                            th:text="${transactionCategoryEach.name}"-->
+<!--                            ></option>-->
+<!--                    &lt;!&ndash;                    <option selected th:each="transactionCategory : ${transactionCategories}" th:text="${transactionCategory}" th:value="${transactionCategory}" ></option>&ndash;&gt;-->
                 </select>
             </div>
         </div>

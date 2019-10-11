@@ -8,6 +8,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pl.jklata.budgetapp.domain.Transaction;
 import pl.jklata.budgetapp.repository.TransactionCategoryRepository;
+import pl.jklata.budgetapp.service.TransactionCategoryService;
 import pl.jklata.budgetapp.service.TransactionService;
 
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -20,7 +21,7 @@ public class TransactionControllerTest {
 
     @Mock
     TransactionService transactionService;
-    TransactionCategoryRepository transactionCategoryRepository;
+    TransactionCategoryService transactionCategoryService;
 
     TransactionController transactionController;
     MockMvc mockMvc;
@@ -30,7 +31,7 @@ public class TransactionControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        transactionController = new TransactionController(transactionCategoryRepository, transactionService);
+        transactionController = new TransactionController(transactionCategoryService, transactionService);
         mockMvc = MockMvcBuilders.standaloneSetup(transactionController).build();
     }
 
