@@ -12,16 +12,6 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping({"/wallets"})
-    public String getWallets() {
-        return "wallets";
-    }
-
-    @GetMapping({"/budgets"})
-    public String getBudgets() {
-        return "budgets";
-    }
-
     @GetMapping({"/reports"})
     public String getReports() {
         return "reports";

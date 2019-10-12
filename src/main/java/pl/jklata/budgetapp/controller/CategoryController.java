@@ -32,7 +32,7 @@ public class CategoryController {
 
 
     @PostMapping({"/addCategory"})
-    public String addTransactionToList(@ModelAttribute TransactionCategory transactionCategory) {
+    public String addCategoryToDataBase(@ModelAttribute TransactionCategory transactionCategory) {
 
         try {
             TransactionCategory savedTransactionCategory = transactionCategoryService.save(transactionCategory);

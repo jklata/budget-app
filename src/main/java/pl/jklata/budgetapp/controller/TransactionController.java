@@ -41,7 +41,7 @@ public class TransactionController {
     public String getTransactions(@PathVariable Long id, Model model) {
 
         model.addAttribute("transaction", transactionService.findById(id));
-        return "transaction-show";
+        return "transactions/transaction-show";
     }
 
     @GetMapping({"/addTransaction"})
@@ -59,6 +59,11 @@ public class TransactionController {
     @GetMapping("/{id}/update")
     public String updateTransaction(@PathVariable Long id, Model model) {
         model.addAttribute("transaction", transactionService.findById(id));
+
+        //        model.addAttribute("transactionCategories", transactionCategoryService.findAll());
+//        model.addAttribute("budgets", budgetService.findAll());
+//        model.addAttribute("wallets", accountService.findAll());
+
         log.debug("Request update na transakcji o ID: " + id.toString());
         return "transactions/add-transaction";
     }
@@ -70,8 +75,11 @@ public class TransactionController {
         return "redirect:/transactions";
     }
 
+
+//    todo zmienic nazwe endpointu
+
     @PostMapping({"addTransactionToList"})
-    public String addTransactionToList(@ModelAttribute Transaction transaction, @RequestParam String transactionCategoryEach, @RequestParam String walletEach, @RequestParam String budgetEach) {
+    public String addTransactionToDataBase(@ModelAttribute Transaction transaction, @RequestParam String transactionCategoryEach, @RequestParam String walletEach, @RequestParam String budgetEach) {
 
         log.debug("Przekazana transakcja ma id: " + transaction.getId());
         transaction.setTransactionCategory(transactionCategoryService.findByName(transactionCategoryEach));
