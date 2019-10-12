@@ -29,6 +29,20 @@
         <div class="col">
             <a class="btn btn-outline-success btn " th:href="@{/addTransaction}" role="button">Dodaj transakcję</a>
         </div>
+
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <!--                todo dodać imie z usera-->
+                <a class="nav-link" th:href="@{/user}">Witaj *imie*.</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <!--                todo dodać zdjęcie z usera-->
+                <a class="button" href="" th:href="@{/user}"> <img src="http://wprdea.org/image/img_avatar.png"
+                                                                   alt="Avatar" class="avatar"></a>
+            </li>
+        </ul>
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
                 <a class="nav-link" th:href="@{/logout}">Wyloguj</a>
@@ -120,12 +134,12 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-<!--    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"-->
-<!--            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"-->
-<!--            crossorigin="anonymous"></script>-->
-<!--    <script>window.jQuery || document.write('<script th:src="@{/assets/js/vendor/jquery-slim.min.js}"><\/script>')</script>-->
-<!--    <script th:src="@{/assets/js/vendor/popper.min.js}"></script>-->
-<!--    <script th:src="@{/js/bootstrap.min.js}"></script>-->
+    <!--    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"-->
+    <!--            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"-->
+    <!--            crossorigin="anonymous"></script>-->
+    <!--    <script>window.jQuery || document.write('<script th:src="@{/assets/js/vendor/jquery-slim.min.js}"><\/script>')</script>-->
+    <!--    <script th:src="@{/assets/js/vendor/popper.min.js}"></script>-->
+    <!--    <script th:src="@{/js/bootstrap.min.js}"></script>-->
 
     <script src="https://cdn.jsdelivr.net/webjars/jquery/3.4.1/jquery.min.js"
             th:src="@{/webjars/jquery/3.4.1/jquery.min.js}">
@@ -138,8 +152,6 @@
     </script>
 
 
-
-
     <!-- Icons -->
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
     <script>
@@ -147,36 +159,36 @@
     </script>
 
     <!-- Graphs -->
-<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>-->
-<!--    <script>-->
-<!--        var ctx = document.getElementById("myChart");-->
-<!--        var myChart = new Chart(ctx, {-->
-<!--            type: 'line',-->
-<!--            data: {-->
-<!--                labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],-->
-<!--                datasets: [{-->
-<!--                    data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],-->
-<!--                    lineTension: 0,-->
-<!--                    backgroundColor: 'transparent',-->
-<!--                    borderColor: '#007bff',-->
-<!--                    borderWidth: 4,-->
-<!--                    pointBackgroundColor: '#007bff'-->
-<!--                }]-->
-<!--            },-->
-<!--            options: {-->
-<!--                scales: {-->
-<!--                    yAxes: [{-->
-<!--                        ticks: {-->
-<!--                            beginAtZero: false-->
-<!--                        }-->
-<!--                    }]-->
-<!--                },-->
-<!--                legend: {-->
-<!--                    display: false,-->
-<!--                }-->
-<!--            }-->
-<!--        });-->
-<!--    </script>-->
+    <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>-->
+    <!--    <script>-->
+    <!--        var ctx = document.getElementById("myChart");-->
+    <!--        var myChart = new Chart(ctx, {-->
+    <!--            type: 'line',-->
+    <!--            data: {-->
+    <!--                labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],-->
+    <!--                datasets: [{-->
+    <!--                    data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],-->
+    <!--                    lineTension: 0,-->
+    <!--                    backgroundColor: 'transparent',-->
+    <!--                    borderColor: '#007bff',-->
+    <!--                    borderWidth: 4,-->
+    <!--                    pointBackgroundColor: '#007bff'-->
+    <!--                }]-->
+    <!--            },-->
+    <!--            options: {-->
+    <!--                scales: {-->
+    <!--                    yAxes: [{-->
+    <!--                        ticks: {-->
+    <!--                            beginAtZero: false-->
+    <!--                        }-->
+    <!--                    }]-->
+    <!--                },-->
+    <!--                legend: {-->
+    <!--                    display: false,-->
+    <!--                }-->
+    <!--            }-->
+    <!--        });-->
+    <!--    </script>-->
 </div>
 </body>
 </html>

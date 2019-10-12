@@ -22,7 +22,6 @@ public class IndexController {
         return "budgets";
     }
 
-
     @GetMapping({"/reports"})
     public String getReports() {
         return "reports";

@@ -90,16 +90,15 @@
         <div class="form-group row">
             <label for="tytul" class="col-sm-2 col-form-label">Kategoria</label>
             <div class="col-sm-5">
-                <select class="form-control" id="transactionCategoryEach" name="transactionCategoryEach">
-                    <!--                    <option  th:each="transactionCategoryEach : ${transactionCategories}"-->
-                    <!--                            th:value="${transactionCategoryEach.id}"-->
-                    <!--                            th:selected="${transactionCategoryEach.id.equals(transaction.transactionCategory.id)}"-->
-                    <!--                            th:text="${transactionCategoryEach.name}"-->
-                    <!--                            ></option>-->
-
+                <select class="form-control" name="transactionCategoryEach">
+                    <!--  <option  th:each="transactionCategoryEach : ${transactionCategories}"-->
+                    <!--          th:value="${transactionCategoryEach.id}"-->
+                    <!--          th:selected="${transactionCategoryEach.id.equals(transaction.transactionCategory.id)}"-->
+                    <!--          th:text="${transactionCategoryEach.name}"-->
+                    <!--          ></option>-->
 
                     <option th:each="transactionCategoryEach : ${transactionCategories}"
-                            th:value="${transactionCategoryEach.id}"
+                            th:value="${transactionCategoryEach.name}"
                             th:field="*{transactionCategory}"
                             th:text="${transactionCategoryEach.name}"></option>
                 </select>

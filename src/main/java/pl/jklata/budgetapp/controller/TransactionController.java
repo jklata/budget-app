@@ -28,7 +28,6 @@ public class TransactionController {
     public String getTransactions(Model model) {
 
         model.addAttribute("transactions", transactionService.findAll());
-
         return "transactions/transactions";
     }
 
@@ -44,6 +43,7 @@ public class TransactionController {
 
         model.addAttribute("transaction", new Transaction());
         log.debug("Utworzono nowy obiekt transakcji");
+
         model.addAttribute("transactionCategories", transactionCategoryService.findAll());
         return "transactions/add-transaction";
     }
@@ -63,9 +63,10 @@ public class TransactionController {
     }
 
     @PostMapping({"addTransactionToList"})
-    public String addTransactionToList(@ModelAttribute Transaction transaction) {
+    public String addTransactionToList(@ModelAttribute Transaction transaction, @RequestParam String transactionCategoryEach) {
 
         log.debug("Przekazana transakcja ma id: " + transaction.getId());
+        transaction.setTransactionCategory(transactionCategoryService.findByName(transactionCategoryEach));
         Transaction savedTransaction = transactionService.save(transaction);
         log.debug("Wykonano 'save' na transakcji o ID: " + savedTransaction.getId().toString());
         return "redirect:/transactions";

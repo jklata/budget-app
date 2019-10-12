@@ -25,6 +25,10 @@ public class TransactionCategoryService {
         return (List<TransactionCategory>) transactionCategoryRepository.findAll();
     }
 
+    public TransactionCategory findByName(String name){
+        return transactionCategoryRepository.findByName(name).get();
+    }
+
     public TransactionCategory save(TransactionCategory transactionCategory) {
 
         if (!transactionCategoryRepository.findByName(transactionCategory.getName()).isPresent()) {
