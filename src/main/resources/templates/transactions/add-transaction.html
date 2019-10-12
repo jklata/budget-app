@@ -10,9 +10,9 @@
 <div th:replace="fragments :: navigation(homeCurr='', transactionsCurr='(current)', walletsCurr='', budgetsCurr='', categoriesCurr='', reportsCurr='')"></div>
 
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1 class="h4">Dodaj transakcję</h1>
-
     </div>
 
     <form th:action="@{/addTransactionToList/}" th:object="${transaction}" method="post">
@@ -59,16 +59,17 @@
                 <legend class="col-form-label col-sm-2 pt-0">+ / -</legend>
                 <div class="col-sm-10">
                     <div class="form-check">
-                        <input class="form-check-input" th:field="*{transactionType}" type="radio" name="gridRadios"
-                               id="gridRadios1" value="EXPENSE" checked>
-                        <label class="form-check-label" for="gridRadios1">
+                        <input checked class="form-check-input" th:field="*{transactionType}" type="radio"
+                               name="gridRadios"
+                               id="gridRadios1" value="EXPENSE">
+                        <label id="wydatek" class="form-check-label" for="gridRadios1">
                             Wydatek
                         </label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" th:field="*{transactionType}" type="radio" name="gridRadios"
                                id="gridRadios2" value="INCOME">
-                        <label class="form-check-label" for="gridRadios2">
+                        <label id="przychód" class="form-check-label" for="gridRadios2">
                             Przychód
                         </label>
                     </div>
@@ -80,7 +81,7 @@
         <div class="form-group row">
             <label for="tytul" class="col-sm-2 col-form-label">Kwota</label>
             <div class="col-sm-5">
-<!--                todo: zabezpieczyc przed wprowadzeniem zbyt dużej liczby-->
+                <!--                todo: zabezpieczyc przed wprowadzeniem zbyt dużej liczby-->
                 <input type="number" th:field="*{amount}" class="form-control" id="tytul" required>
             </div>
         </div>
@@ -89,13 +90,18 @@
         <div class="form-group row">
             <label for="tytul" class="col-sm-2 col-form-label">Kategoria</label>
             <div class="col-sm-5">
-                <select id="inputState" class="form-control">
-<!--                    <option  th:each="transactionCategoryEach : ${transactionCategories}"-->
-<!--                            th:value="${transactionCategoryEach.id}"-->
-<!--                            th:selected="${transactionCategoryEach.id.equals(transaction.transactionCategory.id)}"-->
-<!--                            th:text="${transactionCategoryEach.name}"-->
-<!--                            ></option>-->
-<!--                    &lt;!&ndash;                    <option selected th:each="transactionCategory : ${transactionCategories}" th:text="${transactionCategory}" th:value="${transactionCategory}" ></option>&ndash;&gt;-->
+                <select class="form-control" id="transactionCategoryEach" name="transactionCategoryEach">
+                    <!--                    <option  th:each="transactionCategoryEach : ${transactionCategories}"-->
+                    <!--                            th:value="${transactionCategoryEach.id}"-->
+                    <!--                            th:selected="${transactionCategoryEach.id.equals(transaction.transactionCategory.id)}"-->
+                    <!--                            th:text="${transactionCategoryEach.name}"-->
+                    <!--                            ></option>-->
+
+
+                    <option th:each="transactionCategoryEach : ${transactionCategories}"
+                            th:value="${transactionCategoryEach.id}"
+                            th:field="*{transactionCategory}"
+                            th:text="${transactionCategoryEach.name}"></option>
                 </select>
             </div>
         </div>
@@ -141,12 +147,7 @@
             </div>
         </div>
     </form>
-
-
-    </div>
 </main>
-</div>
-</div>
 <div th:replace="fragments :: footer"></div>
 </body>
 

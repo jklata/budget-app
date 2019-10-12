@@ -22,14 +22,15 @@ public class IndexController {
         return "budgets";
     }
 
-    @GetMapping({"/categories"})
-    public String getCategories() {
-        return "categories";
-    }
 
     @GetMapping({"/reports"})
     public String getReports() {
         return "reports";
+    }
+
+    @GetMapping({"/user"})
+    public String getUser() {
+        return "user-settings";
     }
 
 

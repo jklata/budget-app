@@ -20,6 +20,9 @@ public class User {
     @Email
     private String email;
 
+    @Lob
+    private Byte[] avatar;
+
     private String firstName;
     private String lastName;
 

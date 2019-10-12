@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.jklata.budgetapp.domain.Transaction;
-import pl.jklata.budgetapp.repository.TransactionCategoryRepository;
 import pl.jklata.budgetapp.service.TransactionCategoryService;
 import pl.jklata.budgetapp.service.TransactionService;
 
@@ -30,14 +29,14 @@ public class TransactionController {
 
         model.addAttribute("transactions", transactionService.findAll());
 
-        return "transactions";
+        return "transactions/transactions";
     }
 
     @GetMapping({"/{id}/show"})
     public String getTransactions(@PathVariable Long id, Model model) {
 
         model.addAttribute("transaction", transactionService.findById(id));
-        return "transactionShow";
+        return "transaction-show";
     }
 
     @GetMapping({"/addTransaction"})
@@ -46,14 +45,14 @@ public class TransactionController {
         model.addAttribute("transaction", new Transaction());
         log.debug("Utworzono nowy obiekt transakcji");
         model.addAttribute("transactionCategories", transactionCategoryService.findAll());
-        return "add-transaction";
+        return "transactions/add-transaction";
     }
 
     @GetMapping("/{id}/update")
     public String updateTransaction(@PathVariable Long id, Model model) {
         model.addAttribute("transaction", transactionService.findById(id));
         log.debug("Request update na transakcji o ID: " + id.toString());
-        return "add-transaction";
+        return "transactions/add-transaction";
     }
 
     @GetMapping("/{id}/delete")
