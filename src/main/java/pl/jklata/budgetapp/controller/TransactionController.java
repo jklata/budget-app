@@ -60,7 +60,7 @@ public class TransactionController {
     public String updateTransaction(@PathVariable Long id, Model model) {
         model.addAttribute("transaction", transactionService.findById(id));
 
-        //        model.addAttribute("transactionCategories", transactionCategoryService.findAll());
+//        model.addAttribute("transactionCategories", transactionCategoryService.findAll());
 //        model.addAttribute("budgets", budgetService.findAll());
 //        model.addAttribute("wallets", accountService.findAll());
 

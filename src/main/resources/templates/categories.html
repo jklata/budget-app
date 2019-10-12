@@ -28,16 +28,28 @@
 
         <input type="hidden" th:field="*{id}"/>
         <div class="form-row align-items-center">
-            <div class="col-auto">
+            <div class="col-auto my-1">
                 <label class="sr-only" for="inlineFormInput">Kategoria</label>
-                <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="nazwa" th:field="*{name}" required>
+                <input type="text" class="form-control mr-sm-2" id="inlineFormInput" placeholder="nazwa" th:field="*{name}"
+                       required>
             </div>
 
-            <div class="col-auto">
-                <label class="sr-only" for="inlineFormInput">Kolor</label>
-                <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="kolor" th:field="*{color}" required>
-            </div>
+            <!--            <div class="col-auto">-->
+            <!--                <label class="sr-only" for="inlineFormInput">Kolor</label>-->
+            <!--                <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="kolor"-->
+            <!--                       th:field="*{color}" required>-->
+            <!--            </div>-->
 
+<!--            todo: poprawić działanie selecta z kolorami-->
+            <div class="col-auto my-1">
+                <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                    <option selected>Choose...</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3" >Three</option>
+                </select>
+            </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary mb-2">Dodaj</button>
             </div>
