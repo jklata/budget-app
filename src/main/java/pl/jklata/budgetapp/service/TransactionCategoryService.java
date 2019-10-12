@@ -7,8 +7,11 @@ import pl.jklata.budgetapp.domain.TransactionCategory;
 import pl.jklata.budgetapp.repository.TransactionCategoryRepository;
 
 import javax.persistence.EntityExistsException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
@@ -22,10 +25,13 @@ public class TransactionCategoryService {
 
 
     public List<TransactionCategory> findAll() {
-        return (List<TransactionCategory>) transactionCategoryRepository.findAll();
+
+        return  StreamSupport
+                .stream(transactionCategoryRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 
-    public TransactionCategory findByName(String name){
+    public TransactionCategory findByName(String name) {
         return transactionCategoryRepository.findByName(name).get();
     }
 

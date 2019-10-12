@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.jklata.budgetapp.domain.Transaction;
+import pl.jklata.budgetapp.service.AccountService;
+import pl.jklata.budgetapp.service.BudgetService;
 import pl.jklata.budgetapp.service.TransactionCategoryService;
 import pl.jklata.budgetapp.service.TransactionService;
 
@@ -16,11 +18,15 @@ public class TransactionController {
 
     private TransactionCategoryService transactionCategoryService;
     private TransactionService transactionService;
+    private AccountService accountService;
+    private BudgetService budgetService;
 
     @Autowired
-    public TransactionController(TransactionCategoryService transactionCategoryService, TransactionService transactionService) {
+    public TransactionController(TransactionCategoryService transactionCategoryService, TransactionService transactionService, AccountService accountService, BudgetService budgetService) {
         this.transactionCategoryService = transactionCategoryService;
         this.transactionService = transactionService;
+        this.accountService = accountService;
+        this.budgetService = budgetService;
     }
 
 
@@ -45,6 +51,8 @@ public class TransactionController {
         log.debug("Utworzono nowy obiekt transakcji");
 
         model.addAttribute("transactionCategories", transactionCategoryService.findAll());
+        model.addAttribute("budgets", budgetService.findAll());
+        model.addAttribute("wallets", accountService.findAll());
         return "transactions/add-transaction";
     }
 
@@ -63,10 +71,12 @@ public class TransactionController {
     }
 
     @PostMapping({"addTransactionToList"})
-    public String addTransactionToList(@ModelAttribute Transaction transaction, @RequestParam String transactionCategoryEach) {
+    public String addTransactionToList(@ModelAttribute Transaction transaction, @RequestParam String transactionCategoryEach, @RequestParam String walletEach, @RequestParam String budgetEach) {
 
         log.debug("Przekazana transakcja ma id: " + transaction.getId());
         transaction.setTransactionCategory(transactionCategoryService.findByName(transactionCategoryEach));
+        transaction.setAccount(accountService.findByName(walletEach));
+        transaction.setBudget(budgetService.findByName(budgetEach));
         Transaction savedTransaction = transactionService.save(transaction);
         log.debug("Wykonano 'save' na transakcji o ID: " + savedTransaction.getId().toString());
         return "redirect:/transactions";
