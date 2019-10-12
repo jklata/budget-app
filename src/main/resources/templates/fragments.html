@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Budget-App</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"
+          href="https://cdn.jsdelivr.net/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+          rel="stylesheet" media="screen"/>
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+
+    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"> -->
+</head>
+
+
+<div th:fragment="navbar">
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" th:href="@{/}">Budget App</a>
+        <div class="col">
+            <a class="btn btn-outline-success btn " th:href="@{/addTransaction}" role="button">Dodaj transakcję</a>
+        </div>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" th:href="@{/logout}">Wyloguj</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<div th:fragment="navigation (homeCurr, transactionsCurr, walletsCurr, budgetsCurr, categoriesCurr, reportsCurr)">
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" th:href="@{/}">
+                                <span data-feather="home"></span>
+                                Strona główna <span class="sr-only"><th:block th:text="${homeCurr}"></th:block></span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/transactions}">
+                                <span data-feather="list"><th:block th:text="${transactionsCurr}"></th:block></span>
+                                Transakcje
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/wallets}">
+                                <span data-feather="grid"><th:block th:text="${walletsCurr}"></th:block></span>
+                                Portfele
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/budgets}">
+                                <span data-feather="layers"><div th:text="${budgetsCurr}"></div></span>
+                                Budżety
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/categories}">
+                                <span data-feather="tag"><th:block th:text="${categoriesCurr}"></th:block></span>
+                                Kategorie
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/reports}">
+                                <span data-feather="bar-chart-2"><th:block th:text="${reportsCurr}"></th:block></span>
+                                Raporty
+                            </a>
+                        </li>
+
+                    </ul>
+
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span>Zapisane raporty</span>
+                        <a class="d-flex align-items-center text-muted" th:href="@{/}">
+                            <span data-feather="plus-circle"></span>
+                        </a>
+                    </h6>
+                    <ul class="nav flex-column mb-2">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/}">
+                                <span data-feather="file-text"></span>
+                                Bieżący miesiąc
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/}">
+                                <span data-feather="file-text"></span>
+                                Ostatnie 3 miesiące
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/}">
+                                <span data-feather="file-text"></span>
+                                Ostatni rok
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+<div th:fragment="footer">
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"-->
+<!--            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"-->
+<!--            crossorigin="anonymous"></script>-->
+<!--    <script>window.jQuery || document.write('<script th:src="@{/assets/js/vendor/jquery-slim.min.js}"><\/script>')</script>-->
+<!--    <script th:src="@{/assets/js/vendor/popper.min.js}"></script>-->
+<!--    <script th:src="@{/js/bootstrap.min.js}"></script>-->
+
+    <script src="https://cdn.jsdelivr.net/webjars/jquery/3.4.1/jquery.min.js"
+            th:src="@{/webjars/jquery/3.4.1/jquery.min.js}">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/popper.min.js"
+            th:src="@{/webjars/popper.js/1.14.3/popper.min.js}">
+    </script>
+    <script src="https://cdn.jsdelivr.net/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+            th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}">
+    </script>
+
+
+
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+        feather.replace()
+    </script>
+
+    <!-- Graphs -->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>-->
+<!--    <script>-->
+<!--        var ctx = document.getElementById("myChart");-->
+<!--        var myChart = new Chart(ctx, {-->
+<!--            type: 'line',-->
+<!--            data: {-->
+<!--                labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],-->
+<!--                datasets: [{-->
+<!--                    data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],-->
+<!--                    lineTension: 0,-->
+<!--                    backgroundColor: 'transparent',-->
+<!--                    borderColor: '#007bff',-->
+<!--                    borderWidth: 4,-->
+<!--                    pointBackgroundColor: '#007bff'-->
+<!--                }]-->
+<!--            },-->
+<!--            options: {-->
+<!--                scales: {-->
+<!--                    yAxes: [{-->
+<!--                        ticks: {-->
+<!--                            beginAtZero: false-->
+<!--                        }-->
+<!--                    }]-->
+<!--                },-->
+<!--                legend: {-->
+<!--                    display: false,-->
+<!--                }-->
+<!--            }-->
+<!--        });-->
+<!--    </script>-->
+</div>
+</body>
+</html>
