@@ -84,7 +84,7 @@ public class DataInitializer {
         budgetRepository.save(budget1);
 
         Random r = new Random();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 50; i++) {
 
             Transaction transaction = new Transaction();
             transaction.setTransactionDate(LocalDate.of(r.nextInt(2019 - 2000) + 2000, r.nextInt(12 - 1) + 1, r.nextInt(25 - 1) + 1));

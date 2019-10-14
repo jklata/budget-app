@@ -2,14 +2,11 @@ package pl.jklata.budgetapp.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pl.jklata.budgetapp.domain.Transaction;
 import pl.jklata.budgetapp.domain.TransactionCategory;
 import pl.jklata.budgetapp.repository.TransactionCategoryRepository;
 
 import javax.persistence.EntityExistsException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
