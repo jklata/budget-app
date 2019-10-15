@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.jklata.budgetapp.domain.Account;
 import pl.jklata.budgetapp.repository.AccountRepository;
 
+import javax.persistence.EntityExistsException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -29,4 +30,15 @@ public class AccountService {
                 .stream(accountRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
     }
+
+    public Account save(Account account) {
+
+        // todo: refactor -> @Column(unique=true)
+        if (!accountRepository.findByName(account.getName()).isPresent()) {
+            return accountRepository.save(account);
+        } else {
+            throw new EntityExistsException();
+        }
+    }
+
 }

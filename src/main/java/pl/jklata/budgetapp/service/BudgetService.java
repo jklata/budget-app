@@ -30,10 +30,10 @@ public class BudgetService {
                 .collect(Collectors.toList());
     }
 
-    public Budget save(Budget transactionCategory) {
+    public Budget save(Budget budget) {
 
-        if (!budgetRepository.findByName(transactionCategory.getName()).isPresent()) {
-            return budgetRepository.save(transactionCategory);
+        if (!budgetRepository.findByName(budget.getName()).isPresent()) {
+            return budgetRepository.save(budget);
         } else {
             throw new EntityExistsException();
         }
