@@ -3,7 +3,7 @@ Aplikacja webowa do zarządzania i analizowania wydatków, dochodów i budżetu 
 
 ![img1](https://raw.githubusercontent.com/jklata/budget-app/branch/path/to/img.png)
 
-##Użyte technologie
+## Użyte technologie
 * [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 
 * [Maven](https://maven.apache.org/)
 * [Spring (Boot, MVC, Data JPA, Security)](https://spring.io)
@@ -14,7 +14,7 @@ Aplikacja webowa do zarządzania i analizowania wydatków, dochodów i budżetu 
 * [Lombok](https://projectlombok.org/) 
 
 
-##To-Do 
+## To-Do 
 [Szczegółowy plan pracy - Issues](https://github.com/jklata/budget-app/issues) 
 - [x] Schemat bazy danych
 - [x] Bootstrap - CSS
