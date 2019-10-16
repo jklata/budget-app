@@ -6,7 +6,7 @@
 <body>
 <div th:replace="fragments :: navbar"></div>
 
-<div th:replace="fragments :: navigation(homeCurr='', transactionsCurr='(current)', walletsCurr='', budgetsCurr='', categoriesCurr='', reportsCurr='')"></div>
+<div th:replace="fragments :: navigation(homeCurr='', paymentsCurr='(current)', walletsCurr='', budgetsCurr='', categoriesCurr='', reportsCurr='')"></div>
 
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
@@ -42,29 +42,29 @@
             </thead>
 
             <tbody>
-            <tr th:each="transaction : ${transactionPage.content}">
-                <td><span th:text="${transaction?.id}"> ID </span></td>
-                <td><span th:text="${transaction?.transactionDate}"> Data </span></td>
-                <td><span th:text="${transaction?.amount}"> Kwota </span></td>
-                <td><span th:text="${transaction?.title}"> Tytuł/Odbiorca </span></td>
-                <td><span th:text="${transaction?.transactionCategory.name}"> Kategoria </span></td>
-                <td><span th:text="${transaction?.transactionType}"> Typ </span></td>
+            <tr th:each="payment : ${paymentPage.content}">
+                <td><span th:text="${payment?.id}"> ID </span></td>
+                <td><span th:text="${payment?.paymentDate}"> Data </span></td>
+                <td><span th:text="${payment?.amount}"> Kwota </span></td>
+                <td><span th:text="${payment?.title}"> Tytuł/Odbiorca </span></td>
+                <td><span th:text="${payment?.paymentCategory.name}"> Kategoria </span></td>
+                <td><span th:text="${payment?.paymentType}"> Typ </span></td>
                 <td>
                     <a class="button" data-toogle="tooltip" data-placement="top" title="Szczegóły"
-                       th:href="${transaction.id} + @{/show}">
+                       th:href="${payment.id} + @{/show}">
                         <span data-feather="eye">show</span>
                     </a>
                 </td>
                 <td>
                     <a class="button" data-toogle="tooltip" data-placement="top" title="Edytuj"
-                       th:href="${transaction.id} + @{/update}">
+                       th:href="${payment.id} + @{/update}">
                         <span data-feather="edit-2">update</span>
                     </a>
                 </td>
                 <td>
                     <a class="button" data-toogle="tooltip" data-placement="top"
                        onclick="if(!(confirm('Czy na pewno chcesz usunać tę transakcję?'))) return false" title="Usuń"
-                       th:href="${transaction.id} + @{/delete}">
+                       th:href="${payment.id} + @{/delete}">
                         <span data-feather="trash-2">delete</span>
                     </a>
                 </td>
@@ -79,11 +79,11 @@
                     <a class="page-link" href="#">Previous</a>
                 </li>
 
-                <span th:if="${transactionPage.totalPages > 0}"
+                <span th:if="${paymentPage.totalPages > 0}"
                       th:each="pageNumber : ${pageNumbers}">
                     <li class="page-item">
                         <a class="page-link"
-                           th:href="@{/transactions(size=${transactionPage.size}, page=${pageNumber})}"
+                           th:href="@{/payments(size=${paymentPage.size}, page=${pageNumber})}"
                            th:text=${pageNumber}>
                         </a>
                     </li>

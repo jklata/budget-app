@@ -14,6 +14,6 @@ public class HashtagCommand {
 
     private Long id;
     private String name;
-    private List<TransactionCommand> transactions = new ArrayList<>();
+    private List<PaymentCommand> payments = new ArrayList<>();
 
 }

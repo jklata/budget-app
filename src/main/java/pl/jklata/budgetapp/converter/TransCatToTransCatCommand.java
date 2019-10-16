@@ -2,14 +2,14 @@ package pl.jklata.budgetapp.converter;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
-import pl.jklata.budgetapp.command.TransactionCategoryCommand;
-import pl.jklata.budgetapp.domain.TransactionCategory;
+import pl.jklata.budgetapp.command.PaymentCategoryCommand;
+import pl.jklata.budgetapp.domain.PaymentCategory;
 
 @Component
-public class TransCatToTransCatCommand implements Converter<TransactionCategory, TransactionCategoryCommand> {
+public class TransCatToTransCatCommand implements Converter<PaymentCategory, PaymentCategoryCommand> {
 
     @Override
-    public TransactionCategoryCommand convert(TransactionCategory transactionCategory) {
+    public PaymentCategoryCommand convert(PaymentCategory paymentCategory) {
         return null;
     }
 }

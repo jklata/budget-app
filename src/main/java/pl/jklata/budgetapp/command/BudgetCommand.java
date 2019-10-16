@@ -15,6 +15,6 @@ public class BudgetCommand {
     private Long id;
     private String name;
     private BigDecimal budgetValue;
-    private List<TransactionCommand> transactions = new ArrayList<>();
+    private List<PaymentCommand> payments = new ArrayList<>();
 
 }

@@ -6,7 +6,7 @@
 <body>
 <div th:replace="fragments :: navbar"></div>
 
-<div th:replace="fragments :: navigation(homeCurr='', transactionsCurr='', walletsCurr='', budgetsCurr='', categoriesCurr='(current)', reportsCurr='')"></div>
+<div th:replace="fragments :: navigation(homeCurr='', paymentsCurr='', walletsCurr='', budgetsCurr='', categoriesCurr='(current)', reportsCurr='')"></div>
 
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <form th:action="@{/addCategory/}" th:object="${transactionCategory}" method="post">
+    <form th:action="@{/addCategory/}" th:object="${paymentCategory}" method="post">
 
         <input type="hidden" th:field="*{id}"/>
         <div class="form-row align-items-center">
@@ -68,16 +68,17 @@
             </thead>
 
 
+
             <tbody>
-            <tr th:each="transactionCategoryEach : ${transactionCategories}">
-                <td><span th:text="${transactionCategoryEach?.id}"> ID </span></td>
-                <td><span th:text="${transactionCategoryEach?.name}"> Kategoria </span></td>
-                <td><span th:text="${transactionCategoryEach?.color}"> Kolor </span></td>
+            <tr th:each="paymentCategoryEach : ${paymentCategories}">
+                <td><span th:text="${paymentCategoryEach?.id}"> ID </span></td>
+                <td><span th:text="${paymentCategoryEach?.name}"> Kategoria </span></td>
+                <td><span th:text="${paymentCategoryEach?.color}"> Kolor </span></td>
 
                 <td>
                     <a class="button" data-toogle="tooltip" data-placement="top"
                        onclick="if(!(confirm('Czy na pewno chcesz usunać tę kategorię?'))) return false"
-                       title="Usuń" th:href="${transactionCategoryEach.id} + @{/delete}">
+                       title="Usuń" th:href="${paymentCategoryEach.id} + @{/delete}">
                         <span data-feather="trash-2">delete</span>
                     </a>
                 </td>

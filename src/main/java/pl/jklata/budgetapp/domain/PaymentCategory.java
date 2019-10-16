@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-public class TransactionCategory {
+public class PaymentCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

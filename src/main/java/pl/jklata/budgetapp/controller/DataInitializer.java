@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import pl.jklata.budgetapp.domain.*;
 import pl.jklata.budgetapp.repository.*;
-import pl.jklata.budgetapp.service.TransactionService;
+import pl.jklata.budgetapp.service.PaymentService;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
@@ -15,22 +15,22 @@ import java.util.*;
 @Component
 public class DataInitializer {
 
-    private final TransactionService transactionService;
+    private final PaymentService paymentService;
     private final UserRepository userRepository;
     private final AccountRepository accountRepository;
     private final BudgetRepository budgetRepository;
-    private final TransactionRepository transactionRepository;
+    private final PaymentRepository paymentRepository;
     private final HashtagRepository hashtagRepository;
-    private final TransactionCategoryRepository transactionCategoryRepository;
+    private final PaymentCategoryRepository paymentCategoryRepository;
 
-    public DataInitializer(TransactionService transactionService, UserRepository userRepository, AccountRepository accountRepository, BudgetRepository budgetRepository, TransactionRepository transactionRepository, HashtagRepository hashtagRepository, TransactionCategoryRepository transactionCategoryRepository) {
-        this.transactionService = transactionService;
+    public DataInitializer(PaymentService paymentService, UserRepository userRepository, AccountRepository accountRepository, BudgetRepository budgetRepository, PaymentRepository paymentRepository, HashtagRepository hashtagRepository, PaymentCategoryRepository paymentCategoryRepository) {
+        this.paymentService = paymentService;
         this.userRepository = userRepository;
         this.accountRepository = accountRepository;
         this.budgetRepository = budgetRepository;
-        this.transactionRepository = transactionRepository;
+        this.paymentRepository = paymentRepository;
         this.hashtagRepository = hashtagRepository;
-        this.transactionCategoryRepository = transactionCategoryRepository;
+        this.paymentCategoryRepository = paymentCategoryRepository;
     }
 
     @PostConstruct
@@ -57,19 +57,19 @@ public class DataInitializer {
         accounts.add(account1);
         user1.setAccounts(accounts);
 
-        TransactionCategory tranCat1 = new TransactionCategory();
+        PaymentCategory tranCat1 = new PaymentCategory();
         tranCat1.setName("Samochód");
         tranCat1.setColor("#0040FF");
 
-        TransactionCategory tranCat2 = new TransactionCategory();
+        PaymentCategory tranCat2 = new PaymentCategory();
         tranCat2.setName("Dom");
         tranCat2.setColor("#e83e8c");
 
-        TransactionCategory tranCat3 = new TransactionCategory();
+        PaymentCategory tranCat3 = new PaymentCategory();
         tranCat3.setName("Jedzenie");
         tranCat3.setColor("#e83e8c");
 
-        List<TransactionCategory> transactionCategories = new ArrayList<>(Arrays.asList(tranCat1, tranCat2, tranCat3));
+        List<PaymentCategory> paymentCategories = new ArrayList<>(Arrays.asList(tranCat1, tranCat2, tranCat3));
 
         Hashtag ht1 = new Hashtag();
         ht1.setName("orlen");
@@ -79,29 +79,29 @@ public class DataInitializer {
 
         userRepository.save(user1);
         accountRepository.save(account1);
-        transactionCategoryRepository.saveAll(transactionCategories);
+        paymentCategoryRepository.saveAll(paymentCategories);
         hashtagRepository.saveAll(new HashSet<>(Arrays.asList(ht1, ht2)));
         budgetRepository.save(budget1);
 
         Random r = new Random();
         for (int i = 0; i < 50; i++) {
 
-            Transaction transaction = new Transaction();
-            transaction.setTransactionDate(LocalDate.of(r.nextInt(2019 - 2000) + 2000, r.nextInt(12 - 1) + 1, r.nextInt(25 - 1) + 1));
-            transaction.setInsertDate(LocalDate.now());
-            transaction.setAmount(new BigDecimal(r.nextInt(3000 - 100) + 100));
-            transaction.setTitle("Odbiorca " + ((r.nextInt(i + 1)) + 1));
-            transaction.setTransactionCategory(transactionCategories.get(r.nextInt(4 - 1)));
+            Payment payment = new Payment();
+            payment.setPaymentDate(LocalDate.of(r.nextInt(2019 - 2000) + 2000, r.nextInt(12 - 1) + 1, r.nextInt(25 - 1) + 1));
+            payment.setInsertDate(LocalDate.now());
+            payment.setAmount(new BigDecimal(r.nextInt(3000 - 100) + 100));
+            payment.setTitle("Odbiorca " + ((r.nextInt(i + 1)) + 1));
+            payment.setPaymentCategory(paymentCategories.get(r.nextInt(4 - 1)));
             int rand = r.nextInt((1) + 1);
             if (rand == 1) {
-                transaction.setTransactionType(TransactionType.EXPENSE);
+                payment.setPaymentType(PaymentType.EXPENSE);
             } else {
-                transaction.setTransactionType(TransactionType.INCOME);
+                payment.setPaymentType(PaymentType.INCOME);
             }
-            transaction.setAccount(account1);
-            transaction.setBudget(budget1);
-            transaction.setHashtags(new HashSet<>(Arrays.asList(ht2)));
-            transactionService.save(transaction);
+            payment.setAccount(account1);
+            payment.setBudget(budget1);
+            payment.setHashtags(new HashSet<>(Arrays.asList(ht2)));
+            paymentService.save(payment);
         }
     }
 }

@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class TransactionCategoryCommand {
+public class PaymentCategoryCommand {
 
     private Long id;
     private String name;

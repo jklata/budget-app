@@ -19,6 +19,6 @@ public class Budget {
     private BigDecimal budgetValue;
 
     @OneToMany(mappedBy = "budget")
-    private List<Transaction> transactions;
+    private List<Payment> payments;
 
 }

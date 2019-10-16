@@ -6,28 +6,27 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import pl.jklata.budgetapp.domain.Transaction;
-import pl.jklata.budgetapp.repository.TransactionCategoryRepository;
+import pl.jklata.budgetapp.domain.Payment;
 import pl.jklata.budgetapp.service.AccountService;
 import pl.jklata.budgetapp.service.BudgetService;
-import pl.jklata.budgetapp.service.TransactionCategoryService;
-import pl.jklata.budgetapp.service.TransactionService;
+import pl.jklata.budgetapp.service.PaymentCategoryService;
+import pl.jklata.budgetapp.service.PaymentService;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class TransactionControllerTest {
+public class PaymentControllerTest {
 
 
     @Mock
-    TransactionService transactionService;
-    TransactionCategoryService transactionCategoryService;
+    PaymentService paymentService;
+    PaymentCategoryService paymentCategoryService;
     AccountService accountService;
     BudgetService budgetService;
 
-    TransactionController transactionController;
+    PaymentController paymentController;
     MockMvc mockMvc;
 
     @Before
@@ -35,18 +34,18 @@ public class TransactionControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        transactionController = new TransactionController(transactionCategoryService, transactionService, accountService, budgetService);
-        mockMvc = MockMvcBuilders.standaloneSetup(transactionController).build();
+        paymentController = new PaymentController(paymentCategoryService, paymentService, accountService, budgetService);
+        mockMvc = MockMvcBuilders.standaloneSetup(paymentController).build();
     }
 
 
     @Test
-    public void testGetTransaction() throws Exception {
+    public void testGetPayment() throws Exception {
 
-        Transaction transaction = new Transaction();
-        transaction.setId(1L);
+        Payment payment = new Payment();
+        payment.setId(1L);
 
-        when(transactionService.findById(anyLong())).thenReturn(transaction);
+        when(paymentService.findById(anyLong())).thenReturn(payment);
 
         mockMvc.perform(get("/1/show"))
                 .andExpect(status().isOk())
@@ -61,6 +60,6 @@ public class TransactionControllerTest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("add-transaction"));
 
-        verify(transactionService, times(1)).deleteById(anyLong());
+        verify(paymentService, times(1)).deleteById(anyLong());
     }
 }

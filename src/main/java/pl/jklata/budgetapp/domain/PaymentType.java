@@ -1,6 +1,6 @@
 package pl.jklata.budgetapp.domain;
 
 
-public enum TransactionType {
+public enum PaymentType {
     EXPENSE, INCOME
 }

@@ -7,7 +7,7 @@
 <div th:replace="fragments :: navbar"></div>
 
 
-<div th:replace="fragments :: navigation(homeCurr='', transactionsCurr='(current)', walletsCurr='', budgetsCurr='', categoriesCurr='', reportsCurr='')"></div>
+<div th:replace="fragments :: navigation(homeCurr='', paymentsCurr='(current)', walletsCurr='', budgetsCurr='', categoriesCurr='', reportsCurr='')"></div>
 
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 
@@ -15,7 +15,7 @@
         <h1 class="h4">Dodaj transakcję</h1>
     </div>
 
-    <form th:action="@{/addTransactionToList/}" th:object="${transaction}" method="post">
+    <form th:action="@{/addPaymentToList/}" th:object="${payment}" method="post">
         <input type="hidden" th:field="*{id}"/>
 
         <!--         TODO dodać wyświetlanie ID nowej transakcji lub aktualnie modyfikowanej-->
@@ -35,7 +35,7 @@
         <div class="form-group row">
             <label for="tytul" class="col-sm-2 col-form-label">Data transakcji</label>
             <div class="col-sm-5">
-                <input type="date" th:field="*{transactionDate}" class="form-control" id="data" placeholder="RRRR-MM-DD"
+                <input type="date" th:field="*{paymentDate}" class="form-control" id="data" placeholder="RRRR-MM-DD"
                        required>
             </div>
         </div>
@@ -59,7 +59,7 @@
                 <legend class="col-form-label col-sm-2 pt-0">+ / -</legend>
                 <div class="col-sm-10">
                     <div class="form-check">
-                        <input checked class="form-check-input" th:field="*{transactionType}" type="radio"
+                        <input checked class="form-check-input" th:field="*{paymentType}" type="radio"
                                name="gridRadios"
                                id="gridRadios1" value="EXPENSE">
                         <label id="wydatek" class="form-check-label" for="gridRadios1">
@@ -67,7 +67,7 @@
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" th:field="*{transactionType}" type="radio" name="gridRadios"
+                        <input class="form-check-input" th:field="*{paymentType}" type="radio" name="gridRadios"
                                id="gridRadios2" value="INCOME">
                         <label id="przychód" class="form-check-label" for="gridRadios2">
                             Przychód
@@ -90,11 +90,11 @@
         <div class="form-group row">
             <label for="tytul" class="col-sm-2 col-form-label">Kategoria</label>
             <div class="col-sm-5">
-                <select class="form-control" name="transactionCategoryEach">
-                    <option th:each="transactionCategoryEach : ${transactionCategories}"
-                            th:value="${transactionCategoryEach.name}"
-                            th:field="*{transactionCategory}"
-                            th:text="${transactionCategoryEach.name}"></option>
+                <select class="form-control" name="paymentCategoryEach">
+                    <option th:each="paymentCategoryEach : ${paymentCategories}"
+                            th:value="${paymentCategoryEach.name}"
+                            th:field="*{paymentCategory}"
+                            th:text="${paymentCategoryEach.name}"></option>
                 </select>
             </div>
         </div>

@@ -6,7 +6,7 @@
 <body>
 <div th:replace="fragments :: navbar"></div>
 
-<div th:replace="fragments :: navigation(homeCurr='', transactionsCurr='(current)', walletsCurr='', budgetsCurr='', categoriesCurr='', reportsCurr='')"></div>
+<div th:replace="fragments :: navigation(homeCurr='', paymentsCurr='(current)', walletsCurr='', budgetsCurr='', categoriesCurr='', reportsCurr='')"></div>
 
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
@@ -42,15 +42,15 @@
 
 
             <tbody>
-            <tr th:object="${transaction}">
-                <td><span th:text="${transaction?.getId()?.toString()}"> ID </span></td>
-                <td><span th:text="${transaction?.getTransactionDate()?.toString()}"> Data </span></td>
-                <td><span th:text="${transaction?.getAmount()?.toString()}"> Kwota </span></td>
-                <td><span th:text="${transaction?.getTitle()?.toString()}"> Tytuł/Odbiorca </span></td>
-                <td><span th:text="${transaction?.getTransactionCategory()?.getName()?.toString()}"> Kategoria </span></td>
-                <td><span th:text="${transaction?.getAccount()?.getName()?.toString()}"> Portfel </span></td>
-                <td><span th:text="${transaction?.getBudget()?.getName()?.toString()}"> Budżet </span></td>
-                <td><span th:text="${transaction?.getTransactionType()?.toString()}"> Typ </span></td>
+            <tr th:object="${payment}">
+                <td><span th:text="${payment?.getId()?.toString()}"> ID </span></td>
+                <td><span th:text="${payment?.getPaymentDate()?.toString()}"> Data </span></td>
+                <td><span th:text="${payment?.getAmount()?.toString()}"> Kwota </span></td>
+                <td><span th:text="${payment?.getTitle()?.toString()}"> Tytuł/Odbiorca </span></td>
+                <td><span th:text="${payment?.getPaymentCategory()?.getName()?.toString()}"> Kategoria </span></td>
+                <td><span th:text="${payment?.getAccount()?.getName()?.toString()}"> Portfel </span></td>
+                <td><span th:text="${payment?.getBudget()?.getName()?.toString()}"> Budżet </span></td>
+                <td><span th:text="${payment?.getPaymentType()?.toString()}"> Typ </span></td>
             </tr>
             </tbody>
         </table>

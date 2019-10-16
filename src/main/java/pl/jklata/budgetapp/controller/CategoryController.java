@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import pl.jklata.budgetapp.domain.TransactionCategory;
-import pl.jklata.budgetapp.service.TransactionCategoryService;
+import pl.jklata.budgetapp.domain.PaymentCategory;
+import pl.jklata.budgetapp.service.PaymentCategoryService;
 
 import javax.persistence.EntityExistsException;
 
@@ -15,28 +15,28 @@ import javax.persistence.EntityExistsException;
 @Controller
 public class CategoryController {
 
-    private TransactionCategoryService transactionCategoryService;
+    private PaymentCategoryService paymentCategoryService;
 
-    public CategoryController(TransactionCategoryService transactionCategoryService) {
-        this.transactionCategoryService = transactionCategoryService;
+    public CategoryController(PaymentCategoryService paymentCategoryService) {
+        this.paymentCategoryService = paymentCategoryService;
     }
 
     @GetMapping({"/categories"})
     public String getCategories(Model model) {
 
-        model.addAttribute("transactionCategory", new TransactionCategory());
-        model.addAttribute("transactionCategories", transactionCategoryService.findAll());
+        model.addAttribute("paymentCategory", new PaymentCategory());
+        model.addAttribute("paymentCategories", paymentCategoryService.findAll());
 
         return "categories";
     }
 
 
     @PostMapping({"/addCategory"})
-    public String addCategoryToDataBase(@ModelAttribute TransactionCategory transactionCategory) {
+    public String addCategoryToDataBase(@ModelAttribute PaymentCategory paymentCategory) {
 
         try {
-            TransactionCategory savedTransactionCategory = transactionCategoryService.save(transactionCategory);
-            log.debug("Wykonano 'save' na kategorii o ID: " + savedTransactionCategory.getId().toString());
+            PaymentCategory savedPaymentCategory = paymentCategoryService.save(paymentCategory);
+            log.debug("Wykonano 'save' na kategorii o ID: " + savedPaymentCategory.getId().toString());
 
         } catch (EntityExistsException e) {
             System.out.println("Rekord istnieje" + e);

@@ -12,7 +12,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(exclude = {"hashtags"})
 @Entity
-public class Transaction {
+public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class Transaction {
 
     @Column(name = "transaction_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate transactionDate;
+    private LocalDate paymentDate;
 
     @Column(name = "insert_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -31,19 +31,19 @@ public class Transaction {
     private String title;
 
     @OneToOne
-    private TransactionCategory transactionCategory;
+    private PaymentCategory paymentCategory;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "transaction_type")
-    private TransactionType transactionType;
+    @Column(name = "payment_type")
+    private PaymentType paymentType;
 
     @ManyToOne
     @JoinColumn(name = "budget_id")
     private Budget budget;
 
     @ManyToMany
-    @JoinTable(name = "transaction_has_hashtag",
-    joinColumns = @JoinColumn(name = "transaction_id"),
+    @JoinTable(name = "payment_has_hashtag",
+    joinColumns = @JoinColumn(name = "payment_id"),
     inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
     private Set<Hashtag> hashtags;
 

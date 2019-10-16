@@ -17,6 +17,6 @@ public class Hashtag {
     private String name;
 
     @ManyToMany(mappedBy = "hashtags")
-    private List<Transaction> transactions;
+    private List<Payment> payments;
 
 }

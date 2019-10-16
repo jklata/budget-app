@@ -28,5 +28,5 @@ public class Account {
     private AccountType accountType;
 
     @OneToMany(mappedBy = "account")
-    private List<Transaction> transactions = new ArrayList<>();
+    private List<Payment> payments = new ArrayList<>();
 }

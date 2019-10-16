@@ -1,7 +1,7 @@
 package pl.jklata.budgetapp.command;
 
 import lombok.*;
-import pl.jklata.budgetapp.domain.TransactionType;
+import pl.jklata.budgetapp.domain.PaymentType;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,15 +12,15 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class TransactionCommand {
+public class PaymentCommand {
 
     private Long id;
-    private LocalDate transactionDate;
+    private LocalDate paymentDate;
     private LocalDate insertDate;
     private BigDecimal amount;
     private String title;
-    private TransactionCategoryCommand transactionCategory;
-    private TransactionType transactionType;
+    private PaymentCategoryCommand paymentCategory;
+    private PaymentType paymentType;
     private BudgetCommand budget;
     private Set<HashtagCommand> hashtags = new HashSet<>();
     private AccountCommand account;

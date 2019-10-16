@@ -19,5 +19,5 @@ public class AccountCommand {
     private BigDecimal initialBalance;
     private UserCommand user;
     private AccountType accountType;
-    private List<TransactionCommand> transactions = new ArrayList<>();
+    private List<PaymentCommand> payments = new ArrayList<>();
 }

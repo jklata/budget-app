@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.jklata.budgetapp.domain.Budget;
-import pl.jklata.budgetapp.domain.TransactionCategory;
 import pl.jklata.budgetapp.service.BudgetService;
-import pl.jklata.budgetapp.service.TransactionCategoryService;
 
 import javax.persistence.EntityExistsException;
 

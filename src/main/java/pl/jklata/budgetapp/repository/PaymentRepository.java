@@ -2,8 +2,8 @@ package pl.jklata.budgetapp.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import pl.jklata.budgetapp.domain.Transaction;
+import pl.jklata.budgetapp.domain.Payment;
 
 @Repository
-public interface TransactionRepository extends CrudRepository<Transaction, Long> {
+public interface PaymentRepository extends CrudRepository<Payment, Long> {
 }

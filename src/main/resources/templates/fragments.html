@@ -27,7 +27,7 @@
 
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" th:href="@{/}">Budget App</a>
         <div class="col">
-            <a class="btn btn-outline-success btn " th:href="@{/addTransaction}" role="button">Dodaj transakcję</a>
+            <a class="btn btn-outline-success btn " th:href="@{/addPayment}" role="button">Dodaj transakcję</a>
         </div>
 
         <ul class="navbar-nav px-3">
@@ -51,7 +51,7 @@
     </nav>
 </div>
 
-<div th:fragment="navigation (homeCurr, transactionsCurr, walletsCurr, budgetsCurr, categoriesCurr, reportsCurr)">
+<div th:fragment="navigation (homeCurr, paymentsCurr, walletsCurr, budgetsCurr, categoriesCurr, reportsCurr)">
     <div class="container-fluid">
         <div class="row">
             <nav class="col-md-2 d-none d-md-block bg-light sidebar">
@@ -64,8 +64,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/transactions}">
-                                <span data-feather="list"><th:block th:text="${transactionsCurr}"></th:block></span>
+                            <a class="nav-link" th:href="@{/payments}">
+                                <span data-feather="list"><th:block th:text="${paymentsCurr}"></th:block></span>
                                 Transakcje
                             </a>
                         </li>
