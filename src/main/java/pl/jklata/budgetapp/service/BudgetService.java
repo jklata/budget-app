@@ -13,7 +13,7 @@ import java.util.stream.StreamSupport;
 @Service
 public class BudgetService {
 
-    BudgetRepository budgetRepository;
+    private BudgetRepository budgetRepository;
 
     @Autowired
     public BudgetService(BudgetRepository budgetRepository) {

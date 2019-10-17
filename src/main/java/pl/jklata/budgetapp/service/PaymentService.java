@@ -59,8 +59,10 @@ public class PaymentService {
     }
 
 
-    public Iterable<Payment> findAll() {
-        return paymentRepository.findAll();
+    public List<Payment> findAll() {
+        return StreamSupport
+                .stream(paymentRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 
 

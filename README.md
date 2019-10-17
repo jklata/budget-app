@@ -4,6 +4,8 @@ Aplikacja webowa do zarządzania i analizowania wydatków, dochodów i budżetu 
 ![img1](https://github.com/jklata/budget-app/blob/master/src/main/resources/static/images/img1.JPG)
 ####
 ![img2](https://github.com/jklata/budget-app/blob/master/src/main/resources/static/images/img2.JPG)
+####
+![img3](https://github.com/jklata/budget-app/blob/master/src/main/resources/static/images/img3.JPG)
 
 ## Użyte technologie
 * [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 

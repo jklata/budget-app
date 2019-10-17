@@ -12,10 +12,6 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping({"/reports"})
-    public String getReports() {
-        return "reports";
-    }
 
     @GetMapping({"/user"})
     public String getUser() {
