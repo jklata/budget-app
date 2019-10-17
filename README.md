@@ -7,7 +7,7 @@ Live: https://budget-app-jklata.herokuapp.com/
 <br/>
 ![img2](https://github.com/jklata/budget-app/blob/master/src/main/resources/static/images/img2.JPG)
 <br/>
-![img3](https://github.com/jklata/budget-app/blob/master/src/main/resources/static/images/img3.JPG)
+![img4](https://github.com/jklata/budget-app/blob/master/src/main/resources/static/images/img4.JPG)
 
 ## Użyte technologie
 * [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 
