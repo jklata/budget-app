@@ -4,9 +4,9 @@ Aplikacja webowa do zarządzania i analizowania wydatków, dochodów i budżetu 
 Live: https://budget-app-jklata.herokuapp.com/  
 
 ![img1](https://github.com/jklata/budget-app/blob/master/src/main/resources/static/images/img1.JPG)
-####
+<br/>
 ![img2](https://github.com/jklata/budget-app/blob/master/src/main/resources/static/images/img2.JPG)
-####
+<br/>
 ![img3](https://github.com/jklata/budget-app/blob/master/src/main/resources/static/images/img3.JPG)
 
 ## Użyte technologie
