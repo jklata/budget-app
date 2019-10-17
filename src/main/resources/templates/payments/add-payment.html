@@ -82,7 +82,7 @@
             <label for="tytul" class="col-sm-2 col-form-label">Kwota</label>
             <div class="col-sm-5">
                 <!--                todo: zabezpieczyc przed wprowadzeniem zbyt dużej liczby-->
-                <input type="number" th:field="*{amount}" class="form-control" id="tytul" required>
+                <input type="number" step="0.01" th:field="*{amount}" class="form-control" id="tytul" required>
             </div>
         </div>
 
