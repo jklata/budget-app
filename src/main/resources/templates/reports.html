@@ -22,14 +22,87 @@
             </button>
         </div>
     </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Wybierz raport
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Raport 1</a>
+            <a class="dropdown-item" href="#">Raport 2</a>
+            <a class="dropdown-item" href="#">Raport 3</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Raport 4</a>
+        </div>
+    </div>
 
-<!--    WYKRES      -->
+    <div class="container">
+        <h2 align="center"></h2>
+
+        <div id="container"
+             style="width: 800px; height: 400px; margin: 0 auto"></div>
+    </div>
+
+    <!--    WYKRES      -->
     <!-- <canvas class="my-4" id="myChart" width="900" height="380"></canvas> -->
 
 
 </main>
-</div>
-</div>
 <div th:replace="fragments :: footer"></div>
+
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script th:inline="javascript">
+        $(function(){
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Transakcje z roku 2019'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [[${surveyMap.keySet()}]],
+                    crosshair: true
+                },
+                yAxis: {
+                    // min: 0,
+                    // max:100,
+                    title: {
+                        text: 'Wartość sumaryczna transakcji [zł]'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} zł</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true,
+                    valueSuffix: ' zł'
+                },
+                plotOptions: {
+                    column: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: '',
+                    data: [[${surveyMap.values()}]]
+                }]
+            });
+        });
+    </script>
+
+
+
+
 </body>
 </html>

@@ -6,9 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import pl.jklata.budgetapp.service.ChartService;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 @Controller
 public class ChartController {
 
@@ -24,6 +21,6 @@ public class ChartController {
 
         model.addAttribute("surveyMap", chartService.getAllPaymentsThisYearByMonthMap());
 
-        return "reports-test";
+        return "reports";
     }
 }
