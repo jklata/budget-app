@@ -15,8 +15,8 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 
 @Service
@@ -35,7 +35,7 @@ public class PaymentService {
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
 
-        List<Payment> paymentList = findAllreversed();
+        List<Payment> paymentList = findAllReversed();
         List<Payment> list;
 
         if (paymentList.size() < startItem) {
@@ -45,14 +45,13 @@ public class PaymentService {
             list = paymentList.subList(startItem, toIndex);
         }
 
-        Page<Payment> paymentPage = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), paymentList.size());
-        return  paymentPage;
+        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), paymentList.size());
     }
 
 
     public Payment save(Payment payment) {
         if (payment.getPaymentType() == PaymentType.EXPENSE) {
-            payment.setAmount(new BigDecimal(payment.getAmount().floatValue() * -1));
+            payment.setAmount(BigDecimal.valueOf(payment.getAmount().floatValue() * -1));
         }
         payment.setInsertDate(LocalDate.now());
         return paymentRepository.save(payment);
@@ -60,24 +59,18 @@ public class PaymentService {
 
 
     public List<Payment> findAll() {
-        return StreamSupport
-                .stream(paymentRepository.findAll().spliterator(), false)
-                .collect(Collectors.toList());
+        return paymentRepository.findAll();
     }
 
+    public List<Payment> findAllReversed() {
 
-    public List<Payment> findAllreversed() {
-
-        List<Payment> paymentList =  StreamSupport
-                .stream(paymentRepository.findAll().spliterator(), false)
+        return paymentRepository.findAll().stream()
                 .sorted(Comparator.comparing(Payment::getId).reversed())
                 .collect(Collectors.toList());
-        return paymentList;
     }
 
     public Payment findById(Long id) {
-
-        return paymentRepository.findById(id).get();
+        return paymentRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
     public void deleteById(Long id) {
