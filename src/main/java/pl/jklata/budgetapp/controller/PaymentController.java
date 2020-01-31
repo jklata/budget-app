@@ -2,8 +2,10 @@ package pl.jklata.budgetapp.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,9 @@ public class PaymentController {
     private AccountService accountService;
     private BudgetService budgetService;
 
+    @Value("${payment.controller.page.size}")
+    private int initialPageSize;
+
     @Autowired
     public PaymentController(PaymentCategoryService paymentCategoryService, PaymentService paymentService, AccountService accountService, BudgetService budgetService) {
         this.paymentCategoryService = paymentCategoryService;
@@ -50,9 +55,9 @@ public class PaymentController {
             @RequestParam("page") Optional<Integer> page,
             @RequestParam("size") Optional<Integer> size) {
         int currentPage = page.orElse(1);
-        int pageSize = size.orElse(10);
+        int pageSize = size.orElse(initialPageSize);
 
-        Page<Payment> paymentPage = paymentService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+        Page<Payment> paymentPage = paymentService.findPaginated(PageRequest.of(currentPage - 1, pageSize, Sort.by("id")));
 
         model.addAttribute("paymentPage", paymentPage);
 

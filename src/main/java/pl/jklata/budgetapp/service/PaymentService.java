@@ -31,23 +31,8 @@ public class PaymentService {
 
 
     public Page<Payment> findPaginated(Pageable pageable) {
-        int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber();
-        int startItem = currentPage * pageSize;
-
-        List<Payment> paymentList = findAllReversed();
-        List<Payment> list;
-
-        if (paymentList.size() < startItem) {
-            list = Collections.emptyList();
-        } else {
-            int toIndex = Math.min(startItem + pageSize, paymentList.size());
-            list = paymentList.subList(startItem, toIndex);
-        }
-
-        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), paymentList.size());
+        return paymentRepository.findAll(pageable);
     }
-
 
     public Payment save(Payment payment) {
         if (payment.getPaymentType() == PaymentType.EXPENSE) {
@@ -57,16 +42,8 @@ public class PaymentService {
         return paymentRepository.save(payment);
     }
 
-
     public List<Payment> findAll() {
         return paymentRepository.findAll();
-    }
-
-    public List<Payment> findAllReversed() {
-
-        return paymentRepository.findAll().stream()
-                .sorted(Comparator.comparing(Payment::getId).reversed())
-                .collect(Collectors.toList());
     }
 
     public Payment findById(Long id) {
