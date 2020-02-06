@@ -10,11 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.jklata.budgetapp.domain.Payment;
-import pl.jklata.budgetapp.service.AccountService;
-import pl.jklata.budgetapp.service.BudgetService;
-import pl.jklata.budgetapp.service.PaymentCategoryService;
-import pl.jklata.budgetapp.service.PaymentService;
+import pl.jklata.budgetapp.service.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,16 +27,18 @@ public class PaymentController {
     private PaymentService paymentService;
     private AccountService accountService;
     private BudgetService budgetService;
+    private CsvService csvService;
 
     @Value("${payment.controller.page.size}")
     private int initialPageSize;
 
     @Autowired
-    public PaymentController(PaymentCategoryService paymentCategoryService, PaymentService paymentService, AccountService accountService, BudgetService budgetService) {
+    public PaymentController(PaymentCategoryService paymentCategoryService, PaymentService paymentService, AccountService accountService, BudgetService budgetService, CsvService csvService) {
         this.paymentCategoryService = paymentCategoryService;
         this.paymentService = paymentService;
         this.accountService = accountService;
         this.budgetService = budgetService;
+        this.csvService = csvService;
     }
 
 
@@ -49,7 +49,7 @@ public class PaymentController {
         return "payments/payments2";
     }
 
-    @RequestMapping(value = "/payments", method = RequestMethod.GET)
+    @GetMapping(value = "/payments")
     public String listPayments(
             Model model,
             @RequestParam("page") Optional<Integer> page,
@@ -125,6 +125,19 @@ public class PaymentController {
         log.debug("Wykonano 'save' na transakcji o ID: " + savedPayment.getId().toString());
         return "redirect:/payments";
     }
+
+    @GetMapping("/exportcsv")
+    public String exportCsvPayment() {
+        log.debug("Request export csv with payments");
+        try {
+            csvService.createCsvReport();
+        } catch (IOException e) {
+            log.error("Exception during csv generating" + e);
+        }
+        return "redirect:/payments";
+    }
+
+
 
 
 }

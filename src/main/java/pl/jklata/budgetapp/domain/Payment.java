@@ -3,6 +3,7 @@ package pl.jklata.budgetapp.domain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
+import pl.jklata.budgetapp.domain.enums.PaymentType;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -50,5 +51,17 @@ public class Payment {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
+
+    public String getValuesForCsv() {
+        String coma = ", ";
+        StringBuilder sb = new StringBuilder();
+        sb.append(id);
+        sb.append(coma);
+        sb.append(paymentDate);
+        sb.append(coma);
+        sb.append(amount);
+
+        return sb.toString();
+    }
 }
 

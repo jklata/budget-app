@@ -7,10 +7,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pl.jklata.budgetapp.domain.Payment;
-import pl.jklata.budgetapp.service.AccountService;
-import pl.jklata.budgetapp.service.BudgetService;
-import pl.jklata.budgetapp.service.PaymentCategoryService;
-import pl.jklata.budgetapp.service.PaymentService;
+import pl.jklata.budgetapp.service.*;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -25,6 +22,7 @@ public class PaymentControllerTest {
     PaymentCategoryService paymentCategoryService;
     AccountService accountService;
     BudgetService budgetService;
+    CsvService csvService;
 
     PaymentController paymentController;
     MockMvc mockMvc;
@@ -34,7 +32,7 @@ public class PaymentControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        paymentController = new PaymentController(paymentCategoryService, paymentService, accountService, budgetService);
+        paymentController = new PaymentController(paymentCategoryService, paymentService, accountService, budgetService, csvService);
         mockMvc = MockMvcBuilders.standaloneSetup(paymentController).build();
     }
 
