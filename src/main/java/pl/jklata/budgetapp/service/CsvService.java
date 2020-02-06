@@ -10,6 +10,8 @@ import pl.jklata.budgetapp.domain.enums.PaymentHeaders;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Slf4j
@@ -26,7 +28,7 @@ public class CsvService {
     public void createCsvReport() throws IOException {
         List<Payment> payments = paymentService.findAll();
 
-        FileWriter out = new FileWriter(fileNameCreator());
+        FileWriter out = new FileWriter(fileNameBuilder("csv"));
         try (CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(PaymentHeaders.class))) {
             for (Payment payment : payments) {
                 printer.printRecord(payment.getValuesForCsv());
@@ -38,8 +40,8 @@ public class CsvService {
         return null;
     }
 
-    //todo zaimplementować generowanie nazwy z timestampem i ew. numerem strony
-    private String fileNameCreator() {
-        return "test_name.csv";
+    private String fileNameBuilder(String fileFormat) {
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("uuuu-MM-dd_HHmmss"));
+        return String.format("Wyciag_platnosci_%S.%S", timestamp, fileFormat);
     }
 }
