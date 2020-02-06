@@ -1,4 +1,4 @@
-package pl.jklata.budgetapp.domain;
+package pl.jklata.budgetapp.domain.enums;
 
 
 public enum AccountType {
