@@ -1,6 +1,7 @@
 package pl.jklata.budgetapp.domain;
 
 import lombok.*;
+import pl.jklata.budgetapp.domain.enums.AccountType;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

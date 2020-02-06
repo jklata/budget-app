@@ -1,7 +1,7 @@
 package pl.jklata.budgetapp.command;
 
 import lombok.*;
-import pl.jklata.budgetapp.domain.AccountType;
+import pl.jklata.budgetapp.domain.enums.AccountType;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

@@ -14,7 +14,7 @@ import java.util.stream.StreamSupport;
 public class AccountService {
 
 
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
     @Autowired
     public AccountService(AccountRepository accountRepository) {

@@ -3,6 +3,8 @@ package pl.jklata.budgetapp.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import pl.jklata.budgetapp.domain.*;
+import pl.jklata.budgetapp.domain.enums.AccountType;
+import pl.jklata.budgetapp.domain.enums.PaymentType;
 import pl.jklata.budgetapp.repository.*;
 import pl.jklata.budgetapp.service.PaymentService;
 
@@ -44,14 +46,14 @@ public class DataInitializer {
 
         Account account1 = new Account();
         account1.setName("Konto MBank");
-        account1.setInitialBalance(new BigDecimal(35000.55));
+        account1.setInitialBalance(BigDecimal.valueOf(35000.55));
         account1.setCurrency(Currency.getInstance("PLN"));
         account1.setUser(user1);
         account1.setAccountType(AccountType.BANK);
 
         Budget budget1 = new Budget();
         budget1.setName("budżet domowy");
-        budget1.setBudgetValue(new BigDecimal(5000));
+        budget1.setBudgetValue(BigDecimal.valueOf(5000));
 
         List<Account> accounts = new ArrayList<>();
         accounts.add(account1);
@@ -89,7 +91,7 @@ public class DataInitializer {
             Payment payment = new Payment();
             payment.setPaymentDate(LocalDate.of(r.nextInt(2020 - 2018) + 2018, r.nextInt(12 - 1) + 1, r.nextInt(25 - 1) + 1));
             payment.setInsertDate(LocalDate.now());
-            payment.setAmount(new BigDecimal((r.nextInt(3000 - 100) + 100)*0.97));
+            payment.setAmount(BigDecimal.valueOf((r.nextInt(3000 - 100) + 100)*0.97));
             payment.setTitle("Odbiorca " + ((r.nextInt(i + 1)) + 1));
             payment.setPaymentCategory(paymentCategories.get(r.nextInt(4 - 1)));
             int rand = r.nextInt((1) + 1);

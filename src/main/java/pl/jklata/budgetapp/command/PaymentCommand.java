@@ -1,7 +1,7 @@
 package pl.jklata.budgetapp.command;
 
 import lombok.*;
-import pl.jklata.budgetapp.domain.PaymentType;
+import pl.jklata.budgetapp.domain.enums.PaymentType;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
