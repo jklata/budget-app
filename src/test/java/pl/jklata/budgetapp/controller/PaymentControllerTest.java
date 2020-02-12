@@ -28,14 +28,12 @@ public class PaymentControllerTest {
     MockMvc mockMvc;
 
     @Before
-
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
         paymentController = new PaymentController(paymentCategoryService, paymentService, accountService, budgetService, csvService);
         mockMvc = MockMvcBuilders.standaloneSetup(paymentController).build();
     }
-
 
     @Test
     public void testGetPayment() throws Exception {
@@ -47,16 +45,15 @@ public class PaymentControllerTest {
 
         mockMvc.perform(get("/1/show"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("transactionShow"))
-                .andExpect(model().attributeExists("transaction"));
+                .andExpect(view().name("payments/payment-show"))
+                .andExpect(model().attributeExists("payment"));
     }
-
 
     @Test
     public void testDelete() throws Exception {
         mockMvc.perform(get("/1/delete"))
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(view().name("add-transaction"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/payments"));
 
         verify(paymentService, times(1)).deleteById(anyLong());
     }
