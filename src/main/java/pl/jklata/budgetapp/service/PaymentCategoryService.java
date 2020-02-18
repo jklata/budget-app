@@ -14,7 +14,7 @@ import java.util.stream.StreamSupport;
 @Service
 public class PaymentCategoryService {
 
-    PaymentCategoryRepository paymentCategoryRepository;
+    private PaymentCategoryRepository paymentCategoryRepository;
 
     public PaymentCategoryService(PaymentCategoryRepository paymentCategoryRepository) {
         this.paymentCategoryRepository = paymentCategoryRepository;
