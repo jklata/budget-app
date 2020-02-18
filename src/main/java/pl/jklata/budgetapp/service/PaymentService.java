@@ -31,7 +31,7 @@ public class PaymentService {
 
     public Payment save(Payment payment) {
         if (payment.getPaymentType() == PaymentType.EXPENSE) {
-            payment.setAmount(BigDecimal.valueOf(payment.getAmount().floatValue() * -1));
+            payment.setAmount(BigDecimal.valueOf(payment.getAmount().floatValue() * PaymentType.EXPENSE.getPaymentFactor()));
         }
         payment.setInsertDate(LocalDate.now());
         return paymentRepository.save(payment);
@@ -48,6 +48,4 @@ public class PaymentService {
     public void deleteById(Long id) {
         paymentRepository.deleteById(id);
     }
-
-
 }
