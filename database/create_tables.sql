@@ -23,7 +23,7 @@ create table user
 #   lista account
 );
 
-drop table if exists accout;
+drop table if exists account;
 create table account
 (
     id              bigint not null
