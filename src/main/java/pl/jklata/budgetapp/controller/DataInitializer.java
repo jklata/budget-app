@@ -1,6 +1,7 @@
 package pl.jklata.budgetapp.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import pl.jklata.budgetapp.domain.*;
 import pl.jklata.budgetapp.domain.enums.AccountType;
@@ -15,6 +16,7 @@ import java.util.*;
 
 @Slf4j
 @Component
+@Profile("dev")
 public class DataInitializer {
 
     private final PaymentService paymentService;
