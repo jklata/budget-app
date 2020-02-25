@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(exclude = {"transactions"})
 @Entity
+@Table(name = "account")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -8,6 +8,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Table(name = "hashtag")
 public class Hashtag {
 
     @Id

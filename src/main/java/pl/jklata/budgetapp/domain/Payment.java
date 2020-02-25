@@ -13,6 +13,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(exclude = {"hashtags"})
 @Entity
+@Table(name = "payment")
 public class Payment {
 
     @Id
