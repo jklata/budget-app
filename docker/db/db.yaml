@@ -5,10 +5,10 @@ services:
     restart: always
     container_name: db
     environment:
-      MYSQL_ROOT_PASSWORD: 'HasloDoRoota'
-      MYSQL_DATABASE: 'budget-db'
-      MYSQL_USER: 'adminek'
-      MYSQL_PASSWORD: 'HasloDoAdmina'
+      MYSQL_ROOT_PASSWORD: 'HasloDoRoota'   #changed
+      MYSQL_DATABASE: 'budget-db'   #changed
+      MYSQL_USER: 'adminek'   #changed
+      MYSQL_PASSWORD: 'HasloDoAdmina'   #changed
     ports:
       - '3306:3306'
     expose:
