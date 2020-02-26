@@ -6,17 +6,21 @@ import org.springframework.stereotype.Component;
 import pl.jklata.budgetapp.domain.*;
 import pl.jklata.budgetapp.domain.enums.AccountType;
 import pl.jklata.budgetapp.domain.enums.PaymentType;
+import pl.jklata.budgetapp.domain.enums.Role;
 import pl.jklata.budgetapp.repository.*;
+import pl.jklata.budgetapp.repository.UserRoleRepository;
 import pl.jklata.budgetapp.service.PaymentService;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Component
-@Profile("dev")
+@Profile("prod")
 public class DataInitializer {
 
     private final PaymentService paymentService;
@@ -26,8 +30,12 @@ public class DataInitializer {
     private final PaymentRepository paymentRepository;
     private final HashtagRepository hashtagRepository;
     private final PaymentCategoryRepository paymentCategoryRepository;
+    private final UserRoleRepository userRoleRepository;
 
-    public DataInitializer(PaymentService paymentService, UserRepository userRepository, AccountRepository accountRepository, BudgetRepository budgetRepository, PaymentRepository paymentRepository, HashtagRepository hashtagRepository, PaymentCategoryRepository paymentCategoryRepository) {
+    public DataInitializer(PaymentService paymentService, UserRepository userRepository, AccountRepository accountRepository,
+                           BudgetRepository budgetRepository, PaymentRepository paymentRepository,
+                           HashtagRepository hashtagRepository, PaymentCategoryRepository paymentCategoryRepository,
+                           UserRoleRepository userRoleRepository) {
         this.paymentService = paymentService;
         this.userRepository = userRepository;
         this.accountRepository = accountRepository;
@@ -35,16 +43,43 @@ public class DataInitializer {
         this.paymentRepository = paymentRepository;
         this.hashtagRepository = hashtagRepository;
         this.paymentCategoryRepository = paymentCategoryRepository;
+        this.userRoleRepository = userRoleRepository;
     }
 
     @PostConstruct
     void init() {
+        UserRole adminRole = new UserRole();
+        adminRole.setRole(Role.ADMIN);
+        UserRole standardUserRole = new UserRole();
+        standardUserRole.setRole(Role.STANDARD_USER);
+        UserRole premiumUserRole = new UserRole();
+        premiumUserRole.setRole(Role.PREMIUM_USER);
+
+
         User user1 = new User();
         user1.setLogin("login");
         user1.setPassword("1234");
         user1.setEmail("test@gmail.com");
         user1.setFirstName("Jan");
         user1.setLastName("Kowalski");
+        user1.setUserRoles(Collections.singleton(standardUserRole));
+
+        User user2 = new User();
+        user2.setLogin("admin");
+        user2.setPassword("aaabbb");
+        user2.setEmail("test2@gmail.com");
+        user2.setFirstName("Admin");
+        user2.setLastName("Admiński");
+        user2.setUserRoles(Stream.of(adminRole, premiumUserRole).collect(Collectors.toSet()));
+
+        User user3 = new User();
+        user3.setLogin("login3");
+        user3.setPassword("666");
+        user3.setEmail("test33@gmail.com");
+        user3.setFirstName("Jan");
+        user3.setLastName("Kowalski");
+        user3.setUserRoles(Collections.singleton(standardUserRole));
+
 
         Account account1 = new Account();
         account1.setName("Konto MBank");
@@ -80,8 +115,12 @@ public class DataInitializer {
         Hashtag ht2 = new Hashtag();
         ht2.setName("samochód");
 
-
+        userRoleRepository.save(adminRole);
+        userRoleRepository.save(standardUserRole);
+        userRoleRepository.save(premiumUserRole);
         userRepository.save(user1);
+        userRepository.save(user2);
+        userRepository.save(user3);
         accountRepository.save(account1);
         paymentCategoryRepository.saveAll(paymentCategories);
         hashtagRepository.saveAll(new HashSet<>(Arrays.asList(ht1, ht2)));

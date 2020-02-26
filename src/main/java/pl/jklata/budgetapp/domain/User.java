@@ -4,7 +4,9 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -15,6 +17,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "user_login")
     private String login;
     private String password;
 
@@ -29,5 +32,11 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Account> accounts;
+
+    @ManyToMany
+    @JoinTable(name = "user_has_user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<UserRole> userRoles = new HashSet<>();
 
 }
