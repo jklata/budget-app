@@ -3,10 +3,11 @@ package pl.jklata.budgetapp.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.jklata.budgetapp.domain.Payment;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.time.YearMonth;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -22,32 +23,32 @@ public class ChartService {
     }
 
 
-    public BigDecimal getAllPaymentsThisYearByMonth (int month){
-        return paymentService.findAll().stream()
-                .filter(p->p.getPaymentDate().isAfter(LocalDate.of(LocalDate.now().getYear(), month,1)))
-                .filter(p->p.getPaymentDate().isBefore(LocalDate.of(LocalDate.now().getYear(), month,LocalDate.of(LocalDate.now().getYear(), month, 10).lengthOfMonth())))
-                .map(p->p.getAmount())
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
-
-    public Map<String, BigDecimal> getAllPaymentsThisYearByMonthMap(){
+    public Map<String, BigDecimal> getAllPaymentsOfGivenYearByMonthMap(int year) {
 
         Map<String, BigDecimal> paymentsByMonthThisYearMap = new LinkedHashMap<>();
-        paymentsByMonthThisYearMap.put("Styczeń", getAllPaymentsThisYearByMonth(1));
-        paymentsByMonthThisYearMap.put("Luty", getAllPaymentsThisYearByMonth(2));
-        paymentsByMonthThisYearMap.put("Marzec", getAllPaymentsThisYearByMonth(3));
-        paymentsByMonthThisYearMap.put("Kwiecień", getAllPaymentsThisYearByMonth(4));
-        paymentsByMonthThisYearMap.put("Maj", getAllPaymentsThisYearByMonth(5));
-        paymentsByMonthThisYearMap.put("Czerwiec", getAllPaymentsThisYearByMonth(6));
-        paymentsByMonthThisYearMap.put("Lipiec", getAllPaymentsThisYearByMonth(7));
-        paymentsByMonthThisYearMap.put("Sierpień", getAllPaymentsThisYearByMonth(8));
-        paymentsByMonthThisYearMap.put("Wrzesień", getAllPaymentsThisYearByMonth(9));
-        paymentsByMonthThisYearMap.put("Pazdziernik", getAllPaymentsThisYearByMonth(10));
-        paymentsByMonthThisYearMap.put("Listopad", getAllPaymentsThisYearByMonth(11));
-        paymentsByMonthThisYearMap.put("Grudzień", getAllPaymentsThisYearByMonth(12));
+        paymentsByMonthThisYearMap.put("Styczeń", getAllPaymentsOfGivenYearByMonth(year, 1));
+        paymentsByMonthThisYearMap.put("Luty", getAllPaymentsOfGivenYearByMonth(year, 2));
+        paymentsByMonthThisYearMap.put("Marzec", getAllPaymentsOfGivenYearByMonth(year, 3));
+        paymentsByMonthThisYearMap.put("Kwiecień", getAllPaymentsOfGivenYearByMonth(year, 4));
+        paymentsByMonthThisYearMap.put("Maj", getAllPaymentsOfGivenYearByMonth(year, 5));
+        paymentsByMonthThisYearMap.put("Czerwiec", getAllPaymentsOfGivenYearByMonth(year, 6));
+        paymentsByMonthThisYearMap.put("Lipiec", getAllPaymentsOfGivenYearByMonth(year, 7));
+        paymentsByMonthThisYearMap.put("Sierpień", getAllPaymentsOfGivenYearByMonth(year, 8));
+        paymentsByMonthThisYearMap.put("Wrzesień", getAllPaymentsOfGivenYearByMonth(year, 9));
+        paymentsByMonthThisYearMap.put("Pazdziernik", getAllPaymentsOfGivenYearByMonth(year, 10));
+        paymentsByMonthThisYearMap.put("Listopad", getAllPaymentsOfGivenYearByMonth(year, 11));
+        paymentsByMonthThisYearMap.put("Grudzień", getAllPaymentsOfGivenYearByMonth(year, 12));
 
         log.debug("Wszystkie wydatki tego roku: " + paymentsByMonthThisYearMap.toString());
 
         return paymentsByMonthThisYearMap;
+    }
+
+    private BigDecimal getAllPaymentsOfGivenYearByMonth(int year, int month) {
+        return paymentService.findAll().stream()
+                .filter(p -> p.getPaymentDate().isAfter(LocalDate.of(year, month, 1)))
+                .filter(p -> p.getPaymentDate().isBefore(LocalDate.of(year, month, YearMonth.of(year, month).lengthOfMonth())))
+                .map(Payment::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
