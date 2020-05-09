@@ -48,4 +48,8 @@ public class PaymentService {
     public void deleteById(Long id) {
         paymentRepository.deleteById(id);
     }
+
+    public List<Integer> getDistinctYearFromAllPayments() {
+        return paymentRepository.getDistinctYearFromAllPayments();
+    }
 }

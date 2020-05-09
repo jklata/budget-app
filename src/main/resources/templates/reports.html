@@ -24,14 +24,11 @@
     </div>
     <div class="btn-group">
         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Wybierz raport
+            Wybierz rok
         </button>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Raport 1</a>
-            <a class="dropdown-item" href="#">Raport 2</a>
-            <a class="dropdown-item" href="#">Raport 3</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Raport 4</a>
+
+            <a class="dropdown-item" th:each="i : ${listOfYears}"  th:text="${i}" th:href="@{/reports(year=${i})}"></a>
         </div>
     </div>
 
@@ -59,7 +56,7 @@
                     type: 'column'
                 },
                 title: {
-                    text: 'Transakcje z roku 2019'
+                    text: 'Transakcje z roku xxxx'
                 },
                 subtitle: {
                     text: ''
