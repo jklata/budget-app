@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="header">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -32,8 +32,7 @@
 
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-                <!--                todo dodać imie z usera-->
-                <a class="nav-link" th:href="@{/user}">Witaj *imie*.</a>
+                <a class="nav-link" th:href="@{/user}">Witaj <span sec:authentication="name">userName</span></a>
             </li>
         </ul>
         <ul class="navbar-nav px-3">
@@ -45,7 +44,11 @@
         </ul>
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-                <a class="nav-link" th:href="@{/logout}">Wyloguj</a>
+                <form class="form-inline my-2 my-lg-0" form-method="post" th:action="@{/logout}">
+                    <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger my-2 my-sm-0 btn-sm" type="submit">Wyloguj</button>
+                    <button sec:authorize="isAnonymous()" th:href="@{~/login}" class="btn btn-outline-info my-2 my-sm-0 btn-sm" type="submit">Zaloguj</button>
+                </form>
+
             </li>
         </ul>
     </nav>

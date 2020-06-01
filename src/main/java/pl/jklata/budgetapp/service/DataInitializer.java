@@ -1,26 +1,22 @@
-package pl.jklata.budgetapp.controller;
+package pl.jklata.budgetapp.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import pl.jklata.budgetapp.domain.*;
 import pl.jklata.budgetapp.domain.enums.AccountType;
 import pl.jklata.budgetapp.domain.enums.PaymentType;
-import pl.jklata.budgetapp.domain.enums.Role;
 import pl.jklata.budgetapp.repository.*;
-import pl.jklata.budgetapp.repository.UserRoleRepository;
-import pl.jklata.budgetapp.service.PaymentService;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Component
-@Profile("prod")
+@Profile("dev")
 public class DataInitializer {
 
     private final PaymentService paymentService;
@@ -31,11 +27,12 @@ public class DataInitializer {
     private final HashtagRepository hashtagRepository;
     private final PaymentCategoryRepository paymentCategoryRepository;
     private final UserRoleRepository userRoleRepository;
+    private PasswordEncoder passwordEncoder;
 
     public DataInitializer(PaymentService paymentService, UserRepository userRepository, AccountRepository accountRepository,
                            BudgetRepository budgetRepository, PaymentRepository paymentRepository,
                            HashtagRepository hashtagRepository, PaymentCategoryRepository paymentCategoryRepository,
-                           UserRoleRepository userRoleRepository) {
+                           UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder) {
         this.paymentService = paymentService;
         this.userRepository = userRepository;
         this.accountRepository = accountRepository;
@@ -44,42 +41,41 @@ public class DataInitializer {
         this.hashtagRepository = hashtagRepository;
         this.paymentCategoryRepository = paymentCategoryRepository;
         this.userRoleRepository = userRoleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostConstruct
     void init() {
-        UserRole adminRole = new UserRole();
-        adminRole.setRole(Role.ADMIN);
-        UserRole standardUserRole = new UserRole();
-        standardUserRole.setRole(Role.STANDARD_USER);
-        UserRole premiumUserRole = new UserRole();
-        premiumUserRole.setRole(Role.PREMIUM_USER);
-
 
         User user1 = new User();
-        user1.setLogin("login");
-        user1.setPassword("1234");
+        user1.setLogin("user");
+        user1.setPassword(passwordEncoder.encode("user123"));
         user1.setEmail("test@gmail.com");
         user1.setFirstName("Jan");
         user1.setLastName("Kowalski");
-        user1.setUserRoles(Collections.singleton(standardUserRole));
+        user1.setRoles("USER");
+        user1.setPermissions("STANDARD");
+        user1.setActive(true);
 
         User user2 = new User();
         user2.setLogin("admin");
-        user2.setPassword("aaabbb");
+        user2.setPassword(passwordEncoder.encode("admin123"));
         user2.setEmail("test2@gmail.com");
         user2.setFirstName("Admin");
         user2.setLastName("Admiński");
-        user2.setUserRoles(Stream.of(adminRole, premiumUserRole).collect(Collectors.toSet()));
+        user2.setRoles("ADMIN");
+        user2.setPermissions("ALL");
+        user2.setActive(true);
 
         User user3 = new User();
-        user3.setLogin("login3");
-        user3.setPassword("666");
+        user3.setLogin("super");
+        user3.setPassword(passwordEncoder.encode("super123"));
         user3.setEmail("test33@gmail.com");
         user3.setFirstName("Jan");
         user3.setLastName("Kowalski");
-        user3.setUserRoles(Collections.singleton(standardUserRole));
-
+        user3.setRoles("SUPER");
+        user3.setPermissions("ALL");
+        user3.setActive(true);
 
         Account account1 = new Account();
         account1.setName("Konto MBank");
@@ -115,9 +111,6 @@ public class DataInitializer {
         Hashtag ht2 = new Hashtag();
         ht2.setName("samochód");
 
-        userRoleRepository.save(adminRole);
-        userRoleRepository.save(standardUserRole);
-        userRoleRepository.save(premiumUserRole);
         userRepository.save(user1);
         userRepository.save(user2);
         userRepository.save(user3);
@@ -132,7 +125,7 @@ public class DataInitializer {
             Payment payment = new Payment();
             payment.setPaymentDate(LocalDate.of(r.nextInt(2020 - 2018) + 2018, r.nextInt(12 - 1) + 1, r.nextInt(25 - 1) + 1));
             payment.setInsertDate(LocalDate.now());
-            payment.setAmount(BigDecimal.valueOf((r.nextInt(3000 - 100) + 100)*0.97));
+            payment.setAmount(BigDecimal.valueOf((r.nextInt(3000 - 100) + 100) * 0.97));
             payment.setTitle("Odbiorca " + ((r.nextInt(i + 1)) + 1));
             payment.setPaymentCategory(paymentCategories.get(r.nextInt(4 - 1)));
             int rand = r.nextInt((1) + 1);
