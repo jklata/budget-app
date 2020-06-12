@@ -26,7 +26,7 @@ public class CsvService {
     }
 
     public void createCsvReport() throws IOException {
-        List<Payment> payments = paymentService.findAll();
+        List<Payment> payments = paymentService.findAllForAuthUser();
 
         FileWriter out = new FileWriter(fileNameBuilder("csv"));
         try (CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(PaymentHeaders.class))) {

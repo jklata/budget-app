@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -23,7 +22,7 @@ public class ChartService {
 
 
     public BigDecimal getAllPaymentsThisYearByMonth (int month){
-        return paymentService.findAll().stream()
+        return paymentService.findAllForAuthUser().stream()
                 .filter(p->p.getPaymentDate().isAfter(LocalDate.of(LocalDate.now().getYear(), month,1)))
                 .filter(p->p.getPaymentDate().isBefore(LocalDate.of(LocalDate.now().getYear(), month,LocalDate.of(LocalDate.now().getYear(), month, 10).lengthOfMonth())))
                 .map(p->p.getAmount())

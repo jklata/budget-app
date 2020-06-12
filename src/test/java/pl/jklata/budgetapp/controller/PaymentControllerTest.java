@@ -41,7 +41,7 @@ public class PaymentControllerTest {
         Payment payment = new Payment();
         payment.setId(1L);
 
-        when(paymentService.findById(anyLong())).thenReturn(payment);
+        when(paymentService.findByIdForAuthUser(anyLong())).thenReturn(payment);
 
         mockMvc.perform(get("/1/show"))
                 .andExpect(status().isOk())

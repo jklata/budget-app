@@ -45,7 +45,7 @@ public class PaymentController {
     @GetMapping({"/payments2"})
     public String getPayments(Model model) {
 
-        model.addAttribute("payments", paymentService.findAll());
+        model.addAttribute("payments", paymentService.findAllForAuthUser());
         return "payments/payments2";
     }
 
@@ -76,7 +76,7 @@ public class PaymentController {
     @GetMapping({"/{id}/show"})
     public String getPayment(@PathVariable Long id, Model model) {
 
-        model.addAttribute("payment", paymentService.findById(id));
+        model.addAttribute("payment", paymentService.findByIdForAuthUser(id));
         return "payments/payment-show";
     }
 
@@ -94,7 +94,7 @@ public class PaymentController {
 
     @GetMapping("/{id}/update")
     public String updatePayment(@PathVariable Long id, Model model) {
-        model.addAttribute("payment", paymentService.findById(id));
+        model.addAttribute("payment", paymentService.findByIdForAuthUser(id));
 
 //        model.addAttribute("transactionCategories", transactionCategoryService.findAll());
 //        model.addAttribute("budgets", budgetService.findAll());
@@ -136,8 +136,6 @@ public class PaymentController {
         }
         return "redirect:/payments";
     }
-
-
 
 
 }

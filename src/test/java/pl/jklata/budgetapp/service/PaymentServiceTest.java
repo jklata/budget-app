@@ -6,6 +6,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import pl.jklata.budgetapp.domain.Payment;
 import pl.jklata.budgetapp.repository.PaymentRepository;
+import pl.jklata.budgetapp.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +20,12 @@ public class PaymentServiceTest {
 
     @Mock
     PaymentRepository paymentRepository;
+    UserRepository userRepository;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        paymentService = new PaymentService(paymentRepository);
+        paymentService = new PaymentService(paymentRepository, userRepository);
     }
 
     @Test
@@ -34,7 +36,7 @@ public class PaymentServiceTest {
 
         when(paymentRepository.findAll()).thenReturn(transactionsData);
 
-        List<Payment> payments = (List<Payment>) paymentService.findAll();
+        List<Payment> payments = (List<Payment>) paymentService.findAllForAuthUser();
 
         assertEquals(payments.size(), 1);
         verify(paymentRepository, times(1)).findAll();

@@ -20,6 +20,9 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    private User user;
+
     @Column(name = "transaction_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate paymentDate;
