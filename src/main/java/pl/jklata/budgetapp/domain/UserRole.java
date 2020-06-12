@@ -1,13 +1,17 @@
 package pl.jklata.budgetapp.domain;
 
-import lombok.Data;
+import lombok.*;
 import pl.jklata.budgetapp.domain.enums.Role;
 
 import javax.persistence.*;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(exclude = "users")
 @Table(name = "user_role")
 public class UserRole {
 

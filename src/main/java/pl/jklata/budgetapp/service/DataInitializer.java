@@ -1,5 +1,7 @@
 package pl.jklata.budgetapp.service;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -7,13 +9,15 @@ import org.springframework.stereotype.Component;
 import pl.jklata.budgetapp.domain.*;
 import pl.jklata.budgetapp.domain.enums.AccountType;
 import pl.jklata.budgetapp.domain.enums.PaymentType;
+import pl.jklata.budgetapp.domain.enums.Role;
 import pl.jklata.budgetapp.repository.*;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
-
+@Data
+@AllArgsConstructor
 @Slf4j
 @Component
 @Profile("dev")
@@ -29,53 +33,53 @@ public class DataInitializer {
     private final UserRoleRepository userRoleRepository;
     private PasswordEncoder passwordEncoder;
 
-    public DataInitializer(PaymentService paymentService, UserRepository userRepository, AccountRepository accountRepository,
-                           BudgetRepository budgetRepository, PaymentRepository paymentRepository,
-                           HashtagRepository hashtagRepository, PaymentCategoryRepository paymentCategoryRepository,
-                           UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder) {
-        this.paymentService = paymentService;
-        this.userRepository = userRepository;
-        this.accountRepository = accountRepository;
-        this.budgetRepository = budgetRepository;
-        this.paymentRepository = paymentRepository;
-        this.hashtagRepository = hashtagRepository;
-        this.paymentCategoryRepository = paymentCategoryRepository;
-        this.userRoleRepository = userRoleRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @PostConstruct
     void init() {
+        UserRole adminRole = new UserRole();
+        adminRole.setRole(Role.ADMIN);
+        UserRole standardUserRole = new UserRole();
+        standardUserRole.setRole(Role.USER);
+        UserRole premiumUserRole = new UserRole();
+        premiumUserRole.setRole(Role.PREMIUM_USER);
 
-        User user1 = new User();
-        user1.setLogin("user");
-        user1.setPassword(passwordEncoder.encode("user123"));
-        user1.setEmail("test@gmail.com");
-        user1.setFirstName("Jan");
-        user1.setLastName("Kowalski");
-        user1.setRoles("USER");
-        user1.setPermissions("STANDARD");
-        user1.setActive(true);
+        userRoleRepository.save(adminRole);
+        userRoleRepository.save(standardUserRole);
+        userRoleRepository.save(premiumUserRole);
 
-        User user2 = new User();
-        user2.setLogin("admin");
-        user2.setPassword(passwordEncoder.encode("admin123"));
-        user2.setEmail("test2@gmail.com");
-        user2.setFirstName("Admin");
-        user2.setLastName("Admiński");
-        user2.setRoles("ADMIN");
-        user2.setPermissions("ALL");
-        user2.setActive(true);
+        User user1 = User.builder()
+                .login("user")
+                .password(passwordEncoder.encode("user123"))
+                .email("test@gmail.com")
+                .firstName("Jan")
+                .lastName("Kowalski")
+                .userRoles(Collections.singleton(standardUserRole))
+                .permissions("STANDARD")
+                .active(true)
+                .build();
 
-        User user3 = new User();
-        user3.setLogin("super");
-        user3.setPassword(passwordEncoder.encode("super123"));
-        user3.setEmail("test33@gmail.com");
-        user3.setFirstName("Jan");
-        user3.setLastName("Kowalski");
-        user3.setRoles("SUPER");
-        user3.setPermissions("ALL");
-        user3.setActive(true);
+        User user2 = User.builder()
+                .login("admin")
+                .password(passwordEncoder.encode("admin123"))
+                .email("test2@gmail.com")
+                .firstName("Admin")
+                .lastName("Admiński")
+                .userRoles(Collections.singleton(adminRole))
+                .permissions("ALL")
+                .active(true)
+                .build();
+
+        User user3 = User.builder()
+                .login("super")
+                .password(passwordEncoder.encode("super123"))
+                .email("test33@gmail.com")
+                .firstName("Jan")
+                .lastName("Kowalski")
+                .userRoles(Collections.singleton(standardUserRole))
+                .roles("SUPER")
+                .permissions("ALL")
+                .active(true)
+                .build();
 
         Account account1 = new Account();
         account1.setName("Konto MBank");
@@ -137,6 +141,9 @@ public class DataInitializer {
             payment.setAccount(account1);
             payment.setBudget(budget1);
             payment.setHashtags(new HashSet<>(Arrays.asList(ht2)));
+            if(i%2==0){
+                payment.setUser(user2);
+            }else payment.setUser(user1);
             paymentService.save(payment);
         }
     }

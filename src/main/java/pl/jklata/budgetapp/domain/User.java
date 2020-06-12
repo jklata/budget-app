@@ -1,16 +1,23 @@
 package pl.jklata.budgetapp.domain;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.*;
+import java.util.stream.Collectors;
 
-@Data
+@Getter
+@Setter
+@Builder
 @Entity
 @Table(name = "users")
+@EqualsAndHashCode(exclude = "userRoles")
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -36,13 +43,13 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private List<Account> accounts;
 
+    @NotEmpty
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_has_user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<UserRole> userRoles = new HashSet<>();
 
-    @NotBlank
     private String roles;
 
     @NotBlank
@@ -52,10 +59,7 @@ public class User {
     private boolean active;
 
     public List<String> getRoleList() {
-        if (this.roles.length() > 0) {
-            return Arrays.asList(this.roles.split(","));
-        }
-        return new ArrayList<>();
+    return userRoles.stream().map(u->u.getRole().toString()).collect(Collectors.toList());
     }
 
     public List<String> getPermissionList() {
@@ -63,6 +67,14 @@ public class User {
             return Arrays.asList(this.permissions.split(","));
         }
         return new ArrayList<>();
+    }
+
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "login='" + login + '\'' +
+                '}';
     }
 
 }
