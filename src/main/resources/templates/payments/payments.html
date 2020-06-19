@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:sd="http://www.w3.org/1999/xhtml">
 
 <head th:replace="fragments :: header"></head>
 
@@ -26,15 +26,17 @@
 
     <!-- <h2>Lista transakcji</h2> -->
     <div class="table-responsive">
+        Pokaż <span sd:page-size-selector="javascript"></span> transakcji
         <table class="table table-striped table-sm table-hover">
             <thead class="thead-light">
             <tr>
-                <th>ID</th>
-                <th>Data transakcji</th>
-                <th>Kwota</th>
-                <th>Tytuł/Odbiorca</th>
-                <th>Kategoria</th>
-                <th>Typ transakcji</th>
+                <th><a class="sorted" sd:pagination-sort="id">ID</a></th>
+                <th><a class="sorted" sd:pagination-sort="idForUser">ID</a></th>
+                <th><a class="sorted" sd:pagination-sort="paymentDate">Data transakcji</a></th>
+                <th><a class="sorted" sd:pagination-sort="amount">Kwota</a></th>
+                <th><a class="sorted" sd:pagination-sort="title">Tytuł/Odbiorca</a></th>
+                <th><a class="sorted" sd:pagination-sort="paymentCategory.name">Kategoria</a></th>
+                <th><a class="sorted" sd:pagination-sort="paymentType">Typ transakcji</a></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -42,8 +44,9 @@
             </thead>
 
             <tbody>
-            <tr th:each="payment : ${paymentPage.content}">
+            <tr th:each="payment : ${page}">
                 <td><span th:text="${payment?.id}"> ID </span></td>
+                <td><span th:text="${payment?.idForUser}"> ID </span></td>
                 <td><span th:text="${payment?.paymentDate}"> Data </span></td>
                 <td><span th:text="${payment?.amount}"> Kwota </span></td>
                 <td><span th:text="${payment?.title}"> Tytuł/Odbiorca </span></td>
@@ -72,28 +75,21 @@
             </tbody>
         </table>
 
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-<!--                    todo implementacja 'next' i 'previous'-->
-                    <a class="page-link" href="#">Previous</a>
-                </li>
+        <div class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <div class="col-sm-6">
+                <div sd:pagination-summary="">info</div>
+            </div>
+            <div class="col-sm-6">
+                <nav class="pull-right">
+                    <ul class="pagination" sd:pagination-split="7" sd:pagination="full">
+                        <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
+<!--                        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>-->
+<!--                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>-->
+                    </ul>
+                </nav>
+            </div>
+        </div>
 
-                <span th:if="${paymentPage.totalPages > 0}"
-                      th:each="pageNumber : ${pageNumbers}">
-                    <li class="page-item">
-                        <a class="page-link"
-                           th:href="@{/payments(size=${paymentPage.size}, page=${pageNumber})}"
-                           th:text=${pageNumber}>
-                        </a>
-                    </li>
-                </span>
-
-                <li class="page-item disabled">
-                    <a class="page-link" href="#">Next</a>
-                </li>
-            </ul>
-        </nav>
     </div>
 </main>
 </div>

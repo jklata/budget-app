@@ -40,7 +40,7 @@ public class User {
     private String firstName;
     private String lastName;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Account> accounts;
 
     @NotEmpty

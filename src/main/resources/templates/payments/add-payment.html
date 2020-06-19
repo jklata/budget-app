@@ -35,8 +35,8 @@
         <div class="form-group row">
             <label for="tytul" class="col-sm-2 col-form-label">Data transakcji</label>
             <div class="col-sm-5">
-                <input type="date" th:field="*{paymentDate}" class="form-control" id="data" placeholder="RRRR-MM-DD"
-                       required>
+                <input type="date" th:value="*{paymentDate}" th:field="*{paymentDate}" class="form-control" id="data">
+                <input type="date" th:value="*{paymentDate}" th:field="*{paymentDate}" class="form-control" id="data">
             </div>
         </div>
 
@@ -82,7 +82,7 @@
             <label for="tytul" class="col-sm-2 col-form-label">Kwota</label>
             <div class="col-sm-5">
                 <!--                todo: zabezpieczyc przed wprowadzeniem zbyt dużej liczby-->
-                <input type="number" step="0.01" th:field="*{amount}" class="form-control" id="tytul" required>
+                <input type="number" step="0.01" th:field="*{amount}" class="form-control" id="kwota" required>
             </div>
         </div>
 

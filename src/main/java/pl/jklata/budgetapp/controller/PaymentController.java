@@ -2,21 +2,17 @@ package pl.jklata.budgetapp.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import pl.jklata.budgetapp.domain.Payment;
 import pl.jklata.budgetapp.service.*;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.time.LocalDate;
 
 @Slf4j
 @Controller
@@ -29,9 +25,6 @@ public class PaymentController {
     private BudgetService budgetService;
     private CsvService csvService;
 
-    @Value("${payment.controller.page.size}")
-    private int initialPageSize;
-
     @Autowired
     public PaymentController(PaymentCategoryService paymentCategoryService, PaymentService paymentService, AccountService accountService, BudgetService budgetService, CsvService csvService) {
         this.paymentCategoryService = paymentCategoryService;
@@ -41,37 +34,14 @@ public class PaymentController {
         this.csvService = csvService;
     }
 
-
-    @GetMapping({"/payments2"})
-    public String getPayments(Model model) {
-
-        model.addAttribute("payments", paymentService.findAllForAuthUser());
-        return "payments/payments2";
-    }
-
     @GetMapping(value = "/payments")
     public String listPayments(
-            Model model,
-            @RequestParam("page") Optional<Integer> page,
-            @RequestParam("size") Optional<Integer> size) {
-        int currentPage = page.orElse(1);
-        int pageSize = size.orElse(initialPageSize);
+            ModelMap model, @SortDefault("id") Pageable pageable) {
 
-        Page<Payment> paymentPage = paymentService.findPaginated(PageRequest.of(currentPage - 1, pageSize, Sort.by("id")));
-
-        model.addAttribute("paymentPage", paymentPage);
-
-        int totalPages = paymentPage.getTotalPages();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .collect(Collectors.toList());
-            model.addAttribute("pageNumbers", pageNumbers);
-        }
+        model.addAttribute("page", paymentService.findPaginated(pageable));
 
         return "payments/payments";
     }
-
 
     @GetMapping({"/{id}/show"})
     public String getPayment(@PathVariable Long id, Model model) {
@@ -83,13 +53,29 @@ public class PaymentController {
     @GetMapping({"/addPayment"})
     public String getAddPayment(Model model) {
 
-        model.addAttribute("payment", new Payment());
+        Payment payment = new Payment();
+        payment.setPaymentDate(LocalDate.now());
+        model.addAttribute("payment", payment);
         log.debug("Utworzono nowy obiekt transakcji");
 
         model.addAttribute("paymentCategories", paymentCategoryService.findAll());
         model.addAttribute("budgets", budgetService.findAll());
         model.addAttribute("wallets", accountService.findAll());
+        model.addAttribute("today", LocalDate.now());
         return "payments/add-payment";
+    }
+
+    //    todo zmienic nazwe endpointu
+    @PostMapping({"addPaymentToList"})
+    public String addPaymentToDataBase(@ModelAttribute Payment payment, @RequestParam String paymentCategoryEach, @RequestParam String walletEach, @RequestParam String budgetEach) {
+
+        log.debug("Przekazana transakcja ma id: " + payment.getId());
+        payment.setPaymentCategory(paymentCategoryService.findByName(paymentCategoryEach));
+        payment.setAccount(accountService.findByName(walletEach));
+        payment.setBudget(budgetService.findByName(budgetEach));
+        Payment savedPayment = paymentService.save(payment);
+        log.debug("Wykonano 'save' na transakcji o ID: " + savedPayment.getId().toString());
+        return "redirect:/payments";
     }
 
     @GetMapping("/{id}/update")
@@ -108,21 +94,6 @@ public class PaymentController {
     public String deletePayment(@PathVariable Long id) {
         log.debug("Request delete na transakcji o ID: " + id.toString());
         paymentService.deleteById(id);
-        return "redirect:/payments";
-    }
-
-
-//    todo zmienic nazwe endpointu
-
-    @PostMapping({"addPaymentToList"})
-    public String addPaymentToDataBase(@ModelAttribute Payment payment, @RequestParam String paymentCategoryEach, @RequestParam String walletEach, @RequestParam String budgetEach) {
-
-        log.debug("Przekazana transakcja ma id: " + payment.getId());
-        payment.setPaymentCategory(paymentCategoryService.findByName(paymentCategoryEach));
-        payment.setAccount(accountService.findByName(walletEach));
-        payment.setBudget(budgetService.findByName(budgetEach));
-        Payment savedPayment = paymentService.save(payment);
-        log.debug("Wykonano 'save' na transakcji o ID: " + savedPayment.getId().toString());
         return "redirect:/payments";
     }
 

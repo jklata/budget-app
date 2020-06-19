@@ -58,7 +58,7 @@ public class DataInitializer {
                 .active(true)
                 .build();
 
-        User user2 = User.builder()
+        User admin = User.builder()
                 .login("admin")
                 .password(passwordEncoder.encode("admin123"))
                 .email("test2@gmail.com")
@@ -116,7 +116,7 @@ public class DataInitializer {
         ht2.setName("samochód");
 
         userRepository.save(user1);
-        userRepository.save(user2);
+        userRepository.save(admin);
         userRepository.save(user3);
         accountRepository.save(account1);
         paymentCategoryRepository.saveAll(paymentCategories);
@@ -124,6 +124,8 @@ public class DataInitializer {
         budgetRepository.save(budget1);
 
         Random r = new Random();
+        Long idByUser1 = 0L;
+        Long idByUser2 = 0L;
         for (int i = 0; i < 50; i++) {
 
             Payment payment = new Payment();
@@ -142,9 +144,15 @@ public class DataInitializer {
             payment.setBudget(budget1);
             payment.setHashtags(new HashSet<>(Arrays.asList(ht2)));
             if(i%2==0){
-                payment.setUser(user2);
-            }else payment.setUser(user1);
-            paymentService.save(payment);
+                idByUser1++;
+                payment.setIdForUser(idByUser1);
+                payment.setUser(admin);
+            }else {
+                idByUser2++;
+                payment.setIdForUser(idByUser2);
+                payment.setUser(user1);
+            }
+            paymentService.saveDataInitializer(payment);
         }
     }
 }

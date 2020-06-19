@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import pl.jklata.budgetapp.domain.enums.PaymentType;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
@@ -20,7 +21,10 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long idForUser;
+
     @ManyToOne
+    @NotNull
     private User user;
 
     @Column(name = "transaction_date")

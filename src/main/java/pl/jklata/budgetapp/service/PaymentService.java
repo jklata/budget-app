@@ -40,6 +40,15 @@ public class PaymentService {
             payment.setAmount(BigDecimal.valueOf(payment.getAmount().floatValue() * PaymentType.EXPENSE.getPaymentFactor()));
         }
         payment.setInsertDate(LocalDate.now());
+        payment.setUser(getAuthenticatedUser());
+        payment.setIdForUser(resolveNextIdForUser());
+        return paymentRepository.save(payment);
+    }
+    public Payment saveDataInitializer(Payment payment) {
+        if (payment.getPaymentType() == PaymentType.EXPENSE) {
+            payment.setAmount(BigDecimal.valueOf(payment.getAmount().floatValue() * PaymentType.EXPENSE.getPaymentFactor()));
+        }
+        payment.setInsertDate(LocalDate.now());
         return paymentRepository.save(payment);
     }
 
@@ -52,8 +61,9 @@ public class PaymentService {
     }
 
     public void deleteById(Long id) {
-//        if()
-        paymentRepository.deleteById(id);
+        if (isUserOwnsPayment(id)) {
+            paymentRepository.deleteById(id);
+        }
     }
 
     private User getAuthenticatedUser() {
@@ -63,6 +73,15 @@ public class PaymentService {
             userName = ((UserDetails) principal).getUsername();
         }
         return userRepository.findByLogin(userName);
+    }
+
+    private boolean isUserOwnsPayment(Long id) {
+        return findAllForAuthUser().stream().anyMatch(payment -> payment.getId().equals(id));
+    }
+
+    private Long resolveNextIdForUser(){
+        Long lastId = paymentRepository.findMaxIdForUser(getAuthenticatedUser());
+        return lastId+1;
     }
 
 }
