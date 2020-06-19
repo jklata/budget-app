@@ -11,6 +11,8 @@ import pl.jklata.budgetapp.domain.User;
 import java.util.List;
 import java.util.Optional;
 
+import java.util.List;
+
 
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
@@ -25,4 +27,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     Long findMaxIdForUser(User user);
 
 
+    @Query(value = "SELECT DISTINCT YEAR(transaction_date) FROM payment ORDER BY YEAR(transaction_date) DESC ",
+            nativeQuery = true)
+    List<Integer> getDistinctYearFromAllPayments();
 }

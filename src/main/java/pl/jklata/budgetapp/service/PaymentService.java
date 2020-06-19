@@ -84,4 +84,8 @@ public class PaymentService {
         return lastId+1;
     }
 
+    public List<Integer> getDistinctYearFromAllPayments() {
+        return paymentRepository.getDistinctYearFromAllPayments();
+    }
+
 }

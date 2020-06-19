@@ -11,6 +11,7 @@ import pl.jklata.budgetapp.domain.enums.AccountType;
 import pl.jklata.budgetapp.domain.enums.PaymentType;
 import pl.jklata.budgetapp.domain.enums.Role;
 import pl.jklata.budgetapp.repository.*;
+import pl.jklata.budgetapp.service.PaymentService;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
@@ -126,10 +127,10 @@ public class DataInitializer {
         Random r = new Random();
         Long idByUser1 = 0L;
         Long idByUser2 = 0L;
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 100; i++) {
 
             Payment payment = new Payment();
-            payment.setPaymentDate(LocalDate.of(r.nextInt(2020 - 2018) + 2018, r.nextInt(12 - 1) + 1, r.nextInt(25 - 1) + 1));
+            payment.setPaymentDate(LocalDate.of(r.nextInt(2021 - 2018) + 2018, r.nextInt(12 - 1) + 1, r.nextInt(25 - 1) + 1));
             payment.setInsertDate(LocalDate.now());
             payment.setAmount(BigDecimal.valueOf((r.nextInt(3000 - 100) + 100) * 0.97));
             payment.setTitle("Odbiorca " + ((r.nextInt(i + 1)) + 1));
