@@ -6,12 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import pl.jklata.budgetapp.domain.*;
 import pl.jklata.budgetapp.domain.enums.AccountType;
 import pl.jklata.budgetapp.domain.enums.PaymentType;
 import pl.jklata.budgetapp.domain.enums.Role;
 import pl.jklata.budgetapp.repository.*;
-import pl.jklata.budgetapp.service.PaymentService;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
@@ -77,7 +77,6 @@ public class DataInitializer {
                 .firstName("Jan")
                 .lastName("Kowalski")
                 .userRoles(Collections.singleton(standardUserRole))
-                .roles("SUPER")
                 .permissions("ALL")
                 .active(true)
                 .build();

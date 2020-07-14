@@ -24,8 +24,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Column(name = "user_login")
+    @NotBlank(message = "validate.login.not.blank")
+    @Column(name = "user_login", unique = true)
     private String login;
 
     @NotBlank
@@ -40,17 +40,15 @@ public class User {
     private String firstName;
     private String lastName;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user") //fixme
     private List<Account> accounts;
 
     @NotEmpty
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER) //fixme
     @JoinTable(name = "user_has_user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<UserRole> userRoles = new HashSet<>();
-
-    private String roles;
 
     @NotBlank
     private String permissions;

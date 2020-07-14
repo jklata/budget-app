@@ -22,6 +22,6 @@ public class UserRole {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
-    @ManyToMany(mappedBy = "userRoles")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "userRoles") //fixme
     private Set<User> users;
 }

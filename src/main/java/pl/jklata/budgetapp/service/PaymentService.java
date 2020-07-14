@@ -14,8 +14,10 @@ import pl.jklata.budgetapp.repository.UserRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -44,6 +46,7 @@ public class PaymentService {
         payment.setIdForUser(resolveNextIdForUser());
         return paymentRepository.save(payment);
     }
+
     public Payment saveDataInitializer(Payment payment) {
         if (payment.getPaymentType() == PaymentType.EXPENSE) {
             payment.setAmount(BigDecimal.valueOf(payment.getAmount().floatValue() * PaymentType.EXPENSE.getPaymentFactor()));
@@ -66,7 +69,7 @@ public class PaymentService {
         }
     }
 
-    private User getAuthenticatedUser() {
+    protected User getAuthenticatedUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userName = "";
         if (principal instanceof UserDetails) {
@@ -79,13 +82,22 @@ public class PaymentService {
         return findAllForAuthUser().stream().anyMatch(payment -> payment.getId().equals(id));
     }
 
-    private Long resolveNextIdForUser(){
+    private Long resolveNextIdForUser() {
         Long lastId = paymentRepository.findMaxIdForUser(getAuthenticatedUser());
-        return lastId+1;
+        if (lastId == null) {
+            return 1L;
+        }
+        return lastId + 1;
     }
 
     public List<Integer> getDistinctYearFromAllPayments() {
-        return paymentRepository.getDistinctYearFromAllPayments();
+//        return paymentRepository.getDistinctYearFromAllPayments(getAuthenticatedUser());
+        return findAllForAuthUser().stream()
+                .map(Payment::getPaymentDate)
+                .map(LocalDate::getYear)
+                .distinct()
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
     }
 
 }

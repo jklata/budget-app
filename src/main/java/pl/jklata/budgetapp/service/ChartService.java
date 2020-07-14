@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -39,13 +40,17 @@ public class ChartService {
         paymentsByMonthThisYearMap.put("Listopad", getAllPaymentsOfGivenYearByMonth(year, 11));
         paymentsByMonthThisYearMap.put("Grudzień", getAllPaymentsOfGivenYearByMonth(year, 12));
 
-        log.debug("Wszystkie wydatki tego roku: " + paymentsByMonthThisYearMap.toString());
+        BigDecimal sumForYear = paymentsByMonthThisYearMap.values().stream()
+                .reduce(BigDecimal::add)
+                .orElse(BigDecimal.ZERO);
+
+        log.debug("Suma wydatków użytkownika: {}, {} roku: [{} zł]",paymentService.getAuthenticatedUser().getLogin() ,year, sumForYear);
 
         return paymentsByMonthThisYearMap;
     }
 
     private BigDecimal getAllPaymentsOfGivenYearByMonth(int year, int month) {
-        return paymentService.findAll().stream()
+        return paymentService.findAllForAuthUser().stream()
                 .filter(p -> p.getPaymentDate().isAfter(LocalDate.of(year, month, 1)))
                 .filter(p -> p.getPaymentDate().isBefore(LocalDate.of(year, month, YearMonth.of(year, month).lengthOfMonth())))
                 .map(Payment::getAmount)

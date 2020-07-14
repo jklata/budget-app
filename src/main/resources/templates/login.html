@@ -8,7 +8,9 @@
     <div style="width:600px;margin-left: auto;margin-right: auto;margin-top:24px;padding: 24px;">
         <div class="card">
             <div class="card-header">
-                <i class="fa fa-user"></i> BUDGET APP
+                <i class="fa fa-user"></i> BUDGET APP - LOGOWANIE
+                <a class="btn btn-outline-primary btn-sm float-right" th:href="@{/signup}" role="button">Utwórz konto</a>
+
             </div>
             <div class="card-block" style="padding: 24px;">
                 <form name="f" th:action="@{/login}" method="post">

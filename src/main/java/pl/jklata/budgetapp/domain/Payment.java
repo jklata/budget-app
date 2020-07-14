@@ -52,8 +52,8 @@ public class Payment {
 
     @ManyToMany
     @JoinTable(name = "payment_has_hashtag",
-    joinColumns = @JoinColumn(name = "payment_id"),
-    inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
+            joinColumns = @JoinColumn(name = "payment_id"),
+            inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
     private Set<Hashtag> hashtags;
 
     @ManyToOne

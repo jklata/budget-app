@@ -11,8 +11,6 @@ import pl.jklata.budgetapp.domain.User;
 import java.util.List;
 import java.util.Optional;
 
-import java.util.List;
-
 
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
@@ -26,8 +24,8 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     @Query("SELECT max(p.idForUser) FROM Payment p WHERE p.user = ?1")
     Long findMaxIdForUser(User user);
 
-
-    @Query(value = "SELECT DISTINCT YEAR(transaction_date) FROM payment ORDER BY YEAR(transaction_date) DESC ",
+    //todo: naprawić query tak, żeby ładowało unikalne lata dla konkretnego usera
+    @Query(value = "SELECT DISTINCT YEAR(transaction_date) FROM payment WHERE user = ?1 ORDER BY YEAR(transaction_date) DESC",
             nativeQuery = true)
-    List<Integer> getDistinctYearFromAllPayments();
+    List<Integer> getDistinctYearFromAllPayments(User user);
 }
