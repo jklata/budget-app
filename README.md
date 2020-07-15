@@ -1,7 +1,22 @@
 # BUDGET-APP
 
 Aplikacja webowa do zarządzania i analizowania wydatków, dochodów i budżetu domowego.  
-Live: https://budget-app-jklata.herokuapp.com/  
+
+###Logowanie
+Użytkownik standardowy:
+* login: user
+* hasło: user123
+
+Admin:
+* login: admin
+* hasło: admin 123
+
+###Uruchamianie
+URL apliakcji: https://localhost:8443/ 
+
+URL managera bazy danych: https://localhost:8443/h2-console/
+
+Live (może być czasowo niedostępny): https://budget-app-jklata.herokuapp.com/  
 
 ![img1](https://github.com/jklata/budget-app/blob/master/src/main/resources/static/images/img1.JPG)
 <br/>
@@ -25,7 +40,7 @@ Live: https://budget-app-jklata.herokuapp.com/
 - [x] Schemat bazy danych
 - [x] Bootstrap - CSS
 - [x] Podstawowe kontrolery do obsługi podstron
+- [x] Security
 - [ ] Logika do raportowania i analizy transakcji
 - [ ] Import transakcji z pliku CSV - wyciąg z banku (mBank)
 - [ ] Eksport historii transakcji do CSV/PDF
-- [ ] Security
