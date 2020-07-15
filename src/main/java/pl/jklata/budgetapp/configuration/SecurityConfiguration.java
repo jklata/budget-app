@@ -46,9 +46,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login").permitAll()
+                .loginPage("/login")
+                .permitAll()
                 .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login").permitAll();
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login").permitAll();
 
         http.csrf().disable();
         http.headers().frameOptions().disable();

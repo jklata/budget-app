@@ -110,3 +110,8 @@ body {
 .sorted-asc::after{
   content: "\25B2";
 }
+
+.alert{
+  padding: 0.2rem 0.2rem;
+  margin: 0;
+}

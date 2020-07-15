@@ -24,7 +24,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "validate.login.not.blank")
+    @NotBlank()
     @Column(name = "user_login", unique = true)
     private String login;
 

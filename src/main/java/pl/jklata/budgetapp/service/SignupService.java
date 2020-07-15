@@ -3,6 +3,7 @@ package pl.jklata.budgetapp.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.jklata.budgetapp.converter.UserDtoToEntity;
 import pl.jklata.budgetapp.domain.User;
 import pl.jklata.budgetapp.domain.UserRole;
@@ -33,7 +34,8 @@ public class SignupService {
         this.userDtoToEntity = userDtoToEntity;
     }
 
-    public void saveNewUser(UserDto userDto) {
+    @Transactional
+    public void signUpNewUser(UserDto userDto) {
         userDto.setPassword(encryptPassword(userDto.getPassword()));
         Optional<UserRole> initialRole = userRoleRepository.findByRole(Role.USER);
         initialRole.ifPresent(userRole -> userDto.setUserRoles(Collections.singleton(userRole)));

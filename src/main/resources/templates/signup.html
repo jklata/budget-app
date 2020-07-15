@@ -28,28 +28,34 @@
                         </div>
 
                         <!-- Login Controls -->
-                        <div class="form-group">
-                            <label for="username">Login</label>
-                            <input type="text" class="form-control" id="username" th:field="*{login}"
+                        <div class="form-group" >
+                            <label for="username" class="" th:classappend="${#fields.hasErrors('login')} ? 'text-danger'">Login</label>
+                            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('login')} ? 'is-invalid'"
+                                   id="username" th:field="*{login}"
                                    placeholder="Login">
+
+                            <p th:each="error: ${#fields.errors('login')}"
+                               th:text="${error}" class="alert alert-danger">Validation error</p>
+
                         </div>
 
                         <div class="form-group">
-                            <label for="password">Hasło</label>
-                            <input type="password" class="form-control" id="password" th:field="*{password}"
+                            <label for="password" class="" th:classappend="${#fields.hasErrors('password')} ? 'text-danger'">Hasło</label>
+                            <input type="password" class="form-control" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'"
+                                   id="password" th:field="*{password}"
                                    placeholder="Hasło">
+                            <p th:each="error : ${#fields.errors('password')}"
+                               th:text="${error}" class="alert alert-danger">Validation error</p>
                         </div>
                         <div class="form-group">
-                            <label for="retype-password">Powtórz hasło</label>
-                            <input type="password" class="form-control" id="retype-password" th:field="*{retypedPassword}"
+                            <label for="retype-password" class="" th:classappend="${#fields.hasErrors('retypedPassword')} ? 'text-danger'">Powtórz hasło</label>
+                            <input type="password" class="form-control" th:classappend="${#fields.hasErrors('retypedPassword')} ? 'is-invalid'"
+                                   id="retype-password" th:field="*{retypedPassword}"
                                    placeholder="Powtórz hasło">
-                        </div>
+                            <p th:each="error : ${#fields.errors('retypedPassword')}"
+                               th:text="${error}" class="alert alert-danger">Validation error</p>
 
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="checkRememberMe" name="checkRememberMe">
-                            <label class="form-check-label" for="checkRememberMe">Zapamiętaj dane logowania.</label>
                         </div>
-
                         <!-- Login Button -->
                         <div class="form-actions" style="margin-top: 12px;">
                             <button type="submit" class="btn btn-primary">Utwórz konto</button>
