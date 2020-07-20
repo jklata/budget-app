@@ -40,10 +40,12 @@ public class PaymentService {
     public Payment save(Payment payment) {
         if (payment.getPaymentType() == PaymentType.EXPENSE) {
             payment.setAmount(BigDecimal.valueOf(payment.getAmount().floatValue() * PaymentType.EXPENSE.getPaymentFactor()));
-        }
+        } //fixme: Podczas edycji platnosci (zmiany z wydatku na przychód) wartość nie odwraca się
         payment.setInsertDate(LocalDate.now());
         payment.setUser(getAuthenticatedUser());
-        payment.setIdForUser(resolveNextIdForUser());
+        if (payment.getId()==null) {
+            payment.setIdForUser(resolveNextIdForUser());
+        }
         return paymentRepository.save(payment);
     }
 
@@ -82,7 +84,7 @@ public class PaymentService {
         return findAllForAuthUser().stream().anyMatch(payment -> payment.getId().equals(id));
     }
 
-    private Long resolveNextIdForUser() {
+    public Long resolveNextIdForUser() {
         Long lastId = paymentRepository.findMaxIdForUser(getAuthenticatedUser());
         if (lastId == null) {
             return 1L;
@@ -91,7 +93,6 @@ public class PaymentService {
     }
 
     public List<Integer> getDistinctYearFromAllPayments() {
-//        return paymentRepository.getDistinctYearFromAllPayments(getAuthenticatedUser());
         return findAllForAuthUser().stream()
                 .map(Payment::getPaymentDate)
                 .map(LocalDate::getYear)

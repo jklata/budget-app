@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 @Slf4j
+@RequestMapping(value = "/payments")
 @Controller
 public class PaymentController {
 
@@ -34,27 +35,28 @@ public class PaymentController {
         this.csvService = csvService;
     }
 
-    @GetMapping(value = "/payments")
+    @GetMapping(value = "")
     public String listPayments(
             ModelMap model, @SortDefault("id") Pageable pageable) {
 
         model.addAttribute("page", paymentService.findPaginated(pageable));
 
-        return "payments/payments";
+        return "payments/paymentList";
     }
 
-    @GetMapping({"/{id}/show"})
+    @GetMapping(value = "/{id}/show")
     public String getPayment(@PathVariable Long id, Model model) {
 
         model.addAttribute("payment", paymentService.findByIdForAuthUser(id));
-        return "payments/payment-show";
+        return "payments/paymentShow";
     }
 
-    @GetMapping({"/addPayment"})
+    @GetMapping(value = "/add")
     public String getAddPayment(Model model) {
 
         Payment payment = new Payment();
         payment.setPaymentDate(LocalDate.now());
+        payment.setIdForUser(paymentService.resolveNextIdForUser());
         model.addAttribute("payment", payment);
         log.debug("Utworzono nowy obiekt transakcji");
 
@@ -62,42 +64,40 @@ public class PaymentController {
         model.addAttribute("budgets", budgetService.findAll());
         model.addAttribute("wallets", accountService.findAll());
         model.addAttribute("today", LocalDate.now());
-        return "payments/add-payment";
+        return "payments/addPayment";
     }
 
-    //    todo zmienic nazwe endpointu
-    @PostMapping({"addPaymentToList"})
-    public String addPaymentToDataBase(@ModelAttribute Payment payment, @RequestParam String paymentCategoryEach, @RequestParam String walletEach, @RequestParam String budgetEach) {
+    @PostMapping(value = "/add")
+    public String addPaymentToDataBase(@ModelAttribute("payment") Payment payment) {
 
         log.debug("Przekazana transakcja ma id: " + payment.getId());
-        payment.setPaymentCategory(paymentCategoryService.findByName(paymentCategoryEach));
-        payment.setAccount(accountService.findByName(walletEach));
-        payment.setBudget(budgetService.findByName(budgetEach));
         Payment savedPayment = paymentService.save(payment);
         log.debug("Wykonano 'save' na transakcji o ID: " + savedPayment.getId().toString());
-        return "redirect:/payments";
+        return "redirect:/payments/";
     }
 
-    @GetMapping("/{id}/update")
+    @GetMapping(value = "/{id}/edit")
     public String updatePayment(@PathVariable Long id, Model model) {
-        model.addAttribute("payment", paymentService.findByIdForAuthUser(id));
+        Payment payment = paymentService.findByIdForAuthUser(id);
+        model.addAttribute("payment", payment);
 
-//        model.addAttribute("transactionCategories", transactionCategoryService.findAll());
-//        model.addAttribute("budgets", budgetService.findAll());
-//        model.addAttribute("wallets", accountService.findAll());
+        model.addAttribute("paymentCategories", paymentCategoryService.findAll());
+        model.addAttribute("budgets", budgetService.findAll());
+        model.addAttribute("wallets", accountService.findAll());
+        model.addAttribute("today", LocalDate.now());
 
         log.debug("Request update na transakcji o ID: " + id.toString());
-        return "payments/add-payment";
+        return "/payments/addPayment";
     }
 
-    @GetMapping("/{id}/delete")
+    @GetMapping(value = "/{id}/delete")
     public String deletePayment(@PathVariable Long id) {
         log.debug("Request delete na transakcji o ID: " + id.toString());
         paymentService.deleteById(id);
-        return "redirect:/payments";
+        return "redirect:/payments/paymentList";
     }
 
-    @GetMapping("/exportcsv")
+    @GetMapping(value = "/exportcsv")
     public String exportCsvPayment() {
         log.debug("Request export csv with payments");
         try {
@@ -105,7 +105,7 @@ public class PaymentController {
         } catch (IOException e) {
             log.error("Exception during csv generating" + e);
         }
-        return "redirect:/payments";
+        return "redirect:/payments/paymentList";
     }
 
 

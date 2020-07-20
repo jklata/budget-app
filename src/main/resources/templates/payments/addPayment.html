@@ -15,16 +15,16 @@
         <h1 class="h4">Dodaj transakcję</h1>
     </div>
 
-    <form th:action="@{/addPaymentToList/}" th:object="${payment}" method="post">
+    <form th:action="@{/payments/add}" th:object="${payment}" method="post">
         <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{idForUser}"/>
 
-        <!--         TODO dodać wyświetlanie ID nowej transakcji lub aktualnie modyfikowanej-->
-        <!--        <div class="form-group row">-->
-        <!--            <label for="tytul" class="col-sm-2 col-form-label">ID transakcji</label>-->
-        <!--            <div class="col-sm-5">-->
-        <!--                <p th:text="*{id}">ID</p>-->
-        <!--            </div>-->
-        <!--        </div>-->
+                <div class="form-group row">
+                    <label for="tytul" class="col-sm-2 col-form-label">ID transakcji</label>
+                    <div class="col-sm-5">
+                        <p th:text="*{idForUser}">ID</p>
+                    </div>
+                </div>
         <div class="form-group row">
             <label for="tytul" class="col-sm-2 col-form-label">Tytuł transakcji</label>
             <div class="col-sm-5">
@@ -36,24 +36,9 @@
             <label for="tytul" class="col-sm-2 col-form-label">Data transakcji</label>
             <div class="col-sm-5">
                 <input type="date" th:value="*{paymentDate}" th:field="*{paymentDate}" class="form-control" id="data">
-                <input type="date" th:value="*{paymentDate}" th:field="*{paymentDate}" class="form-control" id="data">
             </div>
         </div>
 
-
-        <!-- <div class="form-group row">
-            <div class="input-group-prepend">
-              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <div role="separator" class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated link</a>
-              </div>
-            </div>
-            <input type="text" class="form-control" aria-label="Text input with dropdown button">
-          </div> -->
         <fieldset class="form-group">
             <div class="row">
                 <legend class="col-form-label col-sm-2 pt-0">+ / -</legend>
@@ -90,10 +75,9 @@
         <div class="form-group row">
             <label for="tytul" class="col-sm-2 col-form-label">Kategoria</label>
             <div class="col-sm-5">
-                <select class="form-control" name="paymentCategoryEach">
+                <select class="form-control" name="paymentCategoryEach" th:field="*{paymentCategory.id}">
                     <option th:each="paymentCategoryEach : ${paymentCategories}"
-                            th:value="${paymentCategoryEach.name}"
-                            th:field="*{paymentCategory}"
+                            th:value="${paymentCategoryEach.id}"
                             th:text="${paymentCategoryEach.name}"></option>
                 </select>
             </div>
@@ -103,10 +87,9 @@
         <div class="form-group row">
             <label for="tytul" class="col-sm-2 col-form-label">Portfel</label>
             <div class="col-sm-5">
-                <select class="form-control" name="walletEach">
+                <select class="form-control" name="walletEach" th:field="*{account.id}">
                     <option th:each="walletEach : ${wallets}"
-                            th:value="${walletEach.name}"
-                            th:field="*{account}"
+                            th:value="${walletEach.id}"
                             th:text="${walletEach.name}"></option>
                 </select>
             </div>
@@ -116,10 +99,9 @@
         <div class="form-group row">
             <label for="tytul" class="col-sm-2 col-form-label">Budżet</label>
             <div class="col-sm-5">
-                <select class="form-control" name="budgetEach">
+                <select class="form-control" name="budgetEach" th:field="*{budget.id}">
                     <option th:each="budgetEach : ${budgets}"
-                            th:value="${budgetEach.name}"
-                            th:field="*{budget}"
+                            th:value="${budgetEach.id}"
                             th:text="${budgetEach.name}"></option>
                 </select>
             </div>
