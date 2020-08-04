@@ -48,7 +48,7 @@
                 <td><span sec:authorize="hasRole('ROLE_ADMIN')" th:text="${payment?.id}"> TID </span></td>
                 <td><span th:text="${payment?.idForUser}"> ID </span></td>
                 <td><span th:text="${payment?.paymentDate}"> Data </span></td>
-                <td><span th:text="${payment?.amount}" class="float-left " th:classappend="${payment.paymentType.name() == 'INCOME'}? 'text-success' : 'text-danger' "> Kwota </span></td>
+                <td><span th:text="#{'sign.payment.type.'+*{payment.paymentType}}+${payment?.amount}" class="float-left " th:classappend="${payment.paymentType.name() == 'INCOME'}? 'text-success' : 'text-danger' "> Kwota </span></td>
                 <td><span th:text="${payment?.title}"> Tytuł/Odbiorca </span></td>
                 <td><span th:text="${payment?.paymentCategory.name}"> Kategoria </span></td>
                 <td><span th:text="${payment?.paymentType}"> Typ </span></td>

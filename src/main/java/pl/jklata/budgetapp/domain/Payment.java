@@ -2,8 +2,10 @@ package pl.jklata.budgetapp.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.jklata.budgetapp.domain.enums.PaymentType;
+import pl.jklata.budgetapp.validator.annotations.DateNotInFutureValidation;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,6 +15,7 @@ import java.util.Set;
 
 @Data
 @EqualsAndHashCode(exclude = {"hashtags"})
+@ToString(exclude = {"budget", "account", "hashtags"})
 @Entity
 @Table(name = "payment")
 public class Payment {
@@ -33,6 +36,7 @@ public class Payment {
 
     @Column(name = "insert_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateNotInFutureValidation(message = "{validator.invalid.null}")
     private LocalDate insertDate;
 
     private BigDecimal amount;
@@ -60,16 +64,5 @@ public class Payment {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    public String getValuesForCsv() {
-        String coma = ", ";
-        StringBuilder sb = new StringBuilder();
-        sb.append(id);
-        sb.append(coma);
-        sb.append(paymentDate);
-        sb.append(coma);
-        sb.append(amount);
-
-        return sb.toString();
-    }
 }
 

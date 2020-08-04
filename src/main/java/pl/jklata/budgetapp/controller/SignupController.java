@@ -14,9 +14,6 @@ import pl.jklata.budgetapp.service.SignupService;
 
 import javax.validation.Valid;
 
-/**
- * @author Jakub Klata, Pentacomp Systemy Informatyczne S.A.
- */
 @Slf4j
 @Controller
 public class SignupController {
@@ -39,7 +36,7 @@ public class SignupController {
     public String signup(@Valid @ModelAttribute UserDto userDto, BindingResult binding, Model model) {
 
         if (binding.hasErrors()) {
-            log.info("Validation errors when saving provider: " + binding.getAllErrors());
+            log.info("Validation errors when saving user: " + binding.getAllErrors());
             model.addAttribute(userDto);
             return "signup";
         }

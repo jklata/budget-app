@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import pl.jklata.budgetapp.domain.*;
 import pl.jklata.budgetapp.domain.enums.AccountType;
 import pl.jklata.budgetapp.domain.enums.PaymentType;
@@ -126,7 +125,7 @@ public class DataInitializer {
         Random r = new Random();
         Long idByUser1 = 0L;
         Long idByUser2 = 0L;
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10000; i++) {
 
             Payment payment = new Payment();
             payment.setPaymentDate(LocalDate.of(r.nextInt(2021 - 2018) + 2018, r.nextInt(12 - 1) + 1, r.nextInt(25 - 1) + 1));

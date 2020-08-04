@@ -15,9 +15,6 @@ import pl.jklata.budgetapp.repository.UserRoleRepository;
 import java.util.Collections;
 import java.util.Optional;
 
-/**
- * @author Jakub Klata, Pentacomp Systemy Informatyczne S.A.
- */
 @Service
 public class SignupService {
 

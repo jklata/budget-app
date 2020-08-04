@@ -1,6 +1,7 @@
 package pl.jklata.budgetapp.configuration;
 
 import org.h2.server.web.WebServlet;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -39,5 +40,10 @@ public class AppConfiguration {
         LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
         bean.setValidationMessageSource(messageSource());
         return bean;
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }

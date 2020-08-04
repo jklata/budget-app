@@ -5,8 +5,8 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.jklata.budgetapp.domain.Payment;
 import pl.jklata.budgetapp.domain.enums.PaymentHeaders;
+import pl.jklata.budgetapp.dto.PaymentDto;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -26,11 +26,11 @@ public class CsvService {
     }
 
     public void createCsvReport() throws IOException {
-        List<Payment> payments = paymentService.findAllForAuthUser();
+        List<PaymentDto> payments = paymentService.findAllForAuthUser();
 
         FileWriter out = new FileWriter(fileNameBuilder("csv"));
         try (CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(PaymentHeaders.class))) {
-            for (Payment payment : payments) {
+            for (PaymentDto payment : payments) {
                 printer.printRecord(payment.getValuesForCsv());
             }
         }
