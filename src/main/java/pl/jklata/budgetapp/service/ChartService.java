@@ -3,14 +3,13 @@ package pl.jklata.budgetapp.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.jklata.budgetapp.domain.Payment;
+import pl.jklata.budgetapp.dto.PaymentDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -23,6 +22,7 @@ public class ChartService {
         this.paymentService = paymentService;
     }
 
+    //TODO: zbadać długie ładowanie danych na widoku (wprowadzić cache dla danych)
 
     public Map<String, BigDecimal> getAllPaymentsOfGivenYearByMonthMap(int year) {
 
@@ -40,11 +40,7 @@ public class ChartService {
         paymentsByMonthThisYearMap.put("Listopad", getAllPaymentsOfGivenYearByMonth(year, 11));
         paymentsByMonthThisYearMap.put("Grudzień", getAllPaymentsOfGivenYearByMonth(year, 12));
 
-        BigDecimal sumForYear = paymentsByMonthThisYearMap.values().stream()
-                .reduce(BigDecimal::add)
-                .orElse(BigDecimal.ZERO);
-
-        log.debug("Suma wydatków użytkownika: {}, {} roku: [{} zł]",paymentService.getAuthenticatedUser().getLogin() ,year, sumForYear);
+        log.debug("Report requested data for payments of [user = {}; year = {}].", paymentService.getAuthenticatedUser().getLogin(), year);
 
         return paymentsByMonthThisYearMap;
     }
@@ -53,7 +49,7 @@ public class ChartService {
         return paymentService.findAllForAuthUser().stream()
                 .filter(p -> p.getPaymentDate().isAfter(LocalDate.of(year, month, 1)))
                 .filter(p -> p.getPaymentDate().isBefore(LocalDate.of(year, month, YearMonth.of(year, month).lengthOfMonth())))
-                .map(Payment::getAmount)
+                .map(PaymentDto::getAmountWithSign)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

@@ -1,6 +1,8 @@
 package pl.jklata.budgetapp.domain;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import pl.jklata.budgetapp.domain.enums.AccountType;
 
 import javax.persistence.*;
@@ -10,7 +12,8 @@ import java.util.Currency;
 import java.util.List;
 
 @Data
-@EqualsAndHashCode(exclude = {"transactions"})
+@EqualsAndHashCode(exclude = "payments")
+@ToString(exclude = "payments")
 @Entity
 @Table(name = "account")
 public class Account {

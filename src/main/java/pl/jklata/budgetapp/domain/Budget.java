@@ -1,6 +1,7 @@
 package pl.jklata.budgetapp.domain;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "budget")
+@ToString(exclude = "payments")
 public class Budget {
 
     @Id

@@ -7,10 +7,16 @@ import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import pl.jklata.budgetapp.domain.Payment;
+import pl.jklata.budgetapp.domain.enums.PaymentType;
+import pl.jklata.budgetapp.dto.PaymentDto;
 import pl.jklata.budgetapp.service.*;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -54,11 +60,12 @@ public class PaymentController {
     @GetMapping(value = "/add")
     public String getAddPayment(Model model) {
 
-        Payment payment = new Payment();
-        payment.setPaymentDate(LocalDate.now());
-        payment.setIdForUser(paymentService.resolveNextIdForUser());
-        model.addAttribute("payment", payment);
-        log.debug("Utworzono nowy obiekt transakcji");
+        PaymentDto paymentDto = new PaymentDto();
+        paymentDto.setPaymentDate(LocalDate.now());
+        paymentDto.setIdForUser(paymentService.resolveNextIdForUser());
+        paymentDto.setPaymentType(PaymentType.EXPENSE);
+        model.addAttribute("payment", paymentDto);
+        log.debug("New PaymentDTO created");
 
         model.addAttribute("paymentCategories", paymentCategoryService.findAll());
         model.addAttribute("budgets", budgetService.findAll());
@@ -68,23 +75,33 @@ public class PaymentController {
     }
 
     @PostMapping(value = "/add")
-    public String addPaymentToDataBase(@ModelAttribute("payment") Payment payment) {
+    public String addPaymentToDataBase(@Valid @ModelAttribute("payment") PaymentDto paymentDto, BindingResult binding, Model model) {
 
-        log.debug("Przekazana transakcja ma id: " + payment.getId());
-        Payment savedPayment = paymentService.save(payment);
+        if (binding.hasErrors()) {
+            for (ObjectError error : binding.getAllErrors()) {
+                log.info("Validation errors during saving payment. Error: [object = {}, message = {}]",
+                        error.getObjectName(), error.getDefaultMessage());
+            }
+            model.addAttribute(paymentDto);
+            //todo: przekazać do widoku atrybuty: paymentCategory, budget, account
+            return "payments/addPayment";
+        }
+        log.debug("Przekazana transakcja ma id: " + paymentDto.getId());
+        Payment savedPayment = paymentService.save(paymentDto);
         log.debug("Wykonano 'save' na transakcji o ID: " + savedPayment.getId().toString());
         return "redirect:/payments/";
     }
 
     @GetMapping(value = "/{id}/edit")
-    public String updatePayment(@PathVariable Long id, Model model) {
-        Payment payment = paymentService.findByIdForAuthUser(id);
-        model.addAttribute("payment", payment);
+    public String updatePayment(@PathVariable Long id, Model model, HttpSession session) {
+        PaymentDto paymentDto = paymentService.findByIdForAuthUser(id);
+        model.addAttribute("payment", paymentDto);
 
         model.addAttribute("paymentCategories", paymentCategoryService.findAll());
         model.addAttribute("budgets", budgetService.findAll());
         model.addAttribute("wallets", accountService.findAll());
         model.addAttribute("today", LocalDate.now());
+        session.setAttribute("beforeType", paymentDto.getPaymentType());
 
         log.debug("Request update na transakcji o ID: " + id.toString());
         return "/payments/addPayment";

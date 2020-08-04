@@ -6,13 +6,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import pl.jklata.budgetapp.converter.PaymentDtoToEntity;
+import pl.jklata.budgetapp.converter.PaymentEntityToDto;
 import pl.jklata.budgetapp.domain.Payment;
 import pl.jklata.budgetapp.domain.User;
 import pl.jklata.budgetapp.domain.enums.PaymentType;
+import pl.jklata.budgetapp.dto.PaymentDto;
 import pl.jklata.budgetapp.repository.PaymentRepository;
 import pl.jklata.budgetapp.repository.UserRepository;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
@@ -25,44 +27,50 @@ public class PaymentService {
 
     private PaymentRepository paymentRepository;
     private UserRepository userRepository;
+    private PaymentDtoToEntity paymentDtoToEntity;
+    private PaymentEntityToDto paymentEntityToDto;
 
     @Autowired
-    public PaymentService(PaymentRepository paymentRepository, UserRepository userRepository) {
+    public PaymentService(PaymentRepository paymentRepository, UserRepository userRepository, PaymentDtoToEntity paymentDtoToEntity, PaymentEntityToDto paymentEntityToDto) {
         this.paymentRepository = paymentRepository;
         this.userRepository = userRepository;
+        this.paymentDtoToEntity = paymentDtoToEntity;
+        this.paymentEntityToDto = paymentEntityToDto;
     }
 
 
-    public Page<Payment> findPaginated(Pageable pageable) {
-        return paymentRepository.findAllByUser(getAuthenticatedUser(), pageable);
+    public Page<PaymentDto> findPaginated(Pageable pageable) {
+        return paymentRepository.findAllByUser(getAuthenticatedUser(), pageable).map(payment -> paymentEntityToDto.convert(payment));
     }
 
-    public Payment save(Payment payment) {
-        if (payment.getPaymentType() == PaymentType.EXPENSE) {
-            payment.setAmount(BigDecimal.valueOf(payment.getAmount().floatValue() * PaymentType.EXPENSE.getPaymentFactor()));
-        } //fixme: Podczas edycji platnosci (zmiany z wydatku na przychód) wartość nie odwraca się
+    public Payment save(PaymentDto paymentDto) {
+        Payment payment = paymentDtoToEntity.convert(paymentDto);
         payment.setInsertDate(LocalDate.now());
         payment.setUser(getAuthenticatedUser());
-        if (payment.getId()==null) {
+        if (payment.getId() == null) {
             payment.setIdForUser(resolveNextIdForUser());
         }
-        return paymentRepository.save(payment);
+        Payment persistedPayment = paymentRepository.save(payment);
+        return persistedPayment;
     }
 
     public Payment saveDataInitializer(Payment payment) {
-        if (payment.getPaymentType() == PaymentType.EXPENSE) {
-            payment.setAmount(BigDecimal.valueOf(payment.getAmount().floatValue() * PaymentType.EXPENSE.getPaymentFactor()));
-        }
         payment.setInsertDate(LocalDate.now());
+        if (payment.getPaymentType() == PaymentType.EXPENSE && (payment.getAmount().signum() == 1)) {
+            payment.setAmount(payment.getAmount().negate());
+        }
         return paymentRepository.save(payment);
     }
 
-    public List<Payment> findAllForAuthUser() {
-        return paymentRepository.findAllByUser(getAuthenticatedUser());
+    public List<PaymentDto> findAllForAuthUser() {
+        return paymentRepository.findAllByUser(getAuthenticatedUser()).stream()
+                .map(payment -> paymentEntityToDto.convert(payment))
+                .collect(Collectors.toList());
     }
 
-    public Payment findByIdForAuthUser(Long id) {
-        return paymentRepository.findByIdAndUser(id, getAuthenticatedUser()).orElseThrow(NoSuchElementException::new);
+    public PaymentDto findByIdForAuthUser(Long id) {
+        Payment payment = paymentRepository.findByIdAndUser(id, getAuthenticatedUser()).orElseThrow(NoSuchElementException::new);
+        return paymentEntityToDto.convert(payment);
     }
 
     public void deleteById(Long id) {
@@ -94,7 +102,7 @@ public class PaymentService {
 
     public List<Integer> getDistinctYearFromAllPayments() {
         return findAllForAuthUser().stream()
-                .map(Payment::getPaymentDate)
+                .map(PaymentDto::getPaymentDate)
                 .map(LocalDate::getYear)
                 .distinct()
                 .sorted(Comparator.reverseOrder())
