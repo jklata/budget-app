@@ -45,8 +45,12 @@
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
                 <form class="form-inline my-2 my-lg-0" form-method="post" th:action="@{/logout}">
-                    <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger my-2 my-sm-0 btn-sm" type="submit">Wyloguj</button>
-                    <button sec:authorize="isAnonymous()" th:href="@{~/login}" class="btn btn-outline-info my-2 my-sm-0 btn-sm" type="submit">Zaloguj</button>
+                    <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger my-2 my-sm-0 btn-sm"
+                            type="submit">Wyloguj
+                    </button>
+                    <button sec:authorize="isAnonymous()" th:href="@{~/login}"
+                            class="btn btn-outline-info my-2 my-sm-0 btn-sm" type="submit">Zaloguj
+                    </button>
                 </form>
 
             </li>
@@ -97,6 +101,12 @@
                                 Raporty
                             </a>
                         </li>
+                        <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a class="nav-link" th:href="@{/admin}">
+                                <span data-feather="lock"><th:block th:text="${reportsCurr}"></th:block></span>
+                                Admin
+                            </a>
+                        </li>
 
                     </ul>
 
@@ -133,6 +143,27 @@
     </div>
 </div>
 
+<div th:fragment="dropdown_select_table">
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+            Tabele bazy danych
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item disabled" th:href="@{/admin}">ACCOUNT</a>
+            <a class="dropdown-item" th:href="@{/admin}">BUDGET</a>
+            <a class="dropdown-item" th:href="@{/admin}">HASHTAG</a>
+            <a class="dropdown-item" th:href="@{/admin}">PAYMENT</a>
+            <a class="dropdown-item" th:href="@{/admin}">PAYMENT_CATEGORY</a>
+            <a class="dropdown-item" th:href="@{/admin}">PAYMENT_HAS_HASHTAG</a>
+            <a class="dropdown-item" th:href="@{/admin/users}">USERS</a>
+            <a class="dropdown-item" th:href="@{/admin}">USER_HAS_USER_ROLE</a>
+            <a class="dropdown-item" th:href="@{/admin}">USER_ROLE</a>
+
+        </div>
+    </div>
+</div>
+
 
 <div th:fragment="footer">
 
@@ -145,7 +176,6 @@
     <script src="https://cdn.jsdelivr.net/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
             th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}" content="text/javascript">
     </script>
-
 
 
     <!-- Icons -->
