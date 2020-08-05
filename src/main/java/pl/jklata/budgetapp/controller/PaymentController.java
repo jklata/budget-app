@@ -111,7 +111,7 @@ public class PaymentController {
     public String deletePayment(@PathVariable Long id) {
         log.debug("Request delete na transakcji o ID: " + id.toString());
         paymentService.deleteById(id);
-        return "redirect:/payments/paymentList";
+        return "redirect:/payments/";
     }
 
     @GetMapping(value = "/exportcsv")
