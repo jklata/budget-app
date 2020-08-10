@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.jklata.budgetapp.service.ChartService;
-import pl.jklata.budgetapp.service.PaymentService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,12 +17,10 @@ import java.util.Objects;
 public class ChartController {
 
     private ChartService chartService;
-    private PaymentService paymentService;
 
     @Autowired
-    public ChartController(ChartService chartService, PaymentService paymentService) {
+    public ChartController(ChartService chartService) {
         this.chartService = chartService;
-        this.paymentService = paymentService;
     }
 
     @GetMapping("/reports")
@@ -31,7 +28,7 @@ public class ChartController {
         int currentYear = LocalDate.now().getYear();
 
         long startTime1 = System.nanoTime();
-        List<Integer> listOfYears = paymentService.getDistinctYearFromAllPayments();
+        List<Integer> listOfYears = chartService.getDistinctYearFromAllPayments();
         long endTime1 = System.nanoTime();
         log.debug("Time of getDistinctYearFromAllPayments: {}ms", (endTime1 - startTime1) / 1000000);
 
