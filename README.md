@@ -9,7 +9,7 @@ Użytkownik standardowy:
 
 Admin:
 * login: admin
-* hasło: admin 123
+* hasło: admin123
 
 ###Uruchamianie
 URL apliakcji: https://localhost:8443/ 
