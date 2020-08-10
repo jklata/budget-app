@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 import pl.jklata.budgetapp.dto.PaymentDto;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -21,8 +19,6 @@ public class ChartService {
     public ChartService(PaymentService paymentService) {
         this.paymentService = paymentService;
     }
-
-    //TODO: zbadać długie ładowanie danych na widoku (wprowadzić cache dla danych)
 
     public Map<String, BigDecimal> getAllPaymentsOfGivenYearByMonthMap(int year) {
 
@@ -46,9 +42,7 @@ public class ChartService {
     }
 
     private BigDecimal getAllPaymentsOfGivenYearByMonth(int year, int month) {
-        return paymentService.findAllForAuthUser().stream()
-                .filter(p -> p.getPaymentDate().isAfter(LocalDate.of(year, month, 1)))
-                .filter(p -> p.getPaymentDate().isBefore(LocalDate.of(year, month, YearMonth.of(year, month).lengthOfMonth())))
+        return paymentService.findAllForAuthUserAndYearAndMonth(year, month).stream()
                 .map(PaymentDto::getAmountWithSign)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }

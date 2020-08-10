@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import pl.jklata.budgetapp.domain.Payment;
 import pl.jklata.budgetapp.domain.User;
 
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,8 +26,9 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     @Query("SELECT max(p.idForUser) FROM Payment p WHERE p.user = ?1")
     Long findMaxIdForUser(User user);
 
-    //todo: naprawić query tak, żeby ładowało unikalne lata dla konkretnego usera
-    @Query(value = "SELECT DISTINCT YEAR(transaction_date) FROM payment WHERE user = ?1 ORDER BY YEAR(transaction_date) DESC",
-            nativeQuery = true)
+    @Query("SELECT DISTINCT YEAR(transaction_date) FROM Payment p WHERE p.user = ?1 ORDER BY YEAR(transaction_date) DESC")
     List<Integer> getDistinctYearFromAllPayments(User user);
+
+    List<Payment> findAllByUserAndPaymentDateBetween(@NotNull User user, LocalDate dateFrom, LocalDate dateTo);
+
 }

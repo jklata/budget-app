@@ -16,7 +16,6 @@ import pl.jklata.budgetapp.repository.PaymentRepository;
 import pl.jklata.budgetapp.repository.UserRepository;
 
 import java.time.LocalDate;
-import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -68,6 +67,16 @@ public class PaymentService {
                 .collect(Collectors.toList());
     }
 
+    public List<PaymentDto> findAllForAuthUserAndYearAndMonth(int year, int month) {
+
+        LocalDate startDate = LocalDate.of(year, month, 1);
+        LocalDate endDate = LocalDate.of(year, month, startDate.lengthOfMonth());
+
+        return paymentRepository.findAllByUserAndPaymentDateBetween(getAuthenticatedUser(), startDate, endDate).stream()
+                .map(payment -> paymentEntityToDto.convert(payment))
+                .collect(Collectors.toList());
+    }
+
     public PaymentDto findByIdForAuthUser(Long id) {
         Payment payment = paymentRepository.findByIdAndUser(id, getAuthenticatedUser()).orElseThrow(NoSuchElementException::new);
         return paymentEntityToDto.convert(payment);
@@ -101,12 +110,7 @@ public class PaymentService {
     }
 
     public List<Integer> getDistinctYearFromAllPayments() {
-        return findAllForAuthUser().stream()
-                .map(PaymentDto::getPaymentDate)
-                .map(LocalDate::getYear)
-                .distinct()
-                .sorted(Comparator.reverseOrder())
-                .collect(Collectors.toList());
+        return paymentRepository.getDistinctYearFromAllPayments(getAuthenticatedUser());
     }
 
 }
