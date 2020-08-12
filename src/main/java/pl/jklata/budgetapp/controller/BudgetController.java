@@ -38,10 +38,10 @@ public class BudgetController {
 
         try {
             Budget savedBudget = budgetService.save(budget);
-            log.debug("Wykonano 'save' na budżecie o ID: " + savedBudget.getId().toString());
+            log.debug("Budget has been saved. Budget name:{}, id: {}", budget.getName(), savedBudget.getId());
 
         } catch (EntityExistsException e) {
-            System.out.println("Budżet już istnieje" + e);
+            log.error("Such budget already exists" + e);
         }
         return "redirect:/budgets";
     }

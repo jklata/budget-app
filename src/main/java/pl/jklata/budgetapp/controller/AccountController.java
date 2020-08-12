@@ -38,10 +38,10 @@ public class AccountController {
 
         try {
             Account savedAccount = accountService.save(account);
-            log.debug("Wykonano 'save' na account o ID: " + savedAccount.getId().toString());
+            log.debug("Account has been saved. Account name:{}, id: {}", account.getName(), savedAccount.getId());
 
         } catch (EntityExistsException e) {
-            System.out.println("Account już istnieje" + e);
+            log.error("Such account already exists" + e);
         }
         return "redirect:/wallets";
     }

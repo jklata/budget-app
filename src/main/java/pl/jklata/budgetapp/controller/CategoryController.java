@@ -36,10 +36,10 @@ public class CategoryController {
 
         try {
             PaymentCategory savedPaymentCategory = paymentCategoryService.save(paymentCategory);
-            log.debug("Wykonano 'save' na kategorii o ID: " + savedPaymentCategory.getId().toString());
+            log.debug("Category has been saved. Category name:{}, id: {}", paymentCategory.getName(), savedPaymentCategory.getId());
 
         } catch (EntityExistsException e) {
-            System.out.println("Rekord istnieje" + e);
+            log.error("Such category already exists" + e);
         }
         return "redirect:/categories";
     }

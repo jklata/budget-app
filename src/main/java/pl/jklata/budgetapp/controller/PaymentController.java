@@ -77,6 +77,7 @@ public class PaymentController {
     @PostMapping(value = "/add")
     public String addPaymentToDataBase(@Valid @ModelAttribute("payment") PaymentDto paymentDto, BindingResult binding, Model model) {
 
+        log.debug("Received payment id: {} ", paymentDto.getId());
         if (binding.hasErrors()) {
             for (ObjectError error : binding.getAllErrors()) {
                 log.info("Validation errors during saving payment. Error: [object = {}, message = {}]",
@@ -86,9 +87,8 @@ public class PaymentController {
             //todo: przekazać do widoku atrybuty: paymentCategory, budget, account
             return "payments/addPayment";
         }
-        log.debug("Przekazana transakcja ma id: " + paymentDto.getId());
         Payment savedPayment = paymentService.save(paymentDto);
-        log.debug("Wykonano 'save' na transakcji o ID: " + savedPayment.getId().toString());
+        log.debug("Payment has been saved. Payment id: {}", savedPayment.getId());
         return "redirect:/payments/";
     }
 
