@@ -22,7 +22,6 @@
     <div class="col-md-9">
         <form th:action="@{/user/save}" th:object="${user}" method="post">
             <input type="hidden" th:field="*{id}"/>
-            <input type="hidden" th:field="*{password}" id="hiddenPasswordInput"/>
             <input type="hidden" th:field="*{login}"/>
             <input type="hidden" th:field="*{userRoles}"/>
             <input type="hidden" th:field="*{permissions}"/>
@@ -80,13 +79,11 @@
                         document.getElementById('inputOldPassword').disabled = true;
                         document.getElementById('inputNewPassword1').disabled = true;
                         document.getElementById('inputNewPassword2').disabled = true;
-                        document.getElementById('hiddenPasswordInput').disabled = false;
                     }
                     if (changePasswordCheckbox.checked) {
                         document.getElementById('inputOldPassword').disabled = false;
                         document.getElementById('inputNewPassword1').disabled = false;
                         document.getElementById('inputNewPassword2').disabled = false;
-                        document.getElementById('hiddenPasswordInput').disabled = true;
                     }
                 }
 
@@ -128,7 +125,7 @@
                 <div class="form-group col-md-6">
                     <label for="inputNewPassword1">Nowe hasło</label>
                     <input type="password" class="form-control" id="inputNewPassword1" placeholder="Nowe hasło"
-                           th:field="*{password}">
+                           th:field="*{newPassword}">
                 </div>
             </div>
             <div class="form-row">

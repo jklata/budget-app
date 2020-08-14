@@ -1,5 +1,6 @@
 package pl.jklata.budgetapp.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,10 @@ import pl.jklata.budgetapp.repository.UserRepository;
 import pl.jklata.budgetapp.repository.UserRoleRepository;
 
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class UserService {
 
@@ -60,11 +63,19 @@ public class UserService {
 
 
     public void updateUser(UserUpdateDto userUpdateDto) {
-        if (userUpdateDto.getPassword() != null) {
-            userUpdateDto.setPassword(encryptPassword(userUpdateDto.getPassword()));
-        }
         User userToSave = userUpdateDtoToEntity.convert(userUpdateDto);
+        userToSave.setPassword(resolvePasswordToPersist(userUpdateDto));
         userRepository.save(userToSave);
+    }
+
+    private String resolvePasswordToPersist(UserUpdateDto userUpdateDto) {
+        if (!Objects.isNull(userUpdateDto.getNewPassword())) {
+            log.debug("Update User with newly typed password");
+            return encryptPassword(userUpdateDto.getNewPassword());
+        } else {
+            log.debug("Update User without changing password");
+            return userRepository.findByLogin(userUpdateDto.getLogin()).getPassword();
+        }
     }
 
     public UserUpdateDto getAuthenticatedUserUpdateDto() {

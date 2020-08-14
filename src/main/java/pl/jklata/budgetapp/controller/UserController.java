@@ -44,7 +44,7 @@ public class UserController {
                         error.getObjectName(), error.getDefaultMessage());
             }
             model.addAttribute(user);
-            log.debug("User update went wrong.");
+            log.error("User update went wrong.");
             return "userSettings";
         }
 

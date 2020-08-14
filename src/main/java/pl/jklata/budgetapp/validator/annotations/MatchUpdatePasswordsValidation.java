@@ -23,7 +23,7 @@ public @interface MatchUpdatePasswordsValidation {
 
     Class<? extends Payload>[] payload() default {};
 
-    String password();
+    String newPassword();
 
     String retypedPassword();
 

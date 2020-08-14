@@ -19,7 +19,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Slf4j
-@MatchUpdatePasswordsValidation(password = "password", retypedPassword = "retypedPassword",
+@MatchUpdatePasswordsValidation(newPassword = "newPassword", retypedPassword = "retypedPassword",
         changePassword = "changePassword", message = "{validator.password.notmatch}")
 @OldPasswordValidation(login = "login", oldPassword = "oldPassword", changePassword = "changePassword", message = "{validator.password.old.wrong}")
 public class UserUpdateDto {
@@ -34,11 +34,12 @@ public class UserUpdateDto {
     private String oldPassword;
 
     @Size(min = 6, message = "{validator.password.length}")
-    private String password;
+    private String newPassword;
 
     @Size(min = 6, message = "{validator.password.length}")
     private String retypedPassword;
 
+    private String password;
     private Set<UserRole> userRoles = new HashSet<>();
     private String permissions;
     private boolean active;

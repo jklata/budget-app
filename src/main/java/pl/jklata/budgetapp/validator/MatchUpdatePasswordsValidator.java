@@ -12,7 +12,7 @@ import static pl.jklata.budgetapp.validator.utils.ValidatorHelper.matchesPasswor
 @Slf4j
 public class MatchUpdatePasswordsValidator implements ConstraintValidator<MatchUpdatePasswordsValidation, Object> {
 
-    private String password;
+    private String newPassword;
     private String retypedPassword;
     private String message;
     private String changePassword;
@@ -20,7 +20,7 @@ public class MatchUpdatePasswordsValidator implements ConstraintValidator<MatchU
 
     @Override
     public void initialize(MatchUpdatePasswordsValidation constraintAnnotation) {
-        this.password = constraintAnnotation.password();
+        this.newPassword = constraintAnnotation.newPassword();
         this.retypedPassword = constraintAnnotation.retypedPassword();
         this.message = constraintAnnotation.message();
         this.changePassword = constraintAnnotation.changePassword();
@@ -34,7 +34,7 @@ public class MatchUpdatePasswordsValidator implements ConstraintValidator<MatchU
             if (!changePasswordInput) {
                 return true;
             }
-            isValid = matchesPasswords(value, context, password, retypedPassword, message);
+            isValid = matchesPasswords(value, context, newPassword, retypedPassword, message);
 
         } catch (Exception e) {
             log.error("Can't access property in UserUpdateDto via MatchUpdatePasswordsValidator");
