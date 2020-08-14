@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: header"></head>
+
+<body>
+<div th:replace="fragments :: navbar"></div>
+
+<div th:replace="fragments :: navigation(homeCurr='', paymentsCurr='', walletsCurr='(current)', budgetsCurr='', categoriesCurr='', reportsCurr='')"></div>
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2">Twoje dane</h1>
+    </div>
+
+    <div class="form-row">
+        <!--    todo: zmienic adres zdjecia na pole encji-->
+        <img src="http://wprdea.org/image/img_avatar.png" width="150" height="150" class="rounded float-left" alt="...">
+    </div>
+
+    <div class="col-md-9">
+        <form th:action="@{/user/save}" th:object="${user}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:field="*{password}" id="hiddenPasswordInput"/>
+            <input type="hidden" th:field="*{login}"/>
+            <input type="hidden" th:field="*{userRoles}"/>
+            <input type="hidden" th:field="*{permissions}"/>
+            <input type="hidden" th:field="*{active}"/>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputLogin">Login</label>
+                    <input type="text" class="form-control" id="inputLogin" th:value="*{login}" placeholder="Login"
+                           disabled>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputFirstName"
+                           th:classappend="${#fields.hasErrors('firstName')} ? 'text-danger'">Imię</label>
+                    <input type="text" class="form-control" id="inputFirstName" placeholder="Imię"
+                           th:field="*{firstName}"
+                           th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid'">
+                    <p th:each="error : ${#fields.errors('firstName')}"
+                       th:text="${error}" class="alert alert-danger">Validation error</p>
+
+                </div>
+                <div class="form-group col-md-6" th:classappend="${#fields.hasErrors('lastName')} ? 'text-danger'">
+                    <label for="inputLastName">Nazwisko</label>
+                    <input type="text" class="form-control" id="inputLastName" placeholder="Nazwisko"
+                           th:field="*{lastName}"
+                           th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'">
+                    <p th:each="error : ${#fields.errors('lastName')}"
+                       th:text="${error}" class="alert alert-danger">Validation error</p>
+
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputEmail"
+                           th:classappend="${#fields.hasErrors('email')} ? 'text-danger'">E-mail</label>
+                    <input type="text" class="form-control" id="inputEmail" th:field="*{email}" placeholder="Email"
+                           th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'">
+                    <p th:each="error : ${#fields.errors('email')}"
+                       th:text="${error}" class="alert alert-danger">Validation error</p>
+
+                </div>
+            </div>
+
+            <hr/>
+
+            <script type="text/javascript">
+                function changePasswordForm(isOnLoad) {
+                    var changePasswordCheckbox = document.getElementById('changePassword');
+
+                    if (isOnLoad) {
+                        changePasswordCheckbox.checked = false;
+                    }
+                    if (!changePasswordCheckbox.checked) {
+                        document.getElementById('inputOldPassword').disabled = true;
+                        document.getElementById('inputNewPassword1').disabled = true;
+                        document.getElementById('inputNewPassword2').disabled = true;
+                        document.getElementById('hiddenPasswordInput').disabled = false;
+                    }
+                    if (changePasswordCheckbox.checked) {
+                        document.getElementById('inputOldPassword').disabled = false;
+                        document.getElementById('inputNewPassword1').disabled = false;
+                        document.getElementById('inputNewPassword2').disabled = false;
+                        document.getElementById('hiddenPasswordInput').disabled = true;
+                    }
+                }
+
+                function checkboxChangePasswordClicked() {
+                    changePasswordForm();
+                }
+
+                function setupOnLoad() {
+                    changePasswordForm(true);
+                }
+                window.onload = setupOnLoad;
+            </script>
+
+
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="changePassword"
+                           onclick="checkboxChangePasswordClicked()" th:field="*{changePassword}">
+                    <label class="form-check-label" for="changePassword">
+                        Chcę zmienić hasło
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputOldPassword" th:classappend="${#fields.hasErrors('oldPassword')} ? 'text-danger'">Stare
+                        hasło</label>
+                    <input type="password" class="form-control" id="inputOldPassword" placeholder="Stare hasło"
+                           th:field="*{oldPassword}"
+                           th:classappend="${#fields.hasErrors('oldPassword')} ? 'is-invalid'">
+                    <p th:each="error : ${#fields.errors('oldPassword')}"
+                       th:text="${error}" class="alert alert-danger">Validation error</p>
+
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputNewPassword1">Nowe hasło</label>
+                    <input type="password" class="form-control" id="inputNewPassword1" placeholder="Nowe hasło"
+                           th:field="*{password}">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputNewPassword2"
+                           th:classappend="${#fields.hasErrors('retypedPassword')} ? 'text-danger'">Powtórz nowe
+                        hasło</label>
+                    <input type="password" class="form-control" id="inputNewPassword2" placeholder="Powtórz nowe hasło"
+                           th:field="*{retypedPassword}"
+                           th:classappend="${#fields.hasErrors('retypedPassword')} ? 'is-invalid'">
+                    <p th:each="error : ${#fields.errors('retypedPassword')}"
+                       th:text="${error}" class="alert alert-danger">Validation error</p>
+
+                </div>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+        </form>
+    </div>
+
+</main>
+
+
+<div th:replace="fragments :: footer"></div>
+</body>
+</html>

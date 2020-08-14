@@ -17,7 +17,7 @@ public class AuthUserService {
         this.userRepository = userRepository;
     }
 
-    protected User getAuthenticatedUser() {
+    public User getAuthenticatedUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userName = "";
         if (principal instanceof UserDetails) {

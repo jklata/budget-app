@@ -5,10 +5,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.jklata.budgetapp.converter.UserDtoToEntity;
+import pl.jklata.budgetapp.converter.UserEntityToUserUpdateDto;
+import pl.jklata.budgetapp.converter.UserUpdateDtoToEntity;
 import pl.jklata.budgetapp.domain.User;
 import pl.jklata.budgetapp.domain.UserRole;
 import pl.jklata.budgetapp.domain.enums.Role;
 import pl.jklata.budgetapp.dto.UserDto;
+import pl.jklata.budgetapp.dto.UserUpdateDto;
 import pl.jklata.budgetapp.repository.UserRepository;
 import pl.jklata.budgetapp.repository.UserRoleRepository;
 
@@ -16,19 +19,25 @@ import java.util.Collections;
 import java.util.Optional;
 
 @Service
-public class SignupService {
+public class UserService {
 
-    UserRepository userRepository;
-    UserRoleRepository userRoleRepository;
-    PasswordEncoder passwordEncoder;
-    UserDtoToEntity userDtoToEntity;
+    private AuthUserService authUserService;
+    private UserRepository userRepository;
+    private UserRoleRepository userRoleRepository;
+    private PasswordEncoder passwordEncoder;
+    private UserDtoToEntity userDtoToEntity;
+    private UserEntityToUserUpdateDto userEntityToUserUpdateDto;
+    private UserUpdateDtoToEntity userUpdateDtoToEntity;
 
     @Autowired
-    public SignupService(UserRepository userRepository, UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder, UserDtoToEntity userDtoToEntity) {
+    public UserService(AuthUserService authUserService, UserRepository userRepository, UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder, UserDtoToEntity userDtoToEntity, UserEntityToUserUpdateDto userEntityToUserUpdateDto, UserUpdateDtoToEntity userUpdateDtoToEntity) {
+        this.authUserService = authUserService;
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.passwordEncoder = passwordEncoder;
         this.userDtoToEntity = userDtoToEntity;
+        this.userEntityToUserUpdateDto = userEntityToUserUpdateDto;
+        this.userUpdateDtoToEntity = userUpdateDtoToEntity;
     }
 
     @Transactional
@@ -50,4 +59,16 @@ public class SignupService {
     }
 
 
+    public void updateUser(UserUpdateDto userUpdateDto) {
+        if (userUpdateDto.getPassword() != null) {
+            userUpdateDto.setPassword(encryptPassword(userUpdateDto.getPassword()));
+        }
+        User userToSave = userUpdateDtoToEntity.convert(userUpdateDto);
+        userRepository.save(userToSave);
+    }
+
+    public UserUpdateDto getAuthenticatedUserUpdateDto() {
+        User authenticatedUser = authUserService.getAuthenticatedUser();
+        return userEntityToUserUpdateDto.convert(authenticatedUser);
+    }
 }

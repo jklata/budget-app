@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 import pl.jklata.budgetapp.dto.UserDto;
-import pl.jklata.budgetapp.service.SignupService;
+import pl.jklata.budgetapp.service.UserService;
 
 import javax.validation.Valid;
 
@@ -18,11 +18,11 @@ import javax.validation.Valid;
 @Controller
 public class SignupController {
 
-    SignupService signupService;
+    private UserService userService;
 
     @Autowired
-    public SignupController(SignupService signupService) {
-        this.signupService = signupService;
+    public SignupController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/signup")
@@ -41,7 +41,7 @@ public class SignupController {
             return "signup";
         }
 
-        signupService.signUpNewUser(userDto);
+        userService.signUpNewUser(userDto);
         return "redirect:/login";
     }
 }

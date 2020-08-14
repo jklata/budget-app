@@ -27,11 +27,11 @@ public class UserDto {
     private String login;
 
     @NotBlank(message = "{validator.invalid.null}")
-    @Size(min = 5, message = "{validator.password.length}")
+    @Size(min = 6, message = "{validator.password.length}")
     private String password;
 
     @NotBlank(message = "{validator.invalid.null}")
-    @Size(min = 5, message = "{validator.password.length}")
+    @Size(min = 6, message = "{validator.password.length}")
     private String retypedPassword;
 
     private Set<UserRole> userRoles = new HashSet<>();
