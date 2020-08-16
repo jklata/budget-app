@@ -14,13 +14,22 @@
         <h1 class="h2">Twoje dane</h1>
     </div>
 
-    <div class="form-row">
-        <!--    todo: zmienic adres zdjecia na pole encji-->
-        <img src="http://wprdea.org/image/img_avatar.png" width="150" height="150" class="rounded float-left" alt="...">
-    </div>
 
     <div class="col-md-9">
-        <form th:action="@{/user/save}" th:object="${user}" method="post">
+        <form th:action="@{/user/save}" th:object="${user}" method="post" enctype="multipart/form-data">
+            <div class="form-row">
+                <!--    todo: zmienic adres zdjecia na pole encji-->
+                <!--                <img th:src="@{/identityProviders/imageFromSession(uuid= *{uuid})}" width="150" height="150"-->
+                <!--                     class="rounded float-left" alt="http://wprdea.org/image/img_avatar.png">-->
+                <div id="avatarImageGroup" class="form-group col-9">
+                    <input type="file" accept="image/x-png" th:field="*{avatar}" onchange="checkFileSize();"/>
+                </div>
+                <div th:if="${#fields.hasErrors('avatar')}">
+                    <p class="label label-danger" th:errors="*{avatar}">Avatar Error</p>
+                </div>
+
+            </div>
+
             <input type="hidden" th:field="*{id}"/>
             <input type="hidden" th:field="*{login}"/>
             <input type="hidden" th:field="*{userRoles}"/>

@@ -1,21 +1,11 @@
 package pl.jklata.budgetapp.converter;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 import pl.jklata.budgetapp.domain.User;
 import pl.jklata.budgetapp.dto.UserUpdateDto;
 
-@Component
 public class UserEntityToUserUpdateDto implements Converter<User, UserUpdateDto> {
-
-    private ModelMapper modelMapper;
-
-    @Autowired
-    public UserEntityToUserUpdateDto(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
 
     @Override
     public UserUpdateDto convert(User source) {
@@ -23,6 +13,27 @@ public class UserEntityToUserUpdateDto implements Converter<User, UserUpdateDto>
             return null;
         }
 
-        return modelMapper.map(source, UserUpdateDto.class);
+
+        final UserUpdateDto user = new UserUpdateDto();
+        user.setId(source.getId());
+        user.setLogin(source.getLogin());
+        user.setPassword(source.getPassword());
+        user.setUserRoles(source.getUserRoles());
+        user.setPermissions(source.getPermissions());
+        user.setActive(source.isActive());
+        user.setFirstName(source.getFirstName());
+        user.setLastName(source.getLastName());
+        user.setAvatar(getMultipartFileFromByteArray(source));
+        user.setEmail(source.getEmail());
+        return user;
+
     }
+
+    private static MultipartFile getMultipartFileFromByteArray(User user) {
+        String name = "logoImage.png";
+        byte[] imageBytes = user.getAvatar();
+//        MultipartFile multipartFile = new ImageMultipartFile(imageBytes, name);
+        return null;
+    }
+
 }

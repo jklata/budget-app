@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
 import pl.jklata.budgetapp.domain.UserRole;
 import pl.jklata.budgetapp.validator.annotations.MatchUpdatePasswordsValidation;
 import pl.jklata.budgetapp.validator.annotations.OldPasswordValidation;
@@ -29,6 +30,8 @@ public class UserUpdateDto {
 
     @NotNull
     private String login;
+
+    private MultipartFile avatar;
 
     @Size(min = 6, message = "{validator.password.length}")
     private String oldPassword;

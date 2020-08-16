@@ -35,7 +35,7 @@ public class User {
     private String email;
 
     @Lob
-    private Byte[] avatar;
+    private byte[] avatar;
 
     private String firstName;
     private String lastName;
