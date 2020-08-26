@@ -132,6 +132,13 @@
             <version>2.3.8</version>
         </dependency>
 
+<!--        JAVERS-->
+        <dependency>
+            <groupId>org.javers</groupId>
+            <artifactId>javers-spring-boot-starter-sql</artifactId>
+            <version>5.11.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
