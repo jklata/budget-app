@@ -6,7 +6,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import pl.jklata.budgetapp.domain.Payment;
+import pl.jklata.budgetapp.dto.PaymentDto;
 import pl.jklata.budgetapp.service.*;
 
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -15,7 +15,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class PaymentControllerTest {
-
 
     @Mock
     PaymentService paymentService;
@@ -28,7 +27,7 @@ public class PaymentControllerTest {
     MockMvc mockMvc;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
 
         paymentController = new PaymentController(paymentCategoryService, paymentService, accountService, budgetService, csvService);
@@ -38,22 +37,22 @@ public class PaymentControllerTest {
     @Test
     public void testGetPayment() throws Exception {
 
-        Payment payment = new Payment();
-        payment.setId(1L);
+        PaymentDto paymentDto = new PaymentDto();
+        paymentDto.setId(1L);
 
-        when(paymentService.findByIdForAuthUser(anyLong())).thenReturn(payment);
+        when(paymentService.findByIdForAuthUser(anyLong())).thenReturn(paymentDto);
 
-        mockMvc.perform(get("/1/show"))
+        mockMvc.perform(get("/payments/1/show"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("payments/payment-show"))
+                .andExpect(view().name("payments/paymentShow"))
                 .andExpect(model().attributeExists("payment"));
     }
 
     @Test
     public void testDelete() throws Exception {
-        mockMvc.perform(get("/1/delete"))
+        mockMvc.perform(get("/payments/1/delete"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/payments"));
+                .andExpect(view().name("redirect:/payments/"));
 
         verify(paymentService, times(1)).deleteById(anyLong());
     }
