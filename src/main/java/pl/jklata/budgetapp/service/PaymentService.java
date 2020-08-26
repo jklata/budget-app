@@ -1,5 +1,6 @@
 package pl.jklata.budgetapp.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,9 +15,10 @@ import pl.jklata.budgetapp.repository.PaymentRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-
+@Slf4j
 @Service
 public class PaymentService {
 
@@ -45,8 +47,7 @@ public class PaymentService {
         if (payment.getId() == null) {
             payment.setIdForUser(resolveNextIdForUser());
         }
-        Payment persistedPayment = paymentRepository.save(payment);
-        return persistedPayment;
+        return paymentRepository.save(payment);
     }
 
     public Payment saveDataInitializer(Payment payment) {
@@ -75,7 +76,12 @@ public class PaymentService {
     }
 
     private boolean isUserOwnsPayment(Long id) {
-        return findAllForAuthUser().stream().anyMatch(payment -> payment.getId().equals(id));
+        try {
+            return Objects.nonNull(findByIdForAuthUser(id));
+        } catch (NoSuchElementException e) {
+            log.debug("Authenticated user does not owns payment of id: {}, or it has been already deleted", id);
+            return false;
+        }
     }
 
     public Long resolveNextIdForUser() {
