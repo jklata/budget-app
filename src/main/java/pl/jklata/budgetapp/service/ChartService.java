@@ -3,8 +3,8 @@ package pl.jklata.budgetapp.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.jklata.budgetapp.converter.PaymentEntityToDto;
 import pl.jklata.budgetapp.dto.PaymentDto;
+import pl.jklata.budgetapp.dto.converter.PaymentEntityToDto;
 import pl.jklata.budgetapp.repository.PaymentRepository;
 
 import java.math.BigDecimal;

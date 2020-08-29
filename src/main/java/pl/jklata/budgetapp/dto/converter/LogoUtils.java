@@ -1,4 +1,4 @@
-package pl.jklata.budgetapp.converter;
+package pl.jklata.budgetapp.dto.converter;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;

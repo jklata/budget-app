@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import pl.jklata.budgetapp.converter.PaymentDtoToEntity;
-import pl.jklata.budgetapp.converter.PaymentEntityToDto;
 import pl.jklata.budgetapp.domain.Payment;
 import pl.jklata.budgetapp.domain.enums.PaymentType;
 import pl.jklata.budgetapp.dto.PaymentDto;
+import pl.jklata.budgetapp.dto.converter.PaymentDtoToEntity;
+import pl.jklata.budgetapp.dto.converter.PaymentEntityToDto;
 import pl.jklata.budgetapp.repository.PaymentRepository;
 
 import java.time.LocalDate;

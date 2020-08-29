@@ -1,4 +1,4 @@
-package pl.jklata.budgetapp.converter;
+package pl.jklata.budgetapp.dto.converter;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -5,14 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.jklata.budgetapp.converter.UserDtoToEntity;
-import pl.jklata.budgetapp.converter.UserEntityToUserUpdateDto;
-import pl.jklata.budgetapp.converter.UserUpdateDtoToEntity;
 import pl.jklata.budgetapp.domain.User;
 import pl.jklata.budgetapp.domain.UserRole;
 import pl.jklata.budgetapp.domain.enums.Role;
 import pl.jklata.budgetapp.dto.UserDto;
 import pl.jklata.budgetapp.dto.UserUpdateDto;
+import pl.jklata.budgetapp.dto.converter.UserDtoToEntity;
+import pl.jklata.budgetapp.dto.converter.UserEntityToUserUpdateDto;
+import pl.jklata.budgetapp.dto.converter.UserUpdateDtoToEntity;
 import pl.jklata.budgetapp.repository.UserRepository;
 import pl.jklata.budgetapp.repository.UserRoleRepository;
 

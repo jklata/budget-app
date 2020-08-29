@@ -1,26 +1,23 @@
-package pl.jklata.budgetapp.converter;
+package pl.jklata.budgetapp.dto.converter;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import pl.jklata.budgetapp.domain.User;
+import pl.jklata.budgetapp.dto.ImageMultipartFile;
 import pl.jklata.budgetapp.dto.UserUpdateDto;
 
-import java.io.IOException;
-import java.util.Objects;
-
-@Slf4j
 @Component
-public class UserUpdateDtoToEntity implements Converter<UserUpdateDto, User> {
+public class UserEntityToUserUpdateDto implements Converter<User, UserUpdateDto> {
 
     @Override
-    public User convert(UserUpdateDto source) {
+    public UserUpdateDto convert(User source) {
         if (source == null) {
             return null;
         }
 
-        final User user = new User();
+
+        final UserUpdateDto user = new UserUpdateDto();
         user.setId(source.getId());
         user.setLogin(source.getLogin());
         user.setPassword(source.getPassword());
@@ -29,22 +26,16 @@ public class UserUpdateDtoToEntity implements Converter<UserUpdateDto, User> {
         user.setActive(source.isActive());
         user.setFirstName(source.getFirstName());
         user.setLastName(source.getLastName());
-        user.setAvatar(getByteArrayFromLogoFile(source.getAvatar()));
+        user.setAvatar(getMultipartFileFromByteArray(source));
         user.setEmail(source.getEmail());
         return user;
 
     }
 
-    private byte[] getByteArrayFromLogoFile(MultipartFile logo) {
-        byte[] byteArray = null;
-        if (Objects.nonNull(logo) && !logo.isEmpty()) {
-            try {
-                byteArray = logo.getBytes();
-            } catch (IOException e) {
-                log.error("Get byte array from multipartFile went wrong.", e);
-            }
-        }
-        return byteArray;
+    private static MultipartFile getMultipartFileFromByteArray(User user) {
+        String name = "logoImage.png";
+        byte[] imageBytes = user.getAvatar();
+        return new ImageMultipartFile(imageBytes, name);
     }
 
 }
