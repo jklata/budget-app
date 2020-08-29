@@ -1,9 +1,11 @@
 package pl.jklata.budgetapp.service;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import pl.jklata.budgetapp.domain.*;
@@ -16,12 +18,16 @@ import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
+
 @Data
-@AllArgsConstructor
 @Slf4j
 @Component
 @Profile("dev")
+@PropertySource("classpath:application-dev.properties")
 public class DataInitializer {
+
+    @Value("${payments.number}")
+    private int PAYMENTS_NUMBER;
 
     private final PaymentService paymentService;
     private final UserRepository userRepository;
@@ -33,6 +39,18 @@ public class DataInitializer {
     private final UserRoleRepository userRoleRepository;
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    public DataInitializer(PaymentService paymentService, UserRepository userRepository, AccountRepository accountRepository, BudgetRepository budgetRepository, PaymentRepository paymentRepository, HashtagRepository hashtagRepository, PaymentCategoryRepository paymentCategoryRepository, UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder) {
+        this.paymentService = paymentService;
+        this.userRepository = userRepository;
+        this.accountRepository = accountRepository;
+        this.budgetRepository = budgetRepository;
+        this.paymentRepository = paymentRepository;
+        this.hashtagRepository = hashtagRepository;
+        this.paymentCategoryRepository = paymentCategoryRepository;
+        this.userRoleRepository = userRoleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @PostConstruct
     void init() {
@@ -125,7 +143,7 @@ public class DataInitializer {
         Random r = new Random();
         Long idByUser1 = 0L;
         Long idByUser2 = 0L;
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < PAYMENTS_NUMBER; i++) {
 
             Payment payment = new Payment();
             payment.setPaymentDate(LocalDate.of(r.nextInt(2021 - 2018) + 2018, r.nextInt(12 - 1) + 1, r.nextInt(25 - 1) + 1));
@@ -142,11 +160,11 @@ public class DataInitializer {
             payment.setAccount(account1);
             payment.setBudget(budget1);
             payment.setHashtags(new HashSet<>(Arrays.asList(ht2)));
-            if(i%2==0){
+            if (i % 2 == 0) {
                 idByUser1++;
                 payment.setIdForUser(idByUser1);
                 payment.setUser(admin);
-            }else {
+            } else {
                 idByUser2++;
                 payment.setIdForUser(idByUser2);
                 payment.setUser(user1);
