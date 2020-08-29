@@ -2,6 +2,10 @@ package pl.jklata.budgetapp.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +18,8 @@ import pl.jklata.budgetapp.dto.UserUpdateDto;
 import pl.jklata.budgetapp.service.UserService;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.Objects;
 
 @Slf4j
 @Controller
@@ -33,6 +39,19 @@ public class UserController {
 
         model.addAttribute("user", userService.getAuthenticatedUserUpdateDto());
         return "userSettings";
+    }
+
+    @GetMapping(value = "/avatar", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> getUserAvatar() throws IOException {
+
+        UserUpdateDto userUpdateDto = userService.getAuthenticatedUserUpdateDto();
+        byte[] buffer = null;
+        if (Objects.nonNull(userUpdateDto)) {
+            buffer = Objects.isNull(userUpdateDto.getAvatar()) ? null : userUpdateDto.getAvatar().getBytes();
+        }
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_PNG);
+        return new ResponseEntity<>(buffer, headers, HttpStatus.OK);
     }
 
     @PostMapping(value = "/save")

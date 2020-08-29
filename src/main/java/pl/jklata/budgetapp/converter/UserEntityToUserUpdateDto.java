@@ -1,10 +1,13 @@
 package pl.jklata.budgetapp.converter;
 
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import pl.jklata.budgetapp.domain.User;
+import pl.jklata.budgetapp.dto.ImageMultipartFile;
 import pl.jklata.budgetapp.dto.UserUpdateDto;
 
+@Component
 public class UserEntityToUserUpdateDto implements Converter<User, UserUpdateDto> {
 
     @Override
@@ -32,8 +35,7 @@ public class UserEntityToUserUpdateDto implements Converter<User, UserUpdateDto>
     private static MultipartFile getMultipartFileFromByteArray(User user) {
         String name = "logoImage.png";
         byte[] imageBytes = user.getAvatar();
-//        MultipartFile multipartFile = new ImageMultipartFile(imageBytes, name);
-        return null;
+        return new ImageMultipartFile(imageBytes, name);
     }
 
 }
