@@ -2,6 +2,7 @@ package pl.jklata.budgetapp.converter;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import pl.jklata.budgetapp.domain.User;
 import pl.jklata.budgetapp.dto.UserUpdateDto;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 @Slf4j
+@Component
 public class UserUpdateDtoToEntity implements Converter<UserUpdateDto, User> {
 
     @Override
