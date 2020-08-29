@@ -28,6 +28,8 @@ public class DataInitializer {
 
     @Value("${payments.number}")
     private int PAYMENTS_NUMBER;
+    @Value("${generate.users.data}")
+    private boolean generateUsersData;
 
     private final PaymentService paymentService;
     private final UserRepository userRepository;
@@ -98,6 +100,16 @@ public class DataInitializer {
                 .active(true)
                 .build();
 
+        userRepository.save(user1);
+        userRepository.save(admin);
+        userRepository.save(user3);
+
+        if (generateUsersData) {
+            generateDataForUsers(user1, admin, user3);
+        }
+    }
+
+    private void generateDataForUsers(User user1, User admin, User user3) {
         Account account1 = new Account();
         account1.setName("Konto MBank");
         account1.setInitialBalance(BigDecimal.valueOf(35000.55));
