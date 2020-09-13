@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import pl.jklata.budgetapp.aop.LogEvent;
 import pl.jklata.budgetapp.domain.Payment;
 import pl.jklata.budgetapp.domain.enums.PaymentType;
 import pl.jklata.budgetapp.dto.PaymentDto;
@@ -40,6 +41,7 @@ public class PaymentService {
         return paymentRepository.findAllByUser(authUserService.getAuthenticatedUser(), pageable).map(payment -> paymentEntityToDto.convert(payment));
     }
 
+    @LogEvent
     public Payment save(PaymentDto paymentDto) {
         Payment payment = paymentDtoToEntity.convert(paymentDto);
         payment.setInsertDate(LocalDate.now());

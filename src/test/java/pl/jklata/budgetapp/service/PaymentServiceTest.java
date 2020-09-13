@@ -4,9 +4,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import pl.jklata.budgetapp.domain.Payment;
+import pl.jklata.budgetapp.domain.enums.PaymentType;
+import pl.jklata.budgetapp.dto.PaymentDto;
+import pl.jklata.budgetapp.dto.converter.PaymentDtoToEntity;
+import pl.jklata.budgetapp.dto.converter.PaymentEntityToDto;
 import pl.jklata.budgetapp.repository.PaymentRepository;
-import pl.jklata.budgetapp.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +30,7 @@ public class PaymentServiceTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        paymentService = new PaymentService(paymentRepository, userRepository);
+        paymentService = new PaymentService(paymentRepository, authUserService, paymentDtoToEntity, paymentEntityToDto);
     }
 
     @Test

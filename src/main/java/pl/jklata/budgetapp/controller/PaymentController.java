@@ -101,22 +101,19 @@ public class PaymentController {
         model.addAttribute("budgets", budgetService.findAll());
         model.addAttribute("wallets", accountService.findAll());
         model.addAttribute("today", LocalDate.now());
-        session.setAttribute("beforeType", paymentDto.getPaymentType());
 
-        log.debug("Request update na transakcji o ID: " + id.toString());
+
         return "/payments/addPayment";
     }
 
     @GetMapping(value = "/{id}/delete")
     public String deletePayment(@PathVariable Long id) {
-        log.debug("Request delete na transakcji o ID: " + id.toString());
         paymentService.deleteById(id);
         return "redirect:/payments/";
     }
 
     @GetMapping(value = "/exportcsv")
     public String exportCsvPayment() {
-        log.debug("Request export csv with payments");
         try {
             csvService.createCsvReport();
         } catch (IOException e) {

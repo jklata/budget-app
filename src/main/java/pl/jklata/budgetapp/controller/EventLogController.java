@@ -8,11 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @Slf4j
 @RequestMapping(value = "/eventlog")
-public class EventlogController {
+public class EventLogController {
 
     @GetMapping(value = "")
-    public String eventLog(){
+    public String eventLog() {
         return "eventlog.html";
     }
-
 }

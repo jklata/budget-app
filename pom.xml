@@ -132,11 +132,19 @@
             <version>2.3.8</version>
         </dependency>
 
-<!--        JAVERS-->
+        <!--        JAVERS-->
         <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-spring-boot-starter-sql</artifactId>
             <version>5.11.1</version>
+        </dependency>
+
+
+        <!--        AOP-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+            <version>2.3.3.RELEASE</version>
         </dependency>
 
     </dependencies>
