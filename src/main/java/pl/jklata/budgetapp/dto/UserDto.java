@@ -1,5 +1,11 @@
 package pl.jklata.budgetapp.dto;
 
+import java.util.HashSet;
+import java.util.Set;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,14 +14,11 @@ import pl.jklata.budgetapp.domain.UserRole;
 import pl.jklata.budgetapp.validator.annotations.MatchPasswordsValidation;
 import pl.jklata.budgetapp.validator.annotations.UniqueLoginValidation;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
-
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Slf4j
 @MatchPasswordsValidation(password = "password", retypedPassword = "retypedPassword", message = "{validator.password.notmatch}")
 public class UserDto {

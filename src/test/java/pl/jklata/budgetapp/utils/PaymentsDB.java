@@ -1,15 +1,15 @@
 package pl.jklata.budgetapp.utils;
 
-import pl.jklata.budgetapp.domain.*;
-import pl.jklata.budgetapp.domain.enums.PaymentType;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
+import pl.jklata.budgetapp.domain.Account;
+import pl.jklata.budgetapp.domain.Budget;
+import pl.jklata.budgetapp.domain.Payment;
+import pl.jklata.budgetapp.domain.PaymentCategory;
+import pl.jklata.budgetapp.domain.User;
+import pl.jklata.budgetapp.domain.enums.PaymentType;
 
-/**
- * @author Jakub Klata, Pentacomp Systemy Informatyczne S.A.
- */
 public class PaymentsDB {
 
     public Payment payment_1 = new Payment();

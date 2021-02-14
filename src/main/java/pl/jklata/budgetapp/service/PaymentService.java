@@ -1,20 +1,19 @@
 package pl.jklata.budgetapp.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import pl.jklata.budgetapp.converter.PaymentDtoToEntity;
-import pl.jklata.budgetapp.converter.PaymentEntityToDto;
-import pl.jklata.budgetapp.domain.Payment;
-import pl.jklata.budgetapp.domain.enums.PaymentType;
-import pl.jklata.budgetapp.dto.PaymentDto;
-import pl.jklata.budgetapp.repository.PaymentRepository;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import pl.jklata.budgetapp.converter.PaymentDtoToPaymentConverter;
+import pl.jklata.budgetapp.converter.PaymentToPaymentDtoConverter;
+import pl.jklata.budgetapp.domain.Payment;
+import pl.jklata.budgetapp.domain.enums.PaymentType;
+import pl.jklata.budgetapp.dto.PaymentDto;
+import pl.jklata.budgetapp.repository.PaymentRepository;
 
 
 @Service
@@ -22,24 +21,28 @@ public class PaymentService {
 
     private PaymentRepository paymentRepository;
     private AuthUserService authUserService;
-    private PaymentDtoToEntity paymentDtoToEntity;
-    private PaymentEntityToDto paymentEntityToDto;
+    private PaymentDtoToPaymentConverter paymentDtoToPaymentConverter;
+    private PaymentToPaymentDtoConverter paymentToPaymentDtoConverter;
 
     @Autowired
-    public PaymentService(PaymentRepository paymentRepository, AuthUserService authUserService, PaymentDtoToEntity paymentDtoToEntity, PaymentEntityToDto paymentEntityToDto) {
+    public PaymentService(PaymentRepository paymentRepository, AuthUserService authUserService,
+        PaymentDtoToPaymentConverter paymentDtoToPaymentConverter,
+        PaymentToPaymentDtoConverter paymentToPaymentDtoConverter) {
         this.paymentRepository = paymentRepository;
         this.authUserService = authUserService;
-        this.paymentDtoToEntity = paymentDtoToEntity;
-        this.paymentEntityToDto = paymentEntityToDto;
+        this.paymentDtoToPaymentConverter = paymentDtoToPaymentConverter;
+        this.paymentToPaymentDtoConverter = paymentToPaymentDtoConverter;
     }
 
 
     public Page<PaymentDto> findPaginated(Pageable pageable) {
-        return paymentRepository.findAllByUser(authUserService.getAuthenticatedUser(), pageable).map(payment -> paymentEntityToDto.convert(payment));
+        return paymentRepository.findAllByUser(authUserService.getAuthenticatedUser(), pageable)
+            .map(payment -> paymentToPaymentDtoConverter
+                .convert(payment));
     }
 
     public Payment save(PaymentDto paymentDto) {
-        Payment payment = paymentDtoToEntity.convert(paymentDto);
+        Payment payment = paymentDtoToPaymentConverter.convert(paymentDto);
         payment.setInsertDate(LocalDate.now());
         payment.setUser(authUserService.getAuthenticatedUser());
         if (payment.getId() == null) {
@@ -59,13 +62,13 @@ public class PaymentService {
 
     public List<PaymentDto> findAllForAuthUser() {
         return paymentRepository.findAllByUser(authUserService.getAuthenticatedUser()).stream()
-                .map(payment -> paymentEntityToDto.convert(payment))
+            .map(payment -> paymentToPaymentDtoConverter.convert(payment))
                 .collect(Collectors.toList());
     }
 
     public PaymentDto findByIdForAuthUser(Long id) {
         Payment payment = paymentRepository.findByIdAndUser(id, authUserService.getAuthenticatedUser()).orElseThrow(NoSuchElementException::new);
-        return paymentEntityToDto.convert(payment);
+        return paymentToPaymentDtoConverter.convert(payment);
     }
 
     public void deleteById(Long id) {

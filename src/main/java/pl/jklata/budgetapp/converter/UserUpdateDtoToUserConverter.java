@@ -1,5 +1,7 @@
 package pl.jklata.budgetapp.converter;
 
+import java.io.IOException;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -7,12 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 import pl.jklata.budgetapp.domain.User;
 import pl.jklata.budgetapp.dto.UserUpdateDto;
 
-import java.io.IOException;
-import java.util.Objects;
-
 @Slf4j
 @Component
-public class UserUpdateDtoToEntity implements Converter<UserUpdateDto, User> {
+public class UserUpdateDtoToUserConverter implements Converter<UserUpdateDto, User> {
 
     @Override
     public User convert(UserUpdateDto source) {
@@ -20,18 +19,18 @@ public class UserUpdateDtoToEntity implements Converter<UserUpdateDto, User> {
             return null;
         }
 
-        final User user = new User();
-        user.setId(source.getId());
-        user.setLogin(source.getLogin());
-        user.setPassword(source.getPassword());
-        user.setUserRoles(source.getUserRoles());
-        user.setPermissions(source.getPermissions());
-        user.setActive(source.isActive());
-        user.setFirstName(source.getFirstName());
-        user.setLastName(source.getLastName());
-        user.setAvatar(getByteArrayFromLogoFile(source.getAvatar()));
-        user.setEmail(source.getEmail());
-        return user;
+        return User.builder()
+            .id(source.getId())
+            .login(source.getLogin())
+            .password(source.getPassword())
+            .userRoles(source.getUserRoles())
+            .permissions(source.getPermissions())
+            .active(source.isActive())
+            .firstName(source.getFirstName())
+            .lastName(source.getLastName())
+            .avatar(getByteArrayFromLogoFile(source.getAvatar()))
+            .email(source.getEmail())
+            .build();
 
     }
 

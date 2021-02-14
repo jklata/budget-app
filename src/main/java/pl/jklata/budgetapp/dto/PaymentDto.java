@@ -1,5 +1,13 @@
 package pl.jklata.budgetapp.dto;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Set;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,16 +19,13 @@ import pl.jklata.budgetapp.domain.Hashtag;
 import pl.jklata.budgetapp.domain.PaymentCategory;
 import pl.jklata.budgetapp.domain.enums.PaymentType;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Set;
-
+@Builder
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 @Slf4j
+@EqualsAndHashCode(exclude = {"hashtags"})
 public class PaymentDto {
 
     private Long id;

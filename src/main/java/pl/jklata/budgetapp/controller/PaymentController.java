@@ -1,5 +1,9 @@
 package pl.jklata.budgetapp.controller;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -9,16 +13,19 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import pl.jklata.budgetapp.domain.Payment;
 import pl.jklata.budgetapp.domain.enums.PaymentType;
 import pl.jklata.budgetapp.dto.PaymentDto;
-import pl.jklata.budgetapp.service.*;
-
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-import java.io.IOException;
-import java.time.LocalDate;
+import pl.jklata.budgetapp.service.AccountService;
+import pl.jklata.budgetapp.service.BudgetService;
+import pl.jklata.budgetapp.service.CsvService;
+import pl.jklata.budgetapp.service.PaymentCategoryService;
+import pl.jklata.budgetapp.service.PaymentService;
 
 @Slf4j
 @RequestMapping(value = "/payments")
@@ -60,10 +67,11 @@ public class PaymentController {
     @GetMapping(value = "/add")
     public String getAddPayment(Model model) {
 
-        PaymentDto paymentDto = new PaymentDto();
-        paymentDto.setPaymentDate(LocalDate.now());
-        paymentDto.setIdForUser(paymentService.resolveNextIdForUser());
-        paymentDto.setPaymentType(PaymentType.EXPENSE);
+        PaymentDto paymentDto = PaymentDto.builder()
+            .paymentDate(LocalDate.now())
+            .idForUser(paymentService.resolveNextIdForUser())
+            .paymentType(PaymentType.EXPENSE)
+            .build();
         model.addAttribute("payment", paymentDto);
         log.debug("New PaymentDTO created");
 

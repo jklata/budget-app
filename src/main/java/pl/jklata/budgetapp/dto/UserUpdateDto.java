@@ -1,5 +1,13 @@
 package pl.jklata.budgetapp.dto;
 
+import java.util.HashSet;
+import java.util.Set;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,19 +17,14 @@ import pl.jklata.budgetapp.domain.UserRole;
 import pl.jklata.budgetapp.validator.annotations.MatchUpdatePasswordsValidation;
 import pl.jklata.budgetapp.validator.annotations.OldPasswordValidation;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
-
+@Builder
+@AllArgsConstructor
 @Getter
 @Setter
 @NoArgsConstructor
 @Slf4j
 @MatchUpdatePasswordsValidation(newPassword = "newPassword", retypedPassword = "retypedPassword",
-        changePassword = "changePassword", message = "{validator.password.notmatch}")
+    changePassword = "changePassword", message = "{validator.password.notmatch}")
 @OldPasswordValidation(login = "login", oldPassword = "oldPassword", changePassword = "changePassword", message = "{validator.password.old.wrong}")
 public class UserUpdateDto {
 

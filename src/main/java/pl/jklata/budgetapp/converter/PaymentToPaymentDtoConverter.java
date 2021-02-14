@@ -9,12 +9,12 @@ import pl.jklata.budgetapp.domain.enums.PaymentType;
 import pl.jklata.budgetapp.dto.PaymentDto;
 
 @Component
-public class PaymentEntityToDto implements Converter<Payment, PaymentDto> {
+public class PaymentToPaymentDtoConverter implements Converter<Payment, PaymentDto> {
 
     private ModelMapper modelMapper;
 
     @Autowired
-    public PaymentEntityToDto(ModelMapper modelMapper) {
+    public PaymentToPaymentDtoConverter(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 

@@ -8,7 +8,7 @@ import pl.jklata.budgetapp.dto.ImageMultipartFile;
 import pl.jklata.budgetapp.dto.UserUpdateDto;
 
 @Component
-public class UserEntityToUserUpdateDto implements Converter<User, UserUpdateDto> {
+public class UserToUserUpdateDtoConverter implements Converter<User, UserUpdateDto> {
 
     @Override
     public UserUpdateDto convert(User source) {
@@ -16,18 +16,18 @@ public class UserEntityToUserUpdateDto implements Converter<User, UserUpdateDto>
             return null;
         }
 
-
-        final UserUpdateDto user = new UserUpdateDto();
-        user.setId(source.getId());
-        user.setLogin(source.getLogin());
-        user.setPassword(source.getPassword());
-        user.setUserRoles(source.getUserRoles());
-        user.setPermissions(source.getPermissions());
-        user.setActive(source.isActive());
-        user.setFirstName(source.getFirstName());
-        user.setLastName(source.getLastName());
-        user.setAvatar(getMultipartFileFromByteArray(source));
-        user.setEmail(source.getEmail());
+        final UserUpdateDto user = UserUpdateDto.builder()
+            .id(source.getId())
+            .login(source.getLogin())
+            .password(source.getPassword())
+            .userRoles(source.getUserRoles())
+            .permissions(source.getPermissions())
+            .active(source.isActive())
+            .firstName(source.getFirstName())
+            .lastName(source.getLastName())
+            .avatar(getMultipartFileFromByteArray(source))
+            .email(source.getEmail())
+            .build();
         return user;
 
     }
