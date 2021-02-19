@@ -54,7 +54,8 @@ public class PaymentService {
 
     public Payment saveDataInitializer(Payment payment) {
         payment.setInsertDate(LocalDate.now());
-        if (payment.getPaymentType() == PaymentType.EXPENSE && (payment.getAmount().signum() == 1)) {
+        if (payment.getPaymentType() == PaymentType.EXPENSE && (payment.getAmount().signum()
+            == 1)) {
             payment.setAmount(payment.getAmount().negate());
         }
         return paymentRepository.save(payment);
@@ -63,11 +64,13 @@ public class PaymentService {
     public List<PaymentDto> findAllForAuthUser() {
         return paymentRepository.findAllByUser(authUserService.getAuthenticatedUser()).stream()
             .map(payment -> paymentToPaymentDtoConverter.convert(payment))
-                .collect(Collectors.toList());
+            .collect(Collectors.toList());
     }
 
     public PaymentDto findByIdForAuthUser(Long id) {
-        Payment payment = paymentRepository.findByIdAndUser(id, authUserService.getAuthenticatedUser()).orElseThrow(NoSuchElementException::new);
+        Payment payment = paymentRepository
+            .findByIdAndUser(id, authUserService.getAuthenticatedUser())
+            .orElseThrow(NoSuchElementException::new);
         return paymentToPaymentDtoConverter.convert(payment);
     }
 
