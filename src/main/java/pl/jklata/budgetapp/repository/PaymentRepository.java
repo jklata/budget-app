@@ -1,17 +1,17 @@
 package pl.jklata.budgetapp.repository;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+import javax.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import pl.jklata.budgetapp.domain.Payment;
+import pl.jklata.budgetapp.domain.PaymentCategory;
 import pl.jklata.budgetapp.domain.User;
-
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 
 
 @Repository
@@ -29,6 +29,8 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     @Query("SELECT DISTINCT YEAR(transaction_date) FROM Payment p WHERE p.user = ?1 ORDER BY YEAR(transaction_date) DESC")
     List<Integer> getDistinctYearFromAllPayments(User user);
 
-    List<Payment> findAllByUserAndPaymentDateBetween(@NotNull User user, LocalDate dateFrom, LocalDate dateTo);
+    List<Payment> findAllByUserAndPaymentDateBetween(@NotNull User user, LocalDate dateFrom,
+        LocalDate dateTo);
 
+    Long countAllByUserAndPaymentCategory(User user, PaymentCategory paymentCategory);
 }

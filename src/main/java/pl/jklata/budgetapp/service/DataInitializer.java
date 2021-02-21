@@ -87,7 +87,7 @@ public class DataInitializer {
             .active(true)
             .build();
 
-        User user3 = User.builder()
+        User superUser = User.builder()
             .login("super")
             .password(passwordEncoder.encode("super123"))
             .email("test33@gmail.com")
@@ -116,13 +116,15 @@ public class DataInitializer {
         user1.setAccounts(accounts);
 
         PaymentCategory tranCat1 = PaymentCategory.builder()
-            .name("Samochód")
+            .name("Kategoria user1")
             .color("#0040FF")
+            .user(user1)
             .build();
 
         PaymentCategory tranCat2 = PaymentCategory.builder()
-            .name("Dom")
+            .name("Kategoria admin")
             .color("#e83e8c")
+            .user(admin)
             .build();
 
         PaymentCategory tranCat3 = PaymentCategory.builder()
@@ -142,7 +144,7 @@ public class DataInitializer {
 
         userRepository.save(user1);
         userRepository.save(admin);
-        userRepository.save(user3);
+        userRepository.save(superUser);
         accountRepository.save(account1);
         paymentCategoryRepository.saveAll(paymentCategories);
         hashtagRepository.saveAll(new HashSet<>(Arrays.asList(ht1, ht2)));
@@ -151,15 +153,14 @@ public class DataInitializer {
         Random r = new Random();
         Long idByUser1 = 0L;
         Long idByUser2 = 0L;
-        for (int i = 0; i < 10000; i++) {
 
+        for (int i = 0; i < 10000; i++) {
             Payment payment = new Payment();
             payment.setPaymentDate(LocalDate
                 .of(r.nextInt(2021 - 2018) + 2018, r.nextInt(12 - 1) + 1, r.nextInt(25 - 1) + 1));
             payment.setInsertDate(LocalDate.now());
             payment.setAmount(BigDecimal.valueOf((r.nextInt(3000 - 100) + 100) * 0.97));
             payment.setTitle("Odbiorca " + ((r.nextInt(i + 1)) + 1));
-            payment.setPaymentCategory(paymentCategories.get(r.nextInt(4 - 1)));
             int rand = r.nextInt((1) + 1);
             if (rand == 1) {
                 payment.setPaymentType(PaymentType.EXPENSE);
@@ -178,6 +179,13 @@ public class DataInitializer {
                 payment.setIdForUser(idByUser2);
                 payment.setUser(user1);
             }
+
+            if (payment.getUser() == user1) {
+                payment.setPaymentCategory(tranCat1);
+            } else if (payment.getUser() == admin) {
+                payment.setPaymentCategory(tranCat2);
+            }
+
             paymentService.saveDataInitializer(payment);
         }
     }

@@ -4,36 +4,26 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.jklata.budgetapp.converter.PaymentDtoToPaymentConverter;
 import pl.jklata.budgetapp.converter.PaymentToPaymentDtoConverter;
 import pl.jklata.budgetapp.domain.Payment;
+import pl.jklata.budgetapp.domain.PaymentCategory;
 import pl.jklata.budgetapp.domain.enums.PaymentType;
 import pl.jklata.budgetapp.dto.PaymentDto;
 import pl.jklata.budgetapp.repository.PaymentRepository;
 
-
+@RequiredArgsConstructor
 @Service
 public class PaymentService {
 
-    private PaymentRepository paymentRepository;
-    private AuthUserService authUserService;
-    private PaymentDtoToPaymentConverter paymentDtoToPaymentConverter;
-    private PaymentToPaymentDtoConverter paymentToPaymentDtoConverter;
-
-    @Autowired
-    public PaymentService(PaymentRepository paymentRepository, AuthUserService authUserService,
-        PaymentDtoToPaymentConverter paymentDtoToPaymentConverter,
-        PaymentToPaymentDtoConverter paymentToPaymentDtoConverter) {
-        this.paymentRepository = paymentRepository;
-        this.authUserService = authUserService;
-        this.paymentDtoToPaymentConverter = paymentDtoToPaymentConverter;
-        this.paymentToPaymentDtoConverter = paymentToPaymentDtoConverter;
-    }
-
+    private final PaymentRepository paymentRepository;
+    private final AuthUserService authUserService;
+    private final PaymentDtoToPaymentConverter paymentDtoToPaymentConverter;
+    private final PaymentToPaymentDtoConverter paymentToPaymentDtoConverter;
 
     public Page<PaymentDto> findPaginated(Pageable pageable) {
         return paymentRepository.findAllByUser(authUserService.getAuthenticatedUser(), pageable)
@@ -90,6 +80,12 @@ public class PaymentService {
             return 1L;
         }
         return lastId + 1;
+    }
+
+    public Long countPaymentsByPaymentCategory(PaymentCategory paymentCategory) {
+        return paymentRepository
+            .countAllByUserAndPaymentCategory(authUserService.getAuthenticatedUser(),
+                paymentCategory);
     }
 
 
