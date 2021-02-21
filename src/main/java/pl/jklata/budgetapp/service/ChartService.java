@@ -6,8 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jklata.budgetapp.converter.PaymentToPaymentDtoConverter;
 import pl.jklata.budgetapp.dto.PaymentDto;
@@ -15,19 +15,12 @@ import pl.jklata.budgetapp.repository.PaymentRepository;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ChartService {
 
-    private PaymentRepository paymentRepository;
-    private AuthUserService authUserService;
-    private PaymentToPaymentDtoConverter paymentToPaymentDtoConverter;
-
-    @Autowired
-    public ChartService(PaymentRepository paymentRepository, AuthUserService authUserService,
-        PaymentToPaymentDtoConverter paymentToPaymentDtoConverter) {
-        this.paymentRepository = paymentRepository;
-        this.authUserService = authUserService;
-        this.paymentToPaymentDtoConverter = paymentToPaymentDtoConverter;
-    }
+    private final PaymentRepository paymentRepository;
+    private final AuthUserService authUserService;
+    private final PaymentToPaymentDtoConverter paymentToPaymentDtoConverter;
 
     public Map<String, BigDecimal> getAllPaymentsOfGivenYearByMonthMap(int year) {
 
@@ -64,7 +57,7 @@ public class ChartService {
         return paymentRepository
             .findAllByUserAndPaymentDateBetween(authUserService.getAuthenticatedUser(), startDate,
                 endDate).stream()
-            .map(payment -> paymentToPaymentDtoConverter.convert(payment))
+            .map(paymentToPaymentDtoConverter::convert)
                 .collect(Collectors.toList());
     }
 

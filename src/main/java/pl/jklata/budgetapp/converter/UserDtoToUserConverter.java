@@ -10,10 +10,6 @@ public class UserDtoToUserConverter implements Converter<UserDto, User> {
 
     @Override
     public User convert(UserDto source) {
-        if (source == null) {
-            return null;
-        }
-
         return User.builder()
             .id(source.getId())
             .login(source.getLogin())

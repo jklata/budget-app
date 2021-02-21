@@ -15,10 +15,6 @@ public class UserUpdateDtoToUserConverter implements Converter<UserUpdateDto, Us
 
     @Override
     public User convert(UserUpdateDto source) {
-        if (source == null) {
-            return null;
-        }
-
         return User.builder()
             .id(source.getId())
             .login(source.getLogin())
@@ -31,7 +27,6 @@ public class UserUpdateDtoToUserConverter implements Converter<UserUpdateDto, Us
             .avatar(getByteArrayFromLogoFile(source.getAvatar()))
             .email(source.getEmail())
             .build();
-
     }
 
     private byte[] getByteArrayFromLogoFile(MultipartFile logo) {

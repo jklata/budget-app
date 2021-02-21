@@ -3,8 +3,8 @@ package pl.jklata.budgetapp.service;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,30 +21,16 @@ import pl.jklata.budgetapp.repository.UserRoleRepository;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    private AuthUserService authUserService;
-    private UserRepository userRepository;
-    private UserRoleRepository userRoleRepository;
-    private PasswordEncoder passwordEncoder;
-    private UserDtoToUserConverter userDtoToUserConverter;
-    private UserToUserUpdateDtoConverter userToUserUpdateDtoConverter;
-    private UserUpdateDtoToUserConverter userUpdateDtoToUserConverter;
-
-    @Autowired
-    public UserService(AuthUserService authUserService, UserRepository userRepository,
-        UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder,
-        UserDtoToUserConverter userDtoToUserConverter,
-        UserToUserUpdateDtoConverter userToUserUpdateDtoConverter,
-        UserUpdateDtoToUserConverter userUpdateDtoToUserConverter) {
-        this.authUserService = authUserService;
-        this.userRepository = userRepository;
-        this.userRoleRepository = userRoleRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.userDtoToUserConverter = userDtoToUserConverter;
-        this.userToUserUpdateDtoConverter = userToUserUpdateDtoConverter;
-        this.userUpdateDtoToUserConverter = userUpdateDtoToUserConverter;
-    }
+    private final AuthUserService authUserService;
+    private final UserRepository userRepository;
+    private final UserRoleRepository userRoleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserDtoToUserConverter userDtoToUserConverter;
+    private final UserToUserUpdateDtoConverter userToUserUpdateDtoConverter;
+    private final UserUpdateDtoToUserConverter userUpdateDtoToUserConverter;
 
     @Transactional
     public User signUpNewUser(UserDto userDto) {
@@ -64,7 +50,6 @@ public class UserService {
     private String encryptPassword(String password) {
         return passwordEncoder.encode(password);
     }
-
 
     public User updateUser(UserUpdateDto userUpdateDto) {
         User userToSave = userUpdateDtoToUserConverter.convert(userUpdateDto);

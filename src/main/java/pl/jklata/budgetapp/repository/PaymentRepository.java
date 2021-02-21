@@ -13,7 +13,6 @@ import pl.jklata.budgetapp.domain.Payment;
 import pl.jklata.budgetapp.domain.PaymentCategory;
 import pl.jklata.budgetapp.domain.User;
 
-
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 

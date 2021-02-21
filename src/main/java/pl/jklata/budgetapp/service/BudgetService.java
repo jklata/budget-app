@@ -1,28 +1,19 @@
 package pl.jklata.budgetapp.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+import javax.persistence.EntityExistsException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.jklata.budgetapp.domain.Budget;
 import pl.jklata.budgetapp.repository.BudgetRepository;
 
-import javax.persistence.EntityExistsException;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
 @Service
+@RequiredArgsConstructor
 public class BudgetService {
 
-    private BudgetRepository budgetRepository;
-
-    @Autowired
-    public BudgetService(BudgetRepository budgetRepository) {
-        this.budgetRepository = budgetRepository;
-    }
-
-    public Budget findByName(String name) {
-        return budgetRepository.findByName(name).get();
-    }
+    private final BudgetRepository budgetRepository;
 
     public List<Budget> findAll() {
         return StreamSupport

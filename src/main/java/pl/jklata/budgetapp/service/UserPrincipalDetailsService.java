@@ -1,5 +1,6 @@
 package pl.jklata.budgetapp.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -9,14 +10,10 @@ import pl.jklata.budgetapp.domain.UserPrincipal;
 import pl.jklata.budgetapp.repository.UserRepository;
 
 @Service
+@RequiredArgsConstructor
 public class UserPrincipalDetailsService implements UserDetailsService {
 
-    private UserRepository userRepository;
-
-    public UserPrincipalDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

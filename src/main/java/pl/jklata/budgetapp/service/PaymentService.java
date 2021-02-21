@@ -27,8 +27,7 @@ public class PaymentService {
 
     public Page<PaymentDto> findPaginated(Pageable pageable) {
         return paymentRepository.findAllByUser(authUserService.getAuthenticatedUser(), pageable)
-            .map(payment -> paymentToPaymentDtoConverter
-                .convert(payment));
+            .map(paymentToPaymentDtoConverter::convert);
     }
 
     public Payment save(PaymentDto paymentDto) {
@@ -38,8 +37,7 @@ public class PaymentService {
         if (payment.getId() == null) {
             payment.setIdForUser(resolveNextIdForUser());
         }
-        Payment persistedPayment = paymentRepository.save(payment);
-        return persistedPayment;
+        return paymentRepository.save(payment);
     }
 
     public Payment saveDataInitializer(Payment payment) {
@@ -53,7 +51,7 @@ public class PaymentService {
 
     public List<PaymentDto> findAllForAuthUser() {
         return paymentRepository.findAllByUser(authUserService.getAuthenticatedUser()).stream()
-            .map(payment -> paymentToPaymentDtoConverter.convert(payment))
+            .map(paymentToPaymentDtoConverter::convert)
             .collect(Collectors.toList());
     }
 

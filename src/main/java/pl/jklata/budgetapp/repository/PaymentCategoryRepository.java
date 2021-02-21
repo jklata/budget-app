@@ -10,7 +10,6 @@ import pl.jklata.budgetapp.domain.User;
 @Repository
 public interface PaymentCategoryRepository extends JpaRepository<PaymentCategory, Long> {
 
-
     Optional<PaymentCategory> findByName(String name);
 
     List<PaymentCategory> findAllByUser(User user);

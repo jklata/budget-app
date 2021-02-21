@@ -12,11 +12,7 @@ public class UserToUserUpdateDtoConverter implements Converter<User, UserUpdateD
 
     @Override
     public UserUpdateDto convert(User source) {
-        if (source == null) {
-            return null;
-        }
-
-        final UserUpdateDto user = UserUpdateDto.builder()
+        return UserUpdateDto.builder()
             .id(source.getId())
             .login(source.getLogin())
             .password(source.getPassword())
@@ -28,8 +24,6 @@ public class UserToUserUpdateDtoConverter implements Converter<User, UserUpdateD
             .avatar(getMultipartFileFromByteArray(source))
             .email(source.getEmail())
             .build();
-        return user;
-
     }
 
     private static MultipartFile getMultipartFileFromByteArray(User user) {

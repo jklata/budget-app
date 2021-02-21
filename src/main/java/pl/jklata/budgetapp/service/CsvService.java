@@ -1,29 +1,24 @@
 package pl.jklata.budgetapp.service;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import pl.jklata.budgetapp.domain.enums.PaymentHeaders;
-import pl.jklata.budgetapp.dto.PaymentDto;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+import org.springframework.stereotype.Service;
+import pl.jklata.budgetapp.domain.enums.PaymentHeaders;
+import pl.jklata.budgetapp.dto.PaymentDto;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class CsvService {
 
-    private PaymentService paymentService;
-
-    @Autowired
-    public CsvService(PaymentService paymentService) {
-        this.paymentService = paymentService;
-    }
+    private final PaymentService paymentService;
 
     public void createCsvReport() throws IOException {
         List<PaymentDto> payments = paymentService.findAllForAuthUser();
