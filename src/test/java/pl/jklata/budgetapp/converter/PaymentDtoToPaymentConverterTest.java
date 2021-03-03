@@ -62,14 +62,4 @@ class PaymentDtoToPaymentConverterTest {
         assertTrue(Objects.nonNull(actual));
         assertEquals(expected, actual);
     }
-
-
-    @Test
-    void should_return_null() {
-        PaymentDto paymentDto = null;
-
-        Payment actual = paymentDtoToPaymentConverter.convert(paymentDto);
-
-        assertTrue(Objects.isNull(actual));
-    }
 }

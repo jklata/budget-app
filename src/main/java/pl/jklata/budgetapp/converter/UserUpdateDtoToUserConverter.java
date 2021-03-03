@@ -24,16 +24,16 @@ public class UserUpdateDtoToUserConverter implements Converter<UserUpdateDto, Us
             .active(source.isActive())
             .firstName(source.getFirstName())
             .lastName(source.getLastName())
-            .avatar(getByteArrayFromLogoFile(source.getAvatar()))
+            .avatar(getByteArrayFromAvatarFile(source.getAvatar()))
             .email(source.getEmail())
             .build();
     }
 
-    private byte[] getByteArrayFromLogoFile(MultipartFile logo) {
+    private byte[] getByteArrayFromAvatarFile(MultipartFile avatar) {
         byte[] byteArray = null;
-        if (Objects.nonNull(logo) && !logo.isEmpty()) {
+        if (Objects.nonNull(avatar) && !avatar.isEmpty()) {
             try {
-                byteArray = logo.getBytes();
+                byteArray = avatar.getBytes();
             } catch (IOException e) {
                 log.error("Get byte array from multipartFile went wrong.", e);
             }

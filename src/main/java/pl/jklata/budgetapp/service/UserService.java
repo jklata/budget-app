@@ -54,8 +54,16 @@ public class UserService {
     public User updateUser(UserUpdateDto userUpdateDto) {
         User userToSave = userUpdateDtoToUserConverter.convert(userUpdateDto);
         userToSave.setPassword(resolvePasswordToPersist(userUpdateDto));
+        if (Objects.nonNull(userUpdateDto.getAvatar()) && userUpdateDto.getAvatar().isEmpty()) {
+            userToSave.setAvatar(pullAvatarFromDb());
+        }
         userRepository.save(userToSave);
         return userToSave;
+    }
+
+    private byte[] pullAvatarFromDb() {
+        return userRepository
+            .getAvatarByUserLogin(authUserService.getAuthenticatedUser().getLogin());
     }
 
     private String resolvePasswordToPersist(UserUpdateDto userUpdateDto) {

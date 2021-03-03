@@ -44,7 +44,7 @@ class ChartServiceTest {
     }
 
     @Test
-    void costam() {
+    void shouldMapPaymentsByYear() {
 
         Map<String, BigDecimal> expected = new LinkedHashMap<>();
         expected.put("Styczeń", BigDecimal.valueOf(100));

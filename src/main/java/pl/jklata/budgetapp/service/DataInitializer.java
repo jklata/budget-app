@@ -1,5 +1,9 @@
 package pl.jklata.budgetapp.service;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import javax.annotation.PostConstruct;
+import javax.imageio.ImageIO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +58,7 @@ public class DataInitializer {
 
 
     @PostConstruct
-    void init() {
+    void init() throws IOException {
         UserRole adminRole = UserRole.builder()
             .role(Role.ADMIN).build();
         UserRole standardUserRole = UserRole.builder()
@@ -74,6 +79,7 @@ public class DataInitializer {
             .userRoles(Collections.singleton(standardUserRole))
             .permissions("STANDARD")
             .active(true)
+            .avatar(getAvatarByteArray("user_avatar.jpeg"))
             .build();
 
         User admin = User.builder()
@@ -85,6 +91,7 @@ public class DataInitializer {
             .userRoles(Collections.singleton(adminRole))
             .permissions("ALL")
             .active(true)
+            .avatar(getAvatarByteArray("admin_avatar.jpeg"))
             .build();
 
         User superUser = User.builder()
@@ -188,5 +195,15 @@ public class DataInitializer {
 
             paymentService.saveDataInitializer(payment);
         }
+    }
+
+    private byte[] getAvatarByteArray(String fileName) throws IOException {
+        String imagePath = String.format("src/main/resources/static/images/%s", fileName);
+        File imgPath = new File(imagePath);
+        BufferedImage bufferImage = ImageIO.read(imgPath);
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        ImageIO.write(bufferImage, "jpg", output);
+        return output.toByteArray();
+
     }
 }

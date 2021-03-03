@@ -27,7 +27,7 @@ public class UserToUserUpdateDtoConverter implements Converter<User, UserUpdateD
     }
 
     private static MultipartFile getMultipartFileFromByteArray(User user) {
-        String name = "logoImage.png";
+        String name = "avatar.png";
         byte[] imageBytes = user.getAvatar();
         return new ImageMultipartFile(imageBytes, name);
     }
