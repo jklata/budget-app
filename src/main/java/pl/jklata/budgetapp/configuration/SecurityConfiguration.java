@@ -12,14 +12,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import pl.jklata.budgetapp.service.UserPrincipalDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private UserPrincipalDetailsService userPrincipalDetailsService;
+    private final UserPrincipalDetailsService userPrincipalDetailsService;
 
     @Autowired
     public SecurityConfiguration(UserPrincipalDetailsService userPrincipalDetailsService) {
@@ -39,21 +38,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/webjars/**").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/", "/index.html").hasAnyRole("ADMIN", "USER")
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login").permitAll();
+            .csrf().disable()
+            .authorizeRequests()
+            .antMatchers("/css/**", "/js/**", "/webjars/**").permitAll()
+            .antMatchers("/h2-console/**").permitAll()
+            .antMatchers("/", "/index.html").hasAnyRole("ADMIN", "USER")
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
+            .loginPage("/login")
+            .permitAll()
+            .and()
+            .logout()
+            .logoutUrl("/logout")
+            .deleteCookies("JSESSIONID")
+            .logoutSuccessUrl("/login").permitAll();
 
-        http.csrf().disable();
         http.headers().frameOptions().disable();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
