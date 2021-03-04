@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: header"></head>
+
+<body>
+<div th:replace="fragments :: navbar"></div>
+
+<div
+    th:replace="fragments :: navigation(homeCurr='(current)', paymentsCurr='', walletsCurr='', budgetsCurr='', categoriesCurr='', reportsCurr='')"></div>
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2">CSV</h1>
+    </div>
+    <form th:action="@{/csv/export}" method="post">
+        <button type="submit" class="btn btn-warning">EXPORT BAANGG!!!!</button>
+    </form>
+
+</main>
+</div>
+</div>
+
+<div th:replace="fragments :: footer"></div>
+</body>
+</html>
