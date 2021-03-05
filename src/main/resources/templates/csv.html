@@ -14,9 +14,11 @@
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1 class="h2">CSV</h1>
     </div>
-    <form th:action="@{/csv/export}" method="post">
-        <button type="submit" class="btn btn-warning">EXPORT BAANGG!!!!</button>
+    <form th:action="@{/csv/exportpdf}" method="post">
+        <button type="submit" class="btn btn-warning">EXPORT POST BAANGG!!!!</button>
     </form>
+    <a class="btn btn-sm btn-outline-secondary" role="button"
+       th:href="@{/csv/exportpdf}">Export GET</a>
 
 </main>
 </div>

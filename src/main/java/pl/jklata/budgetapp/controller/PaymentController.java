@@ -1,6 +1,5 @@
 package pl.jklata.budgetapp.controller;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -23,7 +22,6 @@ import pl.jklata.budgetapp.domain.enums.PaymentType;
 import pl.jklata.budgetapp.dto.PaymentDto;
 import pl.jklata.budgetapp.service.AccountService;
 import pl.jklata.budgetapp.service.BudgetService;
-import pl.jklata.budgetapp.service.CsvService;
 import pl.jklata.budgetapp.service.PaymentCategoryService;
 import pl.jklata.budgetapp.service.PaymentService;
 
@@ -37,20 +35,19 @@ public class PaymentController {
     private PaymentService paymentService;
     private AccountService accountService;
     private BudgetService budgetService;
-    private CsvService csvService;
 
     @Autowired
-    public PaymentController(PaymentCategoryService paymentCategoryService, PaymentService paymentService, AccountService accountService, BudgetService budgetService, CsvService csvService) {
+    public PaymentController(PaymentCategoryService paymentCategoryService,
+        PaymentService paymentService, AccountService accountService, BudgetService budgetService) {
         this.paymentCategoryService = paymentCategoryService;
         this.paymentService = paymentService;
         this.accountService = accountService;
         this.budgetService = budgetService;
-        this.csvService = csvService;
     }
 
     @GetMapping(value = "")
     public String listPayments(
-            ModelMap model, @SortDefault("id") Pageable pageable) {
+        ModelMap model, @SortDefault("id") Pageable pageable) {
 
         model.addAttribute("page", paymentService.findPaginated(pageable));
 
@@ -83,13 +80,15 @@ public class PaymentController {
     }
 
     @PostMapping(value = "/add")
-    public String addPaymentToDataBase(@Valid @ModelAttribute("payment") PaymentDto paymentDto, BindingResult binding, Model model) {
+    public String addPaymentToDataBase(@Valid @ModelAttribute("payment") PaymentDto paymentDto,
+        BindingResult binding, Model model) {
 
         log.debug("Received payment id: {} ", paymentDto.getId());
         if (binding.hasErrors()) {
             for (ObjectError error : binding.getAllErrors()) {
-                log.info("Validation errors during saving payment. Error: [object = {}, message = {}]",
-                        error.getObjectName(), error.getDefaultMessage());
+                log.info(
+                    "Validation errors during saving payment. Error: [object = {}, message = {}]",
+                    error.getObjectName(), error.getDefaultMessage());
             }
             model.addAttribute(paymentDto);
             //todo: przekazać do widoku atrybuty: paymentCategory, budget, account
@@ -121,17 +120,5 @@ public class PaymentController {
         paymentService.deleteById(id);
         return "redirect:/payments/";
     }
-
-    @GetMapping(value = "/exportcsv")
-    public String exportCsvPayment() {
-        log.debug("Request export csv with payments");
-        try {
-            csvService.createCsvReport();
-        } catch (IOException e) {
-            log.error("Exception during csv generating" + e);
-        }
-        return "redirect:/payments/paymentList";
-    }
-
 
 }
