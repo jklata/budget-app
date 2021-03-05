@@ -11,16 +11,6 @@
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1 class="h2">Szczegóły transakcji</h1>
-        <div class="btn-toolbar mb-2 mb-md-0">
-            <div class="btn-group mr-2">
-                <button class="btn btn-sm btn-outline-secondary">Share</button>
-                <button class="btn btn-sm btn-outline-secondary">Export</button>
-            </div>
-            <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                <span data-feather="calendar"></span>
-                This week
-            </button>
-        </div>
     </div>
 
 
@@ -29,28 +19,29 @@
         <table class="table table-striped table-sm table-hover" >
             <thead class="thead-light">
             <tr>
-                <th>ID</th>
-                <th>Data transakcji</th>
-                <th>Kwota</th>
-                <th>Tytuł/Odbiorca</th>
-                <th>Kategoria</th>
-                <th>Portfel</th>
-                <th>Budżet</th>
-                <th>Typ transakcji</th>
+                <th th:text="#{names.payment.id}"></th>
+                <th th:text="#{names.payment.date}"></th>
+                <th th:text="#{names.payment.amount}"></th>
+                <th th:text="#{names.payment.title}"></th>
+                <th th:text="#{names.payment.category}"></th>
+                <th th:text="#{names.payment.account}"></th>
+                <th th:text="#{names.payment.budget}"></th>
+                <th th:text="#{names.payment.type}"></th>
             </tr>
             </thead>
 
 
             <tbody>
             <tr th:object="${payment}">
-                <td><span th:text="${payment?.getId()?.toString()}"> ID </span></td>
-                <td><span th:text="${payment?.getPaymentDate()?.toString()}"> Data </span></td>
-                <td><span th:text="${payment?.getAmount()?.toString()}"> Kwota </span></td>
-                <td><span th:text="${payment?.getTitle()?.toString()}"> Tytuł/Odbiorca </span></td>
-                <td><span th:text="${payment?.getPaymentCategory()?.getName()?.toString()}"> Kategoria </span></td>
-                <td><span th:text="${payment?.getAccount()?.getName()?.toString()}"> Portfel </span></td>
-                <td><span th:text="${payment?.getBudget()?.getName()?.toString()}"> Budżet </span></td>
-                <td><span th:text="${payment?.getPaymentType()?.toString()}"> Typ </span></td>
+                <td><span th:text="${payment?.getId()?.toString()}"></span></td>
+                <td><span th:text="${payment?.getPaymentDate()?.toString()}"></span></td>
+                <td><span th:text="${payment?.getAmount()?.toString()}"></span></td>
+                <td><span th:text="${payment?.getTitle()?.toString()}"></span></td>
+                <td><span th:text="${payment?.getPaymentCategory()?.getName()?.toString()}"></span>
+                </td>
+                <td><span th:text="${payment?.getAccount()?.getName()?.toString()}"></span></td>
+                <td><span th:text="${payment?.getBudget()?.getName()?.toString()}"></span></td>
+                <td><span th:text="${payment?.getPaymentType()?.toString()}"></span></td>
             </tr>
             </tbody>
         </table>
