@@ -1,7 +1,6 @@
 package pl.jklata.budgetapp.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -20,13 +19,12 @@ import pl.jklata.budgetapp.converter.PaymentToPaymentDtoConverter;
 import pl.jklata.budgetapp.domain.Payment;
 import pl.jklata.budgetapp.domain.User;
 import pl.jklata.budgetapp.domain.enums.PaymentType;
-import pl.jklata.budgetapp.repository.PaymentRepository;
 
 @ExtendWith(MockitoExtension.class)
 class ChartServiceTest {
 
     @Mock
-    private PaymentRepository paymentRepository;
+    private PaymentService paymentRepository;
 
     @Mock
     private AuthUserService authUserService;
@@ -64,51 +62,51 @@ class ChartServiceTest {
 
         // mocking repository query for payments by each month of given 2020 year
         // each month has two different payments which corresponding to expected values
-        when(paymentRepository.findAllByUserAndPaymentDateBetween(any(), getStartDate(1),
+        when(paymentRepository.findAllByPaymentDateBetween(getStartDate(1),
             getEndDate(1))).thenReturn(
             Arrays.asList(getPayment(50, 1), getPayment(50, 1)));
 
-        when(paymentRepository.findAllByUserAndPaymentDateBetween(any(), getStartDate(2),
+        when(paymentRepository.findAllByPaymentDateBetween(getStartDate(2),
             getEndDate(2))).thenReturn(
             Arrays.asList(getPayment(50, 2), getPayment(150, 2)));
 
-        when(paymentRepository.findAllByUserAndPaymentDateBetween(any(), getStartDate(3),
+        when(paymentRepository.findAllByPaymentDateBetween(getStartDate(3),
             getEndDate(3))).thenReturn(
             Arrays.asList(getPayment(-400, 3), getPayment(100, 3)));
 
-        when(paymentRepository.findAllByUserAndPaymentDateBetween(any(), getStartDate(4),
+        when(paymentRepository.findAllByPaymentDateBetween(getStartDate(4),
             getEndDate(4))).thenReturn(
             Arrays.asList(getPayment(50, 4), getPayment(350, 4)));
 
-        when(paymentRepository.findAllByUserAndPaymentDateBetween(any(), getStartDate(5),
+        when(paymentRepository.findAllByPaymentDateBetween(getStartDate(5),
             getEndDate(5))).thenReturn(
             Arrays.asList(getPayment(-500, 5), getPayment(0, 5)));
 
-        when(paymentRepository.findAllByUserAndPaymentDateBetween(any(), getStartDate(6),
+        when(paymentRepository.findAllByPaymentDateBetween(getStartDate(6),
             getEndDate(6))).thenReturn(
             Arrays.asList(getPayment(-500, 6), getPayment(-100, 6)));
 
-        when(paymentRepository.findAllByUserAndPaymentDateBetween(any(), getStartDate(7),
+        when(paymentRepository.findAllByPaymentDateBetween(getStartDate(7),
             getEndDate(7))).thenReturn(
             Arrays.asList(getPayment(1000, 7), getPayment(-300, 7)));
 
-        when(paymentRepository.findAllByUserAndPaymentDateBetween(any(), getStartDate(8),
+        when(paymentRepository.findAllByPaymentDateBetween(getStartDate(8),
             getEndDate(8))).thenReturn(
             Arrays.asList(getPayment(820, 8), getPayment(-20, 8)));
 
-        when(paymentRepository.findAllByUserAndPaymentDateBetween(any(), getStartDate(9),
+        when(paymentRepository.findAllByPaymentDateBetween(getStartDate(9),
             getEndDate(9))).thenReturn(
             Arrays.asList(getPayment(-450, 9), getPayment(-450, 9)));
 
-        when(paymentRepository.findAllByUserAndPaymentDateBetween(any(), getStartDate(10),
+        when(paymentRepository.findAllByPaymentDateBetween(getStartDate(10),
             getEndDate(10))).thenReturn(
             Arrays.asList(getPayment(1000, 10), getPayment(0, 10)));
 
-        when(paymentRepository.findAllByUserAndPaymentDateBetween(any(), getStartDate(11),
+        when(paymentRepository.findAllByPaymentDateBetween(getStartDate(11),
             getEndDate(11))).thenReturn(
             Arrays.asList(getPayment(1000, 11), getPayment(100, 11)));
 
-        when(paymentRepository.findAllByUserAndPaymentDateBetween(any(), getStartDate(12),
+        when(paymentRepository.findAllByPaymentDateBetween(getStartDate(12),
             getEndDate(12))).thenReturn(
             Arrays.asList(getPayment(400, 12), getPayment(-400, 12)));
 

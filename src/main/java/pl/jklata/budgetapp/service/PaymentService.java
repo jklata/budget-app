@@ -86,5 +86,17 @@ public class PaymentService {
                 paymentCategory);
     }
 
+    public List<Payment> findAllByPaymentDateBetween(LocalDate dateFrom,
+        LocalDate dateTo) {
+        return paymentRepository
+            .findAllByUserAndPaymentDateBetween(authUserService.getAuthenticatedUser(), dateFrom,
+                dateTo);
+    }
+
+    public List<Integer> getDistinctYearFromAllPayments() {
+        return paymentRepository
+            .getDistinctYearFromAllPayments(authUserService.getAuthenticatedUser());
+    }
+
 
 }

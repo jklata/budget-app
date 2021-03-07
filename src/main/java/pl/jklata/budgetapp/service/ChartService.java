@@ -11,14 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.jklata.budgetapp.converter.PaymentToPaymentDtoConverter;
 import pl.jklata.budgetapp.dto.PaymentDto;
-import pl.jklata.budgetapp.repository.PaymentRepository;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ChartService {
 
-    private final PaymentRepository paymentRepository;
+    private final PaymentService paymentService;
     private final AuthUserService authUserService;
     private final PaymentToPaymentDtoConverter paymentToPaymentDtoConverter;
 
@@ -54,16 +53,16 @@ public class ChartService {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = LocalDate.of(year, month, startDate.lengthOfMonth());
 
-        return paymentRepository
-            .findAllByUserAndPaymentDateBetween(authUserService.getAuthenticatedUser(), startDate,
+        return paymentService
+            .findAllByPaymentDateBetween(startDate,
                 endDate).stream()
             .map(paymentToPaymentDtoConverter::convert)
-                .collect(Collectors.toList());
+            .collect(Collectors.toList());
     }
 
 
     public List<Integer> getDistinctYearFromAllPayments() {
-        return paymentRepository.getDistinctYearFromAllPayments(authUserService.getAuthenticatedUser());
+        return paymentService.getDistinctYearFromAllPayments();
     }
 
 }
