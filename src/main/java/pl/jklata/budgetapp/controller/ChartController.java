@@ -15,7 +15,7 @@ import pl.jklata.budgetapp.service.ChartService;
 @Slf4j
 public class ChartController {
 
-    private ChartService chartService;
+    private final ChartService chartService;
 
     @Autowired
     public ChartController(ChartService chartService) {
