@@ -20,7 +20,8 @@
             <div class="form-row">
                 <!--    todo: zmienic adres zdjecia na pole encji-->
                 <img th:src="@{/user/avatar}" width="150" height="150"
-                     class="rounded float-left" alt="http://wprdea.org/image/img_avatar.png">
+                     class="rounded float-left avatar-big"
+                     alt="http://wprdea.org/image/img_avatar.png">
                 <div id="avatarImageGroup" class="form-group col-9">
                     <input type="file" accept="image/x-png" th:field="*{avatar}" onchange="checkFileSize();"/>
                 </div>
