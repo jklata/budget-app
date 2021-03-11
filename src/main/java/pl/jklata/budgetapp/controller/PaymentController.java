@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +18,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.jklata.budgetapp.controller.filter.PaymentFilterSpecification;
 import pl.jklata.budgetapp.domain.Payment;
 import pl.jklata.budgetapp.domain.enums.PaymentType;
 import pl.jklata.budgetapp.dto.PaymentDto;
+import pl.jklata.budgetapp.dto.filter.PaymentFilterDto;
 import pl.jklata.budgetapp.service.AccountService;
 import pl.jklata.budgetapp.service.BudgetService;
 import pl.jklata.budgetapp.service.PaymentCategoryService;
@@ -31,10 +34,10 @@ import pl.jklata.budgetapp.service.PaymentService;
 public class PaymentController {
 
 
-    private PaymentCategoryService paymentCategoryService;
-    private PaymentService paymentService;
-    private AccountService accountService;
-    private BudgetService budgetService;
+    private final PaymentCategoryService paymentCategoryService;
+    private final PaymentService paymentService;
+    private final AccountService accountService;
+    private final BudgetService budgetService;
 
     @Autowired
     public PaymentController(PaymentCategoryService paymentCategoryService,
@@ -50,7 +53,19 @@ public class PaymentController {
         ModelMap model, @SortDefault("id") Pageable pageable) {
 
         model.addAttribute("page", paymentService.findPaginated(pageable));
+        model.addAttribute("paymentFilterDto", new PaymentFilterDto());
+        return "payments/paymentList";
+    }
 
+    @GetMapping(value = "/filter")
+    public String filteredListPayments(
+        @ModelAttribute("paymentFilterDto") PaymentFilterDto paymentFilterDto, ModelMap model,
+        @SortDefault("id") Pageable pageable) {
+
+        Specification<Payment> specifiaction = new PaymentFilterSpecification(paymentFilterDto);
+
+        model.addAttribute("page", paymentService.findPaginatedAndFiltered(pageable, specifiaction));
+        model.addAttribute("paymentFilterDto", paymentFilterDto);
         return "payments/paymentList";
     }
 

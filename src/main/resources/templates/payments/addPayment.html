@@ -50,6 +50,7 @@
                         <input checked class="form-check-input" th:field="*{paymentType}" type="radio"
                                name="gridRadios"
                                id="gridRadios1" value="EXPENSE" >
+<!--                        TODO: poprawić input:  th:each="type : ${T(pl.jklata.budgetapp.domain.enums.PaymentType).values()}"-->
                         <label id="wydatek" class="form-check-label" for="gridRadios1">
                             Wydatek
                         </label>

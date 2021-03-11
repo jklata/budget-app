@@ -26,6 +26,16 @@ public class PaymentFilterSpecification implements Specification<Payment> {
 
         final List<Predicate> predicates = new ArrayList<>();
 
+        if (!ObjectUtils.isEmpty(paymentFilterDto.getId())){
+            final Predicate predicate = criteriaBuilder.equal(root.get(Payment_.id), paymentFilterDto.getId());
+            predicates.add(predicate);
+        }
+
+        if (!ObjectUtils.isEmpty(paymentFilterDto.getIdForUser())){
+            final Predicate predicate = criteriaBuilder.equal(root.get(Payment_.idForUser), paymentFilterDto.getIdForUser());
+            predicates.add(predicate);
+        }
+
         if (!ObjectUtils.isEmpty(paymentFilterDto.getTitle())) {
             final Predicate predicate = criteriaBuilder.like(root.get(Payment_.title),
                 paymentFilterDto.getTitle());
@@ -39,6 +49,11 @@ public class PaymentFilterSpecification implements Specification<Payment> {
 
         if (!ObjectUtils.isEmpty(paymentFilterDto.getPaymentType())){
             final Predicate predicate = criteriaBuilder.equal(root.get(Payment_.paymentType), paymentFilterDto.getPaymentType());
+            predicates.add(predicate);
+        }
+
+        if (!ObjectUtils.isEmpty(paymentFilterDto.getUser())){
+            final Predicate predicate = criteriaBuilder.equal(root.get(Payment_.user), paymentFilterDto.getUser());
             predicates.add(predicate);
         }
 

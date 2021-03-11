@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,6 +18,8 @@ import pl.jklata.budgetapp.domain.User;
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     Page<Payment> findAllByUser(User user, Pageable pageable);
+
+    Page<Payment> findAll(Specification<Payment> specification, Pageable pageable);
 
     List<Payment> findAllByUser(User user);
 

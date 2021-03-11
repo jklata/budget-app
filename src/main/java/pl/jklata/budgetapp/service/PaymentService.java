@@ -7,13 +7,16 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import pl.jklata.budgetapp.controller.filter.PaymentFilterSpecification;
 import pl.jklata.budgetapp.converter.PaymentDtoToPaymentConverter;
 import pl.jklata.budgetapp.converter.PaymentToPaymentDtoConverter;
 import pl.jklata.budgetapp.domain.Payment;
 import pl.jklata.budgetapp.domain.PaymentCategory;
 import pl.jklata.budgetapp.domain.enums.PaymentType;
 import pl.jklata.budgetapp.dto.PaymentDto;
+import pl.jklata.budgetapp.dto.filter.PaymentFilterDto;
 import pl.jklata.budgetapp.repository.PaymentRepository;
 
 @RequiredArgsConstructor
@@ -28,6 +31,12 @@ public class PaymentService {
     public Page<PaymentDto> findPaginated(Pageable pageable) {
         return paymentRepository.findAllByUser(authUserService.getAuthenticatedUser(), pageable)
             .map(paymentToPaymentDtoConverter::convert);
+    }
+
+    public Page<PaymentDto> findPaginatedAndFiltered(Pageable pageable, Specification<Payment> specification) {
+        Specification<Payment> specWithUser = getSpecificationWithUser(
+            specification);
+        return paymentRepository.findAll(specWithUser, pageable).map(paymentToPaymentDtoConverter::convert);
     }
 
     public Payment save(PaymentDto paymentDto) {
@@ -68,6 +77,13 @@ public class PaymentService {
         }
     }
 
+    private Specification<Payment> getSpecificationWithUser(Specification<Payment> specification) {
+        PaymentFilterDto paymentFilterDto = new PaymentFilterDto();
+        paymentFilterDto.setUser(authUserService.getAuthenticatedUser());
+        Specification<Payment> authenticatedUser = new PaymentFilterSpecification(paymentFilterDto);
+        return specification.and(authenticatedUser);
+    }
+
     private boolean isUserOwnsPayment(Long id) {
         return findAllForAuthUser().stream().anyMatch(payment -> payment.getId().equals(id));
     }
@@ -97,6 +113,5 @@ public class PaymentService {
         return paymentRepository
             .getDistinctYearFromAllPayments(authUserService.getAuthenticatedUser());
     }
-
 
 }

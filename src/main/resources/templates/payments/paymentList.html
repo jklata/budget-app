@@ -1,15 +1,18 @@
 <!doctype html>
-<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:sd="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:sd="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="fragments :: header"></head>
 
 <body>
 <div th:replace="fragments :: navbar"></div>
 
-<div th:replace="fragments :: navigation(homeCurr='', paymentsCurr='(current)', walletsCurr='', budgetsCurr='', categoriesCurr='', reportsCurr='')"></div>
+<div
+    th:replace="fragments :: navigation(homeCurr='', paymentsCurr='(current)', walletsCurr='', budgetsCurr='', categoriesCurr='', reportsCurr='')"></div>
 
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1 class="h2">Transakcje</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group mr-2">
@@ -24,6 +27,34 @@
         </div>
     </div>
 
+    <div class="row">
+        <form action="#" method="get" th:action="@{/payments/filter}"
+              th:object="${paymentFilterDto}">
+
+            <div class="col-sm-10">
+                <input type="text" sec:authorize="hasRole('ROLE_ADMIN')" th:field="*{id}"
+                       placeholder="idForUser"/>
+                <input type="text" th:field="*{idForUser}" th:placeholder="#{names.payment.id}"/>
+                <div class="form-group add-on">
+                    <select class="form-control" name="paymentCategoryEach"
+                            th:field="*{paymentType}" onchange="this.form.submit()">
+                        <option value="" th:text="#{enum.payment.type.ALL}">All</option>
+                        <option
+                            th:each="type : ${T(pl.jklata.budgetapp.domain.enums.PaymentType).values()}"
+                            th:value="${type.name()}"
+                            th:text="#{'enum.payment.type.' + ${type.name()}}"></option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-1">
+                <input class="btn btn-outline-warning btn-sm" type="reset"
+                       th:value="#{button.reset}" value="reset">
+                <button class="btn btn-info" type="submit" th:text="#{button.filter}">Filter
+                </button>
+            </div>
+        </form>
+    </div>
 
     <!-- <h2>Lista transakcji</h2> -->
     <div class="table-responsive">
@@ -100,8 +131,8 @@
                 <nav class="pull-right">
                     <ul class="pagination" sd:pagination-split="7" sd:pagination="full">
                         <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
-<!--                        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>-->
-<!--                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>-->
+                        <!--                        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>-->
+                        <!--                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>-->
                     </ul>
                 </nav>
             </div>
