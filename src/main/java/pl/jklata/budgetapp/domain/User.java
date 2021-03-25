@@ -57,7 +57,9 @@ public class User {
     private boolean active;
 
     public List<String> getRoleList() {
-    return userRoles.stream().map(u->u.getRole().toString()).collect(Collectors.toList());
+        return userRoles.stream()
+                .map(u -> u.getRole().toString())
+                .collect(Collectors.toList());
     }
 
     public List<String> getPermissionList() {

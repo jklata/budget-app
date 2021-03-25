@@ -8,7 +8,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.context.request.WebRequest;
 import pl.jklata.budgetapp.dto.UserDto;
 import pl.jklata.budgetapp.service.UserService;
 
@@ -18,7 +17,7 @@ import javax.validation.Valid;
 @Controller
 public class SignupController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public SignupController(UserService userService) {
@@ -26,7 +25,7 @@ public class SignupController {
     }
 
     @GetMapping("/signup")
-    public String signup(WebRequest request, Model model) {
+    public String signup(Model model) {
 
         model.addAttribute("userDto", new UserDto());
         return "signup";

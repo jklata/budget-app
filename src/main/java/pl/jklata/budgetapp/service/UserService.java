@@ -1,8 +1,5 @@
 package pl.jklata.budgetapp.service;
 
-import java.util.Collections;
-import java.util.Objects;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +15,10 @@ import pl.jklata.budgetapp.dto.UserDto;
 import pl.jklata.budgetapp.dto.UserUpdateDto;
 import pl.jklata.budgetapp.repository.UserRepository;
 import pl.jklata.budgetapp.repository.UserRoleRepository;
+
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 @Service
