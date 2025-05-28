@@ -33,7 +33,7 @@
         <!--        OTHERS      -->
         <lowagie.itext.version>4.2.2</lowagie.itext.version>
         <apache.commons.csv.version>1.7</apache.commons.csv.version>
-        <commons.beanutils.version>1.9.4</commons.beanutils.version>
+        <commons.beanutils.version>1.11.0</commons.beanutils.version>
         <modelmapper.version>2.3.8</modelmapper.version>
 
     </properties>
